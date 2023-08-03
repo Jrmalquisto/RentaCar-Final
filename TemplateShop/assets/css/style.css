@@ -1,0 +1,114 @@
+.color-orange-bg {
+    background: #E6873C;
+}
+.text-orange{
+    color: #E6873C;
+}
+.text-white{
+    color: #f6f6f6;
+}
+
+.background-gray{
+    background: #3f3f3f;
+    color: #f6f6f6;
+}
+
+.background-gray:hover{
+    color: #3f3f3f;
+    background: #f6f6f6;
+}
+
+
+.logout-orange-bg { 
+    background: #E6873C;
+    color: #f6f6f6;  
+}
+
+.logout-orange-bg:hover {
+    background: #e3e3e3;
+    color: #000000;
+}
+
+.button-update{
+    background: #E6873C;
+    color: #f6f6f6;  
+}
+
+.button-update:hover{
+    background: #d57c37;
+    color: #ffffff;
+   
+}
+
+.button-remove{
+    background: #cf2828;
+    color: #f6f6f6;  
+}
+
+.button-remove:hover {
+    background: #cf2828;
+    color: #070707;  
+}
+.border-styling{
+    border-style: groove;
+}
+
+.sender {
+    background-color: #2BCD72;
+    border-radius: 12px;
+    padding: 16px;
+    color: #ffffff;
+    align-self: flex-start;
+    margin-top: 8px;
+    border-top-left-radius: 0;
+    font-size: 20px;
+    max-width: 450px;
+    
+}
+
+.receiver {
+    background-color: #2D78FD;   
+    border-radius: 12px;
+    padding: 16px;
+    color: #ffffff;
+    align-self: flex-end;
+    margin-top: 8px;
+    border-bottom-right-radius: 0;
+    font-size: 20px;
+    max-width: 450px;
+
+    
+}
+
+span.convomess{
+    max-width:500px;
+    display:block;
+    float: none;
+    overflow: hidden;
+    height:100%;
+}
+
+.convo {
+    display: flex;
+    flex-direction: column;
+    max-height: 325px;
+    overflow-y: auto;
+    scrollbar-color: #E6873C #EEAF7D;
+    scrollbar-width: thin;
+    padding-right: 4px;
+}
+
+.wrapper{
+    overflow-x: hidden; 
+}
+
+
+.attachment {
+    width: 100%;
+}
+
+.strokeme
+{
+    color: #E6873C;
+    text-shadow: 3px 3px #1a1b1d; 
+}

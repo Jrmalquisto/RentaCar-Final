@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #858585;
+}
+
+.d-flex{
+    margin-top: 20px;
+}
+
+.p-5{
+    margin-top: 20px;
+}
+
+.option{
+    font-size: 15px;
+    margin-left: 45px;
+    position: relative;
+}
+.p-5{
+    height: 100vh;
+}
+.icon{
+    position: absolute;
+    top: calc(55%);
+    margin-left: 20px;
+}
+.option:hover{
+    background: #FF731D;
+}
+
+input::placeholder {
+    font-size: small;
+    opacity: .5;
+
+}
+.datepicker { font-size: 13px; 
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #E6873C   
+}
+
+.alert {
+    left: 0;
+    margin: auto; 
+    position: absolute; 
+    right: 0;
+    text-align: center; 
+    width: 52%;
+    height:8%;
+    z-index: 1;   
+ }
+
+ .button #closebtn{
+    outline: none;
+ }
+
+ .alert strong{
+    text-align: center;
+ }
+
+ .alert-dismissible {
+    padding-right: 0rem;
+}
+
+button#pay{
+    margin-bottom: 2px;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #858585;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    font-size:medium;
+}
+
+button#closebtn{
+    border: none;
+    background-color: #FFF3CD;
+}
+
+.mt-3 input[type=submit]{
+    font-weight: 500;
+    font-size: 18px;
+    color: #fff;
+}
+
+.profile-button:hover {
+    background: rgb(86, 86, 86);
+}
+
+.profile-button:focus {
+    background: #858585;
+    box-shadow: none
+}
+
+
+.password-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #858585;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    font-size:medium;
+}
+
+.btn input[type=submit]{
+    font-weight: 500;
+    font-size: 18px;
+    color: #fff;
+}
+
+.password-button:hover{
+    background: rgb(86, 86, 86);
+}
+.password-button:focus {
+    background: #858585;
+    box-shadow: none  
+}
+
+.color_left{
+    background: #858585;
+    color: white;
+    font-size: large;
+    width: 25%;
+}
+
+.rounded-circle{
+    border: 2px solid #252525;
+}
+
+.color_right{
+    background: white;
+    font-family: sans-serif;
+    width: 51.4%;
+}
+
+
+.color_end{
+    background: white;
+    font-family: sans-serif;
+}
+.profile-button:active {
+    background:#858585;
+    border-color: none;
+}
+
+.back:hover {
+    color: #858585;
+    cursor: pointer
+    
+}
+.labels {
+    font-size: 12px     
+}
+.forgot-pass{
+    font-size: 12px;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+.forgot-pass:hover{
+    color: #E6873C;
+}
+.forgot-pass:active {
+    background:#E6873C;
+    border-color: none;
+}
+.new-card{
+    box-shadow: none;
+    border: black;
+    border-radius: 1px;
+    font-size:small;
+}
+.new-card:hover{
+    background: #FF731D;
+}
+.new-card:focus {
+    background: #FF731D;
+    box-shadow: none 
+}
+.credit-card{
+    margin-top: 50px;
+    margin-bottom: 10px;
+    margin-left: 50px; 
+}
+.new-bank{
+    margin-top: 50px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
+.bank-acc{
+    box-shadow: none;
+    border: black;
+    border-radius: 1px;
+    font-size: small;
+}
+.bank-acc:hover{
+    background: #FF731D;
+}
+.bank-acc:focus{
+    background: #FF731D;
+    box-shadow: none 
+    
+}
+.edit-profile{
+    border-color: gray;
+    border-style: hidden;
+    padding: 3px;
+    font-size: xx-small
+}
+.edit-profile:hover {
+    background: #FF731D;
+}
+.side-nav {
+    padding: 20px 0 20px 50px;
+    margin-top: 20px;
+    margin-left:-5px;
+  }
+  
+  .side-nav * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .side-nav>ul>li {
+    position: relative;
+    white-space: nowrap;
+  }
+  
+  .side-nav a,
+  .side-nav a:focus {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 12px 15px;
+    margin-bottom: -5px;
+    transition: 0.3s;
+    font-size: 15px;
+  }
+  
+  .side-nav a i,
+  .side-nav a:focus i {
+    font-size: 24px;
+    padding-right: 8px;
+    color: #B8E8FC;
+  }
+  
+  .side-nav a:hover,
+  .side-nav .active,
+  .side-nav .active:focus,
+  .side-nav li:hover>a {
+    text-decoration: none;
+    color: #858585;
+  }
+  
+  .side-nav a:hover i,
+  .side-nav .active i,
+  .side-nav .active:focus i,
+  .side-nav li:hover>a i {
+    color: #858585;
+  }
+/* Style The Dropdown Button */
+.dropbtn {
+    background-color: #E6873C;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #b8e8fc;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #E6873C
+
+}  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    background-color:#E6873C ;
+  }
+  .addresstype{
+    width: 415px;
+    height: 33px;
+    border-radius: 4px;
+    color: gray;
+    font-size: small;
+}
+.options:hover{
+    background-color: #E6873C
+}
