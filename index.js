@@ -29,6 +29,94 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#send1').click(function(){
+    // $("#form12").on("submit",(function(e) {   
+       
+        var messages = document.getElementById("mytext");
+        // var message = messages.value;        
+        var cust_id = document.getElementById("cust_id");
+        var seller_id = document.getElementById("seller_id");
+        // var attachment = document.getElementById("attachment");
+        
+        alert("hey");
+        $.ajax({
+            type:'POST',
+            url:'../send_data.php',
+            data:{
+                messages:$(messages).val(),
+                id1:$(cust_id).val(),
+                id2:$(seller_id).val(),
+                // attachment:$(attachment).val(),
+            },beforeSend:function(){
+                    $("#loading").show();
+                    // $("#send1").hide();
+            },
+            success: function(data){
+                $(messages).val("");
+                $('#title').html(data);
+                $("#convo").load(location.href + " #convo");
+                $("#loading").hide();
+                $("#send1").show(); 
+            },
+            // type: 'POST',
+            // url: '../send_data.php',
+            // data:  new FormData(this),
+            // dataType: 'json',
+            // encode: true,
+            // beforeSend:function(){
+            //     $("#loading").show();
+            //     $("#addBtn").hide();
+            // },
+            // success: function(response){
+            //     $('.statusMsg').html('');
+            //     if(response.status == 1){
+            //         $('#fupForm')[0].reset();
+            //         $('.statusMsg').html('<p class="alert alert-success">'+response.message+'</p>');
+            //     }else{
+            //         $('.statusMsg').html('<p class="alert alert-danger">'+response.message+'</p>');
+            //     }
+            //     $('#fupForm').css("opacity","");
+            //     $(".submitBtn").removeAttr("disabled");
+            // },
+        // }).done(function (data){
+        //     $('#title').html(data);
+        //     $("#loading").hide();
+        //     $("#send1").show(); 
+        // }).fail(function (data) {
+        //     $("#form12").html(
+        //       '<div class="alert alert-danger">Could not reach server, please try again later.</div>'
+        //     );
+        // });
+        // e.preventDefault();
+            // success:function(data){
+               
+                // $("#convo").load(location.href + " #convo");
+                
+                // $.ajax({
+                //     type:'FILES',
+                //     url:'../send_data.php',
+                //     data:{
+                //         messages:$(messages).val(),
+                //         id1:$(cust_id).val(),
+                //         id2:$(seller_id).val(),
+                //         attachment:$(attachment).val(),
+                //     },
+                //     beforeSend:function(){
+                //         $("#loading").show();
+                //         $("#addBtn").hide();
+                //     },
+                //     success:function(data){
+                //         $('#title').html(data);
+                //         $("#convo").load(location.href + " #convo");
+                //         $("#loading").hide();
+                //         $("#send1").show(); 
+                //     }
+                // });
+            });
+        }); 
+    // }));
+
     window.addEventListener('scroll', function(){
         var scrollPosition = window.pageYOffset;
         // var bgParallax = document.getElementById('backg')[0];

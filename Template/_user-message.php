@@ -1,6 +1,6 @@
 <?php
 
-include ('message-commands.php');
+include ('_user_message-commands.php');
 // include ('../send_data.php');
 
 
@@ -10,8 +10,8 @@ include ('message-commands.php');
 	die;
 }
 
-$com_id=$_SESSION["com_id"];
-$seller_id = $_GET['user_id'];
+$com_id=$_SESSION["user_id"];
+$seller_id = $_GET['seller_id'];
 
 $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
 if ($res = mysqli_fetch_array($result)) {

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 $servername = "localhost";
 $user = "root";
@@ -8,9 +8,9 @@ $database = "rentacar";
 
 $con = new mysqli($servername, $user, $password, $database);
 
-include ('message-commands.php');   
+   
 
-$com_id=$_SESSION["com_id"];
+$com_id = $_SESSION["user_id"];
 
   function dd($data) {
 	echo "<pre>";
@@ -18,43 +18,60 @@ $com_id=$_SESSION["com_id"];
 	die;
 }
 
-$result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
-if ($res = mysqli_fetch_array($result)) {
-	$shopname = $res['shopname'] ?? '';
-	$username = $res['username']  ?? '';
-    $address = $res['address']  ?? '';
-	$email = $res['email']  ?? '';
-	$contact = $res['contact_num']  ?? '';
-	$logo = $res['shop_logo']  ?? '';
-}
+// $result = mysqli_query($con, "SELECT * FROM user WHERE user_id = '$com_id'");
+// if ($res = mysqli_fetch_array($result)) {
+// 	$shopname = $res['shopname'] ?? '';
+// 	$username = $res['username']  ?? '';
+//     $address = $res['address']  ?? '';
+// 	$email = $res['email']  ?? '';
+// 	$contact = $res['contact_num']  ?? '';
+// 	$logo = $res['shop_logo']  ?? '';
+// }
 
-$users = mysqli_query($con, "SELECT * FROM user");
-
-$convo_query = "SELECT * FROM messages 
-								JOIN seller ON seller.seller_id = messages.to_id
-								WHERE to_id='$com_id' 
+$users = mysqli_query($con, "SELECT * FROM messages 
+ 								JOIN user ON user.user_id = messages.to_id
+ 								WHERE to_id='$com_id' 
 								 
-								ORDER BY to_id DESC";
-$convo_query = mysqli_query($con, $convo_query);
-$convos = array();
+								ORDER BY to_id DESC");
 
-while ($convo_row = mysqli_fetch_assoc($convo_query)) {
-	$convo_id = $convo_row['convo_id'];
-	$sql = "SELECT *
-	        FROM messages
-					WHERE convo_id = '$convo_id'";
-
-	$message_query = mysqli_query($con, $sql);
-
-	$messages = [];
-
-	while ($message_row = mysqli_fetch_assoc($message_query)) {
-		array_push($messages, $message_row);
-	}
-
-	$convo_row['messages'] = $messages;
-	$convos[] = $convo_row;
+if ($res = mysqli_fetch_array($users)) {
+	$shop_id = $res['from_id'] ?? '';
 }
+
+$seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'");
+
+// $users = mysqli_query($con, "SELECT * FROM user 
+//                                 JOIN messages ON user.user_id = messages.to_id
+//                                 WHERE to_id='$com_id' 
+
+//                                 ORDER BY to_id DESC");
+
+
+// $convo_query = "SELECT * FROM messages 
+// 								JOIN seller ON seller.seller_id = messages.to_id
+// 								WHERE to_id='$com_id' 
+								 
+// 								ORDER BY to_id DESC";
+// $convo_query = mysqli_query($con, $convo_query);
+// $convos = array();
+
+// while ($convo_row = mysqli_fetch_assoc($convo_query)) {
+// 	$convo_id = $convo_row['convo_id'];
+// 	$sql = "SELECT *
+// 	        FROM messages
+// 					WHERE convo_id = '$convo_id'";
+
+// 	$message_query = mysqli_query($con, $sql);
+
+// 	$messages = [];
+
+// 	while ($message_row = mysqli_fetch_assoc($message_query)) {
+// 		array_push($messages, $message_row);
+// 	}
+
+// 	$convo_row['messages'] = $messages;
+// 	$convos[] = $convo_row;
+// }
   ?>
 
 <!DOCTYPE html>
@@ -94,62 +111,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
 
     <div class="wrapper">
 
-        <div class="body-overlay"></div>
-
-        <!-------sidebar--design------------>
-
-        <div id="sidebar">
-            <div class="sidebar-header">
-                <h3><img style="width:40px; height:auto;"
-                        src="../images/shop/<?php echo $res['shop_logo']; ?>"><span>RentaCar</span></h3>
-            </div>
-            <ul class="list-unstyled component m-0">
-                <li class="dash">
-                    <a href=".dashboardCompany.php" class="dashboard"><i
-                            class="material-icons">dashboard</i>Dashboard</a>
-                </li>
-
-                <li class="approval">
-                    <a href="_pending-reservations2.php">
-                        <i class="material-icons">summarize</i>Pending Reservations
-                    </a>
-                </li>
-
-                <li class="cars">
-                    <a href="_manage-cars2.php">
-                        <i class="material-icons">directions_car</i>Car Management
-                    </a>
-                </li>
-
-                <li class="reserve">
-                    <a href="_manage-reservations2.php">
-                        <i class="material-icons">book_online</i>Car Reservation
-                    </a>
-                </li>
-
-                <li class="drivers">
-                    <a href="_manage-to-be-returned2.php">
-                        <i class="material-icons">fact_check</i>Cars to be Returned
-                    </a>
-                </li>
-
-                <li class="reserve">
-                    <a href="_manage-drivers2.php">
-                        <i class="material-icons">person</i>Drivers
-                    </a>
-                </li>
-
-                <br>
-
-                <li class="reserve">
-                    <a href="_manage-sales2.php">
-                        <i class="material-icons">summarize</i>Sales Report
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-
+       
         <!-------sidebar--design- close----------->
 
 
@@ -277,7 +239,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                                 </div>
                             </div>
 
-                            <table class="table table-striped table-hover">
+                            <!-- <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
 
@@ -330,13 +292,13 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                         
                     <?php } ?>
                   </tbody>
-                            </table>
-                            <?php foreach ($users as $row) { ?>
-									<?php if ($row['user_id'] != $com_id) { ?>
+                            </table> -->
+                            <?php foreach ($seller as $row) { ?>
+									
 										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
-                                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?user_id=<?= $row['user_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['user_name'] ?> </p>
+                                        <p class="text-s font-weight-bold mb-0"> <a href="_user-message.php?seller_id=<?= $row['seller_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['shopname'] ?> </p>
 
-									<?php } ?>
+									
 								<?php } ?>
                         </div>
                     </div>

@@ -82,12 +82,30 @@
                 </li>
             </ul>
             <ul class="navbar-nav align-items-center col-sm-3 ">
-                <li class="pe-3">
+                <!-- <li class="pe-3">
                     <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
                          <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
                     </button>
-                </li>
+                </li> -->
+                <li class="dropdown nav-item">
+                <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
+                         <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
+                    </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                            </ul>
+                                        </li>
                 <li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Template/_user-messages.php">
+                        <i class="btn btn-dark border fa-regular fa-message"></i>
+                    </a>
+                </li>
+
 
                     <input type="search" id="form1" class="form-control w-100" placeholder="Search" />
                     <!-- <label class="form-label" for="form1">Search</label> -->
