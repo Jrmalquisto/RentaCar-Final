@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// include ('../header.php');
 $servername = "localhost";
 $user = "root";
 $password = "";
@@ -18,27 +18,46 @@ $com_id = $_SESSION["user_id"];
 	die;
 }
 
-// $result = mysqli_query($con, "SELECT * FROM user WHERE user_id = '$com_id'");
-// if ($res = mysqli_fetch_array($result)) {
-// 	$shopname = $res['shopname'] ?? '';
-// 	$username = $res['username']  ?? '';
-//     $address = $res['address']  ?? '';
-// 	$email = $res['email']  ?? '';
-// 	$contact = $res['contact_num']  ?? '';
-// 	$logo = $res['shop_logo']  ?? '';
-// }
-
-$users = mysqli_query($con, "SELECT * FROM messages 
- 								JOIN user ON user.user_id = messages.to_id
- 								WHERE to_id='$com_id' 
-								 
-								ORDER BY to_id DESC");
-
-if ($res = mysqli_fetch_array($users)) {
-	$shop_id = $res['from_id'] ?? '';
+$result = mysqli_query($con, "SELECT * FROM user WHERE user_id = '$com_id'");
+if ($res = mysqli_fetch_array($result)) {
+	
+	$username = $res['user_name']  ?? '';
+    
 }
 
-$seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'");
+// $users = mysqli_query($con, "SELECT user.user_id FROM user 
+//  								INNER JOIN messages ON user.user_id = messages.to_id
+//  								WHERE to_id='$com_id' 
+								 
+// 								ORDER BY to_id DESC");
+
+//Get data from recepients 
+$users = mysqli_query($con, "SELECT  * FROM messages 
+                                INNER JOIN user ON user.user_id = messages.to_id
+                                WHERE to_id='$com_id' 
+
+                                ORDER BY to_id DESC");
+// $get = mysql_fetch_array($users);
+while ($res1 = mysqli_fetch_array($users)) {
+	$shop_id[] = $res1['from_id'] ?? '';
+}
+
+$i = 0;
+
+// Get Unique Array
+$a = array_unique($shop_id);
+
+// $b = $a;
+
+
+
+while ($i < count($a)) {
+	$b[$i] = array_values($a)[$i];
+    $i++;
+}
+
+
+// $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$a'");
 
 // $users = mysqli_query($con, "SELECT * FROM user 
 //                                 JOIN messages ON user.user_id = messages.to_id
@@ -171,11 +190,11 @@ $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'"
                                         </li>
 
                                         <i
-                                            class="fas ml-3 me-2"></i><?php echo "<p>" . $_SESSION['shopname'] . "</p>"; ?>
+                                            class="fas ml-3 me-2"></i><?php echo "<p>" . $username . "</p>"; ?>
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img style="width:40px; height:auto;"
-                                                    src="../images/shop/<?php echo $res['shop_logo']; ?>">
+                                                <!-- <img style="width:40px; height:auto;"
+                                                    src="../images/shop/<?php echo $res['shop_logo']; ?>"> -->
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">
@@ -288,18 +307,29 @@ $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'"
                       </td>
                       
                     <?php } ?>
-                    <?php if (!$convos) { ?>   
-                        
-                    <?php } ?>
+                    
                   </tbody>
                             </table> -->
-                            <?php foreach ($seller as $row) { ?>
-									
-										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
-                                        <p class="text-s font-weight-bold mb-0"> <a href="_user-message.php?seller_id=<?= $row['seller_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['shopname'] ?> </p>
+                           
+                            <?php 
+                            
+                            $i = 0;
+                            
+                            foreach ($a as $rows) { 
+                                
+                                $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$b[$i]'");
+                                foreach ($seller as $rows1){
+                            ?>
+                               
+                               <p class="text-s font-weight-bold mb-0"> <a href="_user-message.php?seller_id=<?= $rows1['seller_id'] ?>" style="color:#333;text-decoration: none;"><?php echo $rows1['shopname'] ?> </p>
 
-									
-								<?php } ?>
+                                <!-- <p class="text-s font-weight-bold mb-0"> <?php echo $rows."\n" ?> </p> -->
+                                <!-- <p class="text-s font-weight-bold mb-0"> <?php echo var_dump($b)."\n" ?> </p> -->
+
+                            <?php 
+                                }
+                                $i++;
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -349,6 +379,7 @@ $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'"
         </div>
     </div>
 </div>
+
 
 
             <!----footer-design------------->
@@ -403,3 +434,8 @@ $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$shop_id'"
 </body>
 
 </html>
+
+<?php 
+// include ('../footer.php');
+
+?>

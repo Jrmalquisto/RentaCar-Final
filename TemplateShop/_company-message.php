@@ -10,20 +10,22 @@ include ('message-commands.php');
 	die;
 }
 
-$com_id=$_SESSION["com_id"];
-$seller_id = $_GET['user_id'];
+$com_id = $_SESSION["com_id"];
+$email = $_SESSION["email"];
+
+$user_id = $_GET['user_id'];
+$u_email = $_GET['email'];
 
 $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
 if ($res = mysqli_fetch_array($result)) {
 	$shopname = $res['shopname'] ?? '';
 	$username = $res['username']  ?? '';
     $address = $res['address']  ?? '';
-	$email = $res['email']  ?? '';
+	$s_email = $res['email']  ?? '';
 	$contact = $res['contact_num']  ?? '';
 	$logo = $res['shop_logo']  ?? '';
 }
 
-$users = mysqli_query($con, "SELECT * FROM seller");
 
 // $convo_query = "SELECT * FROM convo 
 // 								JOIN seller ON seller.seller_id = convo.recipient
@@ -31,7 +33,20 @@ $users = mysqli_query($con, "SELECT * FROM seller");
 // $convo_query = mysqli_query($con, $convo_query);
 // $convo = mysqli_fetch_assoc($convo_query);
 
-$messages_query = "SELECT * FROM messages WHERE (from_id='$com_id' AND to_id = '$seller_id') OR (from_id='$seller_id' AND to_id = '$com_id')";
+// $messages_query = "SELECT * FROM seller INNER JOIN messages ON  messages.from_id = seller.seller_id 
+// 															WHERE (messages.email = '$email' AND seller.email = '$s_email' ) 
+															
+// 															AND (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
+// 															AND messages.to_email = '$u_email'";
+															
+// $messages_query = "SELECT * FROM messages INNER JOIN seller ON  messages.email = seller.email 
+// 															-- WHERE  seller.email = '$s_email' AND(messages.email = '$email' AND messages.to_email = '$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
+// 															-- WHERE (messages.email = '$email' AND messages.to_email='$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
+// 															WHERE messages.to_email='$email' AND messages.email = '$u_email'
+// 															-- WHERE (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
+// 															";
+$messages_query = "SELECT * FROM messages WHERE (messages.to_email='$email' AND messages.email = '$u_email') OR  (messages.email = '$email' AND messages.to_email='$u_email')";
+
 $messages = mysqli_query($con, $messages_query);
   ?>
 
@@ -238,10 +253,12 @@ $messages = mysqli_query($con, $messages_query);
                     </div>
                     
                     <div class="mt-2 pt-3 border-top">
+                                <p class="text-s font-weight-bold mb-0"> <?php echo print_r($messages)."\n" ?> </p>
+                                <p class="text-s font-weight-bold mb-0"> <?php echo $u_email ?> </p>
 
                         <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
-                                <div class="<?= $row['from_id'] != $com_id ? 'sender' : 'receiver' ?>">
+                                <div class="<?= $row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
                                     <?php if (!empty($row['attachment'])) { ?>
                                         <?php if (strpos($row['attachment'], '.mp4') !== false || strpos($row['attachment'], '.mpeg') !== false || strpos($row['attachment'], '.mov') !== false) { ?>

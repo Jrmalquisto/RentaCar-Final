@@ -332,11 +332,10 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                   </tbody>
                             </table>
                             <?php foreach ($users as $row) { ?>
-									<?php if ($row['user_id'] != $com_id) { ?>
+									
 										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
-                                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?user_id=<?= $row['user_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['user_name'] ?> </p>
+                                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?user_id=<?= $row['user_id'] ?>&email=<?=$row['email']?>" style="color:#333;text-decoration: none;"><?= $row['user_name'] ?> </p>
 
-									<?php } ?>
 								<?php } ?>
                         </div>
                     </div>

@@ -71,14 +71,14 @@
 
             <ul class="navbar-nav justify-content-center col-sm-8">
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'index.php'?'active':'' ?>" href="index.php">Reservations
+                    <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Reservations
                     <span  class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'specialoffers.php'?'active':'' ?>" href="specialoffers.php">Special Offers</a>
+                    <a class="nav-link <?= $page == '../specialoffers.php'?'active':'' ?>" href="../specialoffers.php">Special Offers</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'vehicles.php'?'active':'' ?>" href="vehicles.php">Shops</a>
+                    <a class="nav-link <?= $page == '../vehicles.php'?'active':'' ?>" href="../vehicles.php">Shops</a>
                 </li>
             </ul>
             <ul class="navbar-nav align-items-center col-sm-3 ">
