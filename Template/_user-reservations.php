@@ -149,11 +149,14 @@
                     <?php echo $shop['shopname']  ?? "Brand"; ?>
                 </button>
 
-                <a href="Template/_car-rating.php?item_id=<?php echo $value['item_id']; ?>&seller_id=<?php echo $item['seller_id'];?>">
+                <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $value['item_id'];?> &seller_id=<?php echo $item['seller_id'];?>">
                     <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
                 </a>
                 
-                <?php echo $item['seller_id'];?>
+                <!-- <?php echo $userid?>
+                <?php echo $item['item_id'];?>
+                <?php echo $item['seller_id'];?> -->
+                
 
                 <hr class="m-0 my-2">
                 <p class="font-baloo font-size-20">Brand: <?php echo $item['item_brand'] ?? "Brand"; ?></p>
