@@ -189,7 +189,7 @@
                         </form>
                         <?php 
                             if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
-                            echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            echo '<button type="button" class="btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Driver details
                                 </button>';
                             } 
@@ -226,6 +226,7 @@
         endforeach;
 
         foreach ($product->getDriver($value['driver_id']??0) as $driver):
+            $driverid = $value['driver_id'];
         ?>
         
     
@@ -244,7 +245,16 @@
                 <div class="container ">
                     <div class = "d-flex align-items-center justify-content-center">
                         
-                        <img height="250" width="250" src="../assets/driver_pic/<?php echo $driver['driver_image'];?>">
+                    <?php
+                        $sql1 = "SELECT driver_image from drivers where driver_id='$driverid'";
+                        $result1 = mysqli_query($con,$sql1);
+                        $row1 = mysqli_fetch_array($result1);
+
+                        $image = $row1['driver_image'];
+                        $image_src = "/images/drivers/".$image;
+                    ?>
+
+                        <img height="170" width="250" src='<?php echo $image_src;?>'>   
 
                     </div>
                     <hr>
@@ -278,8 +288,8 @@
                 
             </div>
             <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
             </div>
         </div>

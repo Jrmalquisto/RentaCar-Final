@@ -42,12 +42,12 @@
             
             <?php array_map(function ($item) use($in_cart){?>
             <!-- array_map(function ($item) use($in_cart){?> -->
-                <div class="grid-item <?php echo $item['item_brand'] ?? "Brand"; ?> border" style="height:253px; width:202px;">
+                <div class="grid-item <?php echo $item['item_brand'] ?? "Brand"; ?> border" style="height:auto; width:auto;">
                     <div class="item py-2 " style="width:200px;">
                     <h5 class="margin-left-10 text-blue"><?php echo $item['item_brand'] ?? "Unknown"; ?></h5>
                         <div class="product font-rale">
                             <h6 class="margin-left-10"><b><?php echo $item['item_name'] ?? "Unknown"; ?></b></h6>
-                            <a  href="<?php printf('%s?item_id=%s', 'product.php',  $item['item_id']); ?>"><img style="width:200px; height:auto;" src="<?php echo $item['item_image'] ?? "assets/products/1.png"; ?>" alt="product1" class="img-fluid padding"></a>
+                            <a  href="<?php printf('%s?item_id=%s', 'product.php',  $item['item_id']); ?>"><img style="width:150px; height:auto;" src="../images/cars/<?php echo $item['item_image']; ?>" alt="product1" class="img-fluid padding mx-auto d-block"></a>
                             
                                 <div class="margin-left-10 price py-2  d-flex justify-content-between margin-right-10">
                                     <span>₱<?php echo $item['item_price'] ?? 0?>/day</span>

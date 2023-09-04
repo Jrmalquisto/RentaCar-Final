@@ -433,7 +433,7 @@ if(isset($_POST['update_res2'])){
       	<div class="modal-body">
 
 			<form method="POST" enctype="multipart/form-data">
-				<input  id="item_id1" name="item_id1"  />
+				<input type="hidden" id="item_id1" name="item_id1"  />
 
 			<div class="form-group">
 				<label>Name</label>
@@ -501,7 +501,7 @@ if(isset($_POST['update_res2'])){
       	<div class="modal-body">
 
 			<form method="POST" enctype="multipart/form-data">
-				<input  id="item_id2" name="item_id2"  />
+				<input type="hidden" id="item_id2" name="item_id2"  />
 
 			<div class="form-group">
 				<label>Name</label>

@@ -28,7 +28,7 @@ if ($res = mysqli_fetch_array($result)) {
 	$logo = $res['shop_logo']  ?? '';
 }
 
-$users = mysqli_query($con, "SELECT * FROM seller");
+$users = mysqli_query($con, "SELECT * FROM user");
 
 $convo_query = "SELECT * FROM convo 
 								JOIN seller ON seller.seller_id = convo.recipient
@@ -293,7 +293,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                                 <tbody>
                   <?php foreach ($convos as $row) { ?>
                     <tr>
-                    <?php if ($row['seller_id'] == $com_id) { ?>
+                    <?php if ($row['user_id'] == $com_id) { ?>
 
                       <td>
                       <div class="d-flex px-2 py-1">
@@ -353,8 +353,8 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
 							<select class="form-control" name="recipient" required>
 								<option value="">- select recipient -</option>
 								<?php foreach ($users as $row) { ?>
-									<?php if ($row['seller_id'] != $com_id) { ?>
-										<option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option>
+									<?php if ($row['user_id'] != $com_id) { ?>
+										<option value="<?= $row['user_id'] ?>"> <?= $row['user_name'] ?></option>
 									<?php } ?>
 								<?php } ?>
 							</select>
