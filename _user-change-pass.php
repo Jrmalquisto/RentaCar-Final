@@ -114,10 +114,9 @@ $image= $res['pic_ID'];
 						<ul style="list-style: none;">
 						  <li><a href="index.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
 						  <li><a href="profile.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
-						  <li><a href="message.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-message"></i> <span>Message</span></a></li>
 						  <li><a href="userreservation.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-calendar-check"></i> <span>My Reservation</span></a></li>
 						  <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i> <span style="padding-left:5px">My Rented Cars</span></a></li>
-						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-lock"></i> <span>Change Password</span></a></li>
+						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Change Password</span></a></li>
 						</ul>
 					</nav>
 				</div>

@@ -28,13 +28,13 @@ if ($res = mysqli_fetch_array($result)) {
 	$logo = $res['shop_logo']  ?? '';
 }
 
-$users = mysqli_query($con, "SELECT * FROM user");
+$users = mysqli_query($con, "SELECT * FROM seller");
 
-$convo_query = "SELECT * FROM messages 
-								JOIN seller ON seller.seller_id = messages.to_id
-								WHERE to_id='$com_id' 
-								 
-								ORDER BY to_id DESC";
+$convo_query = "SELECT * FROM convo 
+								JOIN seller ON seller.seller_id = convo.recipient
+								WHERE seller_id='$com_id' 
+								OR recipient='$com_id' 
+								ORDER BY convo_id DESC";
 $convo_query = mysqli_query($con, $convo_query);
 $convos = array();
 
@@ -65,7 +65,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Message</title>
+    <title>Cars</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!----css3---->
@@ -293,7 +293,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                                 <tbody>
                   <?php foreach ($convos as $row) { ?>
                     <tr>
-                    <?php if ($row['to_id'] == $com_id) { ?>
+                    <?php if ($row['seller_id'] == $com_id) { ?>
 
                       <td>
                       <div class="d-flex px-2 py-1">
@@ -331,12 +331,6 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                     <?php } ?>
                   </tbody>
                             </table>
-                            <?php foreach ($users as $row) { ?>
-									
-										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
-                                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?user_id=<?= $row['user_id'] ?>&email=<?=$row['email']?>" style="color:#333;text-decoration: none;"><?= $row['user_name'] ?> </p>
-
-								<?php } ?>
                         </div>
                     </div>
                 </div>

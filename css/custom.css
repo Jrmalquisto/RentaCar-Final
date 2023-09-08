@@ -172,6 +172,10 @@ body,html{
 		  float:right;
 		  transition:all 0.3s;
 	  }
+
+	  #content2{
+		width: 100%;
+	}
 	  
 	  #content.active{
 		  width:100%;

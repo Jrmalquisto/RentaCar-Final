@@ -1,6 +1,6 @@
 <?php
 
-include ('message-commands.php');
+include ('_user_message-commands.php');
 // include ('../send_data.php');
 
 
@@ -10,22 +10,22 @@ include ('message-commands.php');
 	die;
 }
 
-$com_id = $_SESSION["com_id"];
-$email = $_SESSION["email"];
+$com_id=$_SESSION["user_id"];
+$seller_id = $_GET['seller_id'];
 
-$user_id = $_GET['user_id'];
-$u_email = $_GET['email'];
+$email=$_SESSION["email"];
 
-$result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
-if ($res = mysqli_fetch_array($result)) {
-	$shopname = $res['shopname'] ?? '';
-	$username = $res['username']  ?? '';
-    $address = $res['address']  ?? '';
-	$s_email = $res['email']  ?? '';
-	$contact = $res['contact_num']  ?? '';
-	$logo = $res['shop_logo']  ?? '';
-}
+// $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
+// if ($res = mysqli_fetch_array($result)) {
+// 	$shopname = $res['shopname'] ?? '';
+// 	$username = $res['username']  ?? '';
+//     $address = $res['address']  ?? '';
+// 	$email = $res['email']  ?? '';
+// 	$contact = $res['contact_num']  ?? '';
+// 	$logo = $res['shop_logo']  ?? '';
+// }
 
+$users = mysqli_query($con, "SELECT * FROM seller");
 
 // $convo_query = "SELECT * FROM convo 
 // 								JOIN seller ON seller.seller_id = convo.recipient
@@ -33,20 +33,7 @@ if ($res = mysqli_fetch_array($result)) {
 // $convo_query = mysqli_query($con, $convo_query);
 // $convo = mysqli_fetch_assoc($convo_query);
 
-// $messages_query = "SELECT * FROM seller INNER JOIN messages ON  messages.from_id = seller.seller_id 
-// 															WHERE (messages.email = '$email' AND seller.email = '$s_email' ) 
-															
-// 															AND (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
-// 															AND messages.to_email = '$u_email'";
-															
-// $messages_query = "SELECT * FROM messages INNER JOIN seller ON  messages.email = seller.email 
-// 															-- WHERE  seller.email = '$s_email' AND(messages.email = '$email' AND messages.to_email = '$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
-// 															-- WHERE (messages.email = '$email' AND messages.to_email='$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
-// 															WHERE messages.to_email='$email' AND messages.email = '$u_email'
-// 															-- WHERE (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
-// 															";
-$messages_query = "SELECT * FROM messages WHERE (messages.to_email='$email' AND messages.email = '$u_email') OR  (messages.email = '$email' AND messages.to_email='$u_email')";
-
+$messages_query = "SELECT * FROM messages INNER JOIN user ON  messages.from_id = user.user_id WHERE messages.email = '$email' AND(from_id='$com_id' AND to_id = '$seller_id') OR (from_id='$seller_id' AND to_id = '$com_id') ";
 $messages = mysqli_query($con, $messages_query);
   ?>
 
@@ -80,7 +67,7 @@ $messages = mysqli_query($con, $messages_query);
       <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="../css/bootstrap.min.css">
 	    <!----css3---->
-        <link rel="stylesheet" href="../css/custom.css">
+        <!-- <link rel="stylesheet" href="../css/custom.css"> -->
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
       <link href="../TemplateShop/assets/css/nucleo-icons.css" rel="stylesheet" />
       <link href="../TemplateShop/assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -102,58 +89,7 @@ $messages = mysqli_query($con, $messages_query);
 	 
 	 <!-------sidebar--design------------>
 	 
-	 <div id="sidebar">
-	    <div class="sidebar-header">
-		   <h3><img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>"><span>RentaCar</span></h3>
-		</div>
-		<ul class="list-unstyled component m-0">
-		  <li class="active">
-		  <a href="#" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
-		  </li>
-		  
-		  <li class="approval">
-		  <a  href="_pending-reservations2.php">
-		  <i class="material-icons">summarize</i>Pending Reservations
-		  </a>
-		  </li>
-
-		  <li class="dropdown">
-		  <a  href="_manage-cars2.php">
-		  <i class="material-icons">directions_car</i>Car Management
-		  </a>
-		  </li>
-
-		  
-
-		  <li class="reserve">
-		  <a  href="_manage-reservations2.php">
-		  <i class="material-icons">book_online</i>Car Reservation
-		  </a>
-		  </li>
-
-		  <li class="drivers">
-		  <a  href="_manage-to-be-returned2.php">
-		  <i class="material-icons">fact_check</i>Cars to be Returned
-		  </a>
-		  </li>
-
-		  <li class="drivers">
-		  <a  href="_manage-drivers2.php">
-		  <i class="material-icons">person</i>Drivers
-		  </a>
-		  </li>
-
-		  <br>
-
-          <li class="reserve">
-		  <a  href="_manage-sales2.php">
-		  <i class="material-icons">summarize</i>Sales Report
-		  </a>
-		  </li>
-
-		
-		</ul>
-	 </div>
+	
 	 
    <!-------sidebar--design- close----------->
    
@@ -161,7 +97,7 @@ $messages = mysqli_query($con, $messages_query);
    
       <!-------page-content start----------->
    
-      <div id="content">
+      <div id="content2">
 	     
 		  <!------top-navbar-start-----------> 
 		   
@@ -192,14 +128,15 @@ $messages = mysqli_query($con, $messages_query);
 						</li>
 							   
 							   <li class="nav-item">
-							     <a class="nav-link" href="/TemplateShop/_company-messages.php">
+							     <a class="nav-link" href="">
 								   <span class="material-icons">question_answer</span>
 								 </a>
 							   </li>
-							   <i class="fas ml-3 me-2"></i><?php echo "<p>" . $_SESSION['shopname'] . "</p>"; ?>
+							   <!-- <i class="fas ml-3 me-2"></i><?php echo "<p>" . $_SESSION['shopname'] . "</p>"; ?> -->
 							   <li class="dropdown nav-item" >
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								 <img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>">
+							     <a class="nav-link" href="#" data-toggle="dropdown">.
+								 <!-- <img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>"> -->
+
 								  <span class="xp-user-live"></span>
 								 </a>
 								 
@@ -253,12 +190,10 @@ $messages = mysqli_query($con, $messages_query);
                     </div>
                     
                     <div class="mt-2 pt-3 border-top">
-                                <p class="text-s font-weight-bold mb-0"> <?php echo print_r($messages)."\n" ?> </p>
-                                <p class="text-s font-weight-bold mb-0"> <?php echo $u_email ?> </p>
 
                         <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
-                                <div class="<?= $row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
+                                <div class="<?= $row['from_id'] != $com_id ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
                                     <?php if (!empty($row['attachment'])) { ?>
                                         <?php if (strpos($row['attachment'], '.mp4') !== false || strpos($row['attachment'], '.mpeg') !== false || strpos($row['attachment'], '.mov') !== false) { ?>
@@ -281,7 +216,7 @@ $messages = mysqli_query($con, $messages_query);
 								<input  id="seller_id" type="hidden" name="seller_id" value="<?= $seller_id ?>">
                                 <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
-                                <button type="button" value="Send Reply" class="btn button-update" id="send1" ></button>
+                                <button type="button" value="Send Reply" class="btn button-update" id="send1" >Send</button>
                                 <label for="fimage"><iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon></label>
                                 <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
                                 </div>
@@ -338,6 +273,15 @@ $messages = mysqli_query($con, $messages_query);
 
   <script type="text/javascript">
        $(document).ready(function(){
+		setTimeout(function(){
+			// $('#convo').show(); // to show div after 5 sec of page load
+
+			// To reshow on every one minute
+			setInterval(function() {
+						$('#convo').show();
+					}, 5000);
+		}, 2000);
+
 			$("html, body").animate({
                     scrollTop: $(
                       'html, body').get(0).scrollHeight
