@@ -65,7 +65,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Cars</title>
+    <title>Message</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!----css3---->

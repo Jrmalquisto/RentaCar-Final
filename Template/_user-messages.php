@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 // include ('../header.php');
 $servername = "localhost";
 $user = "root";
@@ -93,6 +93,27 @@ while ($i < count($a)) {
 // }
   ?>
 
+<?php
+
+
+include ('connection.php');
+
+$id=$_SESSION["user_id"];
+
+$findresult = mysqli_query($con, "SELECT * FROM user WHERE user_id= '$id'");
+if($res = mysqli_fetch_array($findresult)) {
+	
+$id = $res['user_id'];
+$fullname = $res['fullname'];
+$username =$res['user_name'];
+$oldusername =$res['user_name'];
+$email = $res['email'];   
+$phonenumber = $res['contact_num'];  
+$image= $res['pic_ID'];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,11 +122,12 @@ while ($i < count($a)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Cars</title>
+    <title>Message</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!----css3---->
-    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
 
 
     <!--google fonts -->
@@ -129,262 +151,211 @@ while ($i < count($a)) {
 
 
     <div class="wrapper">
+        <div class="row">
 
-       
-        <!-------sidebar--design- close----------->
+            <!-------sidebar--design- close----------->
+            <div class="col-3 color_left">
 
-
-
-        <!-------page-content start----------->
-
-        <div id="content">
-
-            <!------top-navbar-start----------->
-
-            <div class="top-navbar">
-                <div class="xd-topbar">
-                    <div class="row">
-                        <div class="col-2 col-md-1 col-lg-4 order-2 order-md-1 align-self-center">
-                            <div class="xp-menubar">
-                                <span class="material-icons text-white">signal_cellular_alt</span>
-                            </div>
-                        </div>
-
-                        <!-- <div class="col-md-5 col-lg-3 order-3 order-md-2">
-					<div class="xp-searchbar">
-						<form>
-						<div class="input-group">
-							<input type="search" class="form-control"
-							placeholder="Search">
-							<div class="input-group-append">
-								<button class="btn" type="submit" id="button-addon2">Go
-								</button>
-							</div>
-						</div>
-						</form>
-					</div>
-				</div> -->
-
-
-                        <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-                            <div class="xp-profilebar text-right">
-                                <nav class="navbar p-0">
-                                    <ul class="nav navbar-nav flex-row ml-auto">
-                                        <li class="dropdown nav-item">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <span class="material-icons">notifications</span>
-                                                <span class="notification">4</span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">You Have 4 New Messages</a></li>
-                                                <li><a href="#">You Have 4 New Messages</a></li>
-                                                <li><a href="#">You Have 4 New Messages</a></li>
-                                                <li><a href="#">You Have 4 New Messages</a></li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
-                                            </a>
-                                        </li>
-
-                                        <i
-                                            class="fas ml-3 me-2"></i><?php echo "<p>" . $username . "</p>"; ?>
-                                        <li class="dropdown nav-item">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <!-- <img style="width:40px; height:auto;"
-                                                    src="../images/shop/<?php echo $res['shop_logo']; ?>"> -->
-                                                <span class="xp-user-live"></span>
-                                            </a>
-                                            <ul class="dropdown-menu small-menu">
-                                                <li><a href="_company-profile.php">
-                                                        <span class="material-icons">person_outline</span>
-                                                        Profile
-                                                    </a></li>
-                                                <li><a href="#">
-                                                        <span class="material-icons">settings</span>
-                                                        Settings
-                                                    </a></li>
-                                                <li><a href="_company-login.php">
-                                                        <span class="material-icons">logout</span>
-                                                        Logout
-                                                    </a></li>
-
-                                            </ul>
-                                        </li>
-
-
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="xp-breadcrumbbar text-center">
-
-                        <h4 class="page-title">Messages</h4>
-                        <!--<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Vishweb</a></li>
-				<li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
-			</ol>-->
-                    </div>
-
-
+                <div class="d-flex flex-column align-items-center text-center p-3 py-1">
+                    <?php if($image==NULL){
+							echo '<img src="assets/user_profile/profile.png" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
+						} else { 
+							echo '<img src="images/'.$image.'" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
+						}
+						?>
+                    <div class="row mt-1"></div>
+                    <div class="row mt-2"></div>
+                    <span class="font-weight-bold"><?php echo $fullname;?></span><span
+                        class=><?php echo $email;?></span><span> </span>
                 </div>
+                <nav class="side-nav navbar">
+                    <ul style="list-style: none;">
+                        <li><a href="index.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-house"></i>
+                                <span>Home</span></a></li>
+                        <li><a href="profile.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i>
+                                <span>Profile</span></a></li>
+                        <li><a href="userreservation.php" class="nav-link scrollto ml-4"><i
+                                    class="fa-solid fa-calendar-check"></i> <span>My Reservation</span></a></li>
+                        <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i> <span
+                                    style="padding-left:5px">My Rented Cars</span></a></li>
+                        <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i>
+                                <span>Change Password</span></a></li>
+                    </ul>
+                </nav>
             </div>
-            <!------top-navbar-end----------->
+
+            <div class="row col-9 color_right">
+                <div class="p-5 py-5">
+                <div class="d-flex justify-content-between align-items-center mt-3">
+							<h4 class="text-right">Messages</h4>
+						</div>
+                    <div id="content">
 
 
+                        <!------main-content-start----------->
+                        <div class="main-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-wrapper">
 
-            <!------main-content-start----------->
-            <div class="main-content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-wrapper">
+                                        <div class="table-title">
+                                            <div class="row">
+                                                <div
+                                                    class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
 
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                               
-                                    </div>
-                                    <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                        <a class="btn btn-success" data-toggle="modal" data-target="#messageModal">
-                                            <i class="material-icons">&#xE147;</i>
-                                            <span>New Message</span>
-                                        </a>
+                                                </div>
+                                                <div
+                                                    class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
+                                                    <a class="btn btn-success" data-toggle="modal"
+                                                        data-target="#messageModal">
+                                                        <i class="material-icons">&#xE147;</i>
+                                                        <span>New Message</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+
+                            <th width="100">Recipient</th>
+                            <th width="100">Subject</th>
+                            <th width="100">Message</th>
+                            <th width="100">Date</th>
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+        <?php foreach ($convos as $row) { ?>
+        <tr>
+        <?php if ($row['to_id'] == $com_id) { ?>
+
+          <td>
+          <div class="d-flex px-2 py-1">
+              <div>
+                
+              </div>
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm"><a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['email'] ?></a> </h6>
+              </div>
+            </div>            
+          </td>
+          
+          <?php } else { ?>
+
+          <td>
+            <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $email ?></a> </p>
+          </td>
+
+          <?php } ?>
+          <td>
+          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['subject'] ?></a>  </p>
+          </td>
+
+          <td>
+          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['messages'][count($row['messages']) - 1]['message'] ?></a>  </p>
+          </td>
+        
+          <td>
+          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['convo_added'] ?></a>  </p>
+          </td>
+          
+        <?php } ?>
+        
+      </tbody>
+                </table> -->
+
+                                        <?php 
+                
+                $i = 0;
+                
+                foreach ($a as $rows) { 
+                    
+                    $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$b[$i]'");
+                    foreach ($seller as $rows1){
+                ?>
+
+                                        <p class="text-s font-weight-bold mb-0"> <a
+                                                href="/Template/_user-message.php?seller_id=<?= $rows1['seller_id'] ?>"
+                                                style="color:#333;text-decoration: none;"><?php echo $rows1['shopname'] ?>
+                                        </p>
+
+                                        <!-- <p class="text-s font-weight-bold mb-0"> <?php echo $rows."\n" ?> </p> -->
+                                        <!-- <p class="text-s font-weight-bold mb-0"> <?php echo var_dump($b)."\n" ?> </p> -->
+
+                                        <?php 
+                    }
+                    $i++;
+                } ?>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
+                    </div>
 
-                                        <th width="100">Recipient</th>
-                                        <th width="100">Subject</th>
-                                        <th width="100">Message</th>
-                                        <th width="100">Date</th>
+                </div>
+    </div>
 
 
-                                    </tr>
-                                </thead>
+                <!-------page-content start----------->
 
-                                <tbody>
-                  <?php foreach ($convos as $row) { ?>
-                    <tr>
-                    <?php if ($row['to_id'] == $com_id) { ?>
 
-                      <td>
-                      <div class="d-flex px-2 py-1">
-                          <div>
-                            
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['email'] ?></a> </h6>
-                          </div>
-                        </div>            
-                      </td>
-                      
-                      <?php } else { ?>
+                <!------main-content-end----------->
 
-                      <td>
-                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $email ?></a> </p>
-                      </td>
+                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="messageLabel">Compose Message</h5>
 
-                      <?php } ?>
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['subject'] ?></a>  </p>
-                      </td>
-
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['messages'][count($row['messages']) - 1]['message'] ?></a>  </p>
-                      </td>
-                    
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['convo_added'] ?></a>  </p>
-                      </td>
-                      
-                    <?php } ?>
-                    
-                  </tbody>
-                            </table> -->
-                           
-                            <?php 
-                            
-                            $i = 0;
-                            
-                            foreach ($a as $rows) { 
-                                
-                                $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$b[$i]'");
-                                foreach ($seller as $rows1){
-                            ?>
-                               
-                               <p class="text-s font-weight-bold mb-0"> <a href="_user-message.php?seller_id=<?= $rows1['seller_id'] ?>" style="color:#333;text-decoration: none;"><?php echo $rows1['shopname'] ?> </p>
-
-                                <!-- <p class="text-s font-weight-bold mb-0"> <?php echo $rows."\n" ?> </p> -->
-                                <!-- <p class="text-s font-weight-bold mb-0"> <?php echo var_dump($b)."\n" ?> </p> -->
-
-                            <?php 
-                                }
-                                $i++;
-                            } ?>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="POST" id="frmMessage" enctype="multipart/form-data">
+                                    <input type="hidden" value="compose" name="compose">
+                                    <div class="form-group">
+                                        <label>Recepient</label>
+                                        <select class="form-control" name="recipient" required>
+                                            <option value="">- select recipient -</option>
+                                            <?php foreach ($users as $row) { ?>
+                                            <?php if ($row['seller_id'] != $com_id) { ?>
+                                            <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option>
+                                            <?php } ?>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Subject</label>
+                                        <input type="text" class="form-control" name="subject" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Message</label>
+                                        <textarea name="message" rows="4" class="form-control" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Attachment</label>
+                                        <input type="file" name="attachment" accept="image/*,video/*"
+                                            class="form-control">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" form="frmMessage">Send Message</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!------main-content-end----------->
-
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageLabel">Compose Message</h5>
-                
-            </div>
-            <div class="modal-body">
-					<form action="" method="POST" id="frmMessage" enctype="multipart/form-data">
-						<input type="hidden" value="compose" name="compose">
-						<div class="form-group">
-							<label>Recepient</label>
-							<select class="form-control" name="recipient" required>
-								<option value="">- select recipient -</option>
-								<?php foreach ($users as $row) { ?>
-									<?php if ($row['seller_id'] != $com_id) { ?>
-										<option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option>
-									<?php } ?>
-								<?php } ?>
-							</select>
-						</div>
-						<div class="form-group">
-							<label>Subject</label>
-							<input type="text" class="form-control" name="subject" required>
-						</div>
-						<div class="form-group">
-							<label>Message</label>
-							<textarea name="message" rows="4" class="form-control" required></textarea>
-						</div>
-						<div class="form-group">
-                            <label>Attachment</label>
-							<input type="file" name="attachment" accept="image/*,video/*" class="form-control">
-						</div>
-					</form>
-				</div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success" form="frmMessage">Send Message</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>       
-            </div>
-        </div>
-    </div>
-</div>
+                </div>
 
 
+                <!----footer-design------------->
 
-            <!----footer-design------------->
-
-            <!--<footer class="footer">
+                <!--<footer class="footer">
 		    <div class="container-fluid">
 			   <div class="footer-in">
 			      <p class="mb-0">© RentaCar 2023 . All Rights Reserved.</p>
@@ -400,37 +371,37 @@ while ($i < count($a)) {
 
 
 
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="/js/jquery-3.3.1.slim.min.js"></script>
-            <script src="/js/popper.min.js"></script>
-            <script src="/js/bootstrap.min.js"></script>
-            <script src="/js/jquery-3.3.1.min.js"></script>
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="/js/jquery-3.3.1.slim.min.js"></script>
+                <script src="/js/popper.min.js"></script>
+                <script src="/js/bootstrap.min.js"></script>
+                <script src="/js/jquery-3.3.1.min.js"></script>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-                crossorigin="anonymous">
-            </script>
-            <script type="text/javascript">
-            $(document).ready(function() {
-                $(".xp-menubar").on('click', function() {
-                    $("#sidebar").toggleClass('active');
-                    $("#content").toggleClass('active');
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+                    crossorigin="anonymous">
+                </script>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    $(".xp-menubar").on('click', function() {
+                        $("#sidebar").toggleClass('active');
+                        $("#content").toggleClass('active');
+                    });
+
+                    $('.xp-menubar,.body-overlay').on('click', function() {
+                        $("#sidebar,.body-overlay").toggleClass('show-nav');
+                    });
+
+
                 });
-
-                $('.xp-menubar,.body-overlay').on('click', function() {
-                    $("#sidebar,.body-overlay").toggleClass('show-nav');
+                </script>
+                <script>
+                $(document).ready(function() {
+                    var convo_div = document.getElementById("convo");
+                    convo_div.scrollTop = convo_div.scrollHeight;
                 });
-   
-
-            });
-            </script>
-<script>
-	$(document).ready(function() {
-		var convo_div = document.getElementById("convo");
-		convo_div.scrollTop = convo_div.scrollHeight;
-	});
-</script>
+                </script>
 </body>
 
 </html>

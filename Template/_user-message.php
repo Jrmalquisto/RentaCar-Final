@@ -97,7 +97,7 @@ $messages = mysqli_query($con, $messages_query);
    
       <!-------page-content start----------->
    
-      <div id="content">
+      <div id="content2">
 	     
 		  <!------top-navbar-start-----------> 
 		   
@@ -128,7 +128,7 @@ $messages = mysqli_query($con, $messages_query);
 						</li>
 							   
 							   <li class="nav-item">
-							     <a class="nav-link" href="/TemplateShop/_company-messages.php">
+							     <a class="nav-link" href="">
 								   <span class="material-icons">question_answer</span>
 								 </a>
 							   </li>

@@ -1,5 +1,5 @@
 <?php
-    ob_start();
+
     session_start();
     require ('functions.php');
     if (ini_get('register_globals'))
@@ -101,7 +101,7 @@
                 <li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="Template/_user-messages.php">
+                    <a class="nav-link" href="../messages.php">
                         <i class="btn btn-dark border fa-regular fa-message"></i>
                     </a>
                 </li>
