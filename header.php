@@ -1,5 +1,5 @@
 <?php
-
+    ob_start();
     session_start();
     require ('functions.php');
     if (ini_get('register_globals'))
@@ -71,41 +71,23 @@
 
             <ul class="navbar-nav justify-content-center col-sm-8">
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Reservations
+                    <a class="nav-link <?= $page == 'index.php'?'active':'' ?>" href="index.php">Reservations
                     <span  class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == '../specialoffers.php'?'active':'' ?>" href="../specialoffers.php">Special Offers</a>
+                    <a class="nav-link <?= $page == 'specialoffers.php'?'active':'' ?>" href="specialoffers.php">Special Offers</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == '../vehicles.php'?'active':'' ?>" href="../vehicles.php">Shops</a>
+                    <a class="nav-link <?= $page == 'vehicles.php'?'active':'' ?>" href="vehicles.php">Shops</a>
                 </li>
             </ul>
             <ul class="navbar-nav align-items-center col-sm-3 ">
-                <!-- <li class="pe-3">
+                <li class="pe-3">
                     <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
                          <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
                     </button>
-                </li> -->
-                <li class="dropdown nav-item">
-                <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
-                         <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
-                    </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                            </ul>
-                                        </li>
-                <li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="../messages.php">
-                        <i class="btn btn-dark border fa-regular fa-message"></i>
-                    </a>
                 </li>
-
+                <li>
 
                     <input type="search" id="form1" class="form-control w-100" placeholder="Search" />
                     <!-- <label class="form-label" for="form1">Search</label> -->

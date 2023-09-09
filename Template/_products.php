@@ -228,43 +228,53 @@
             <!-- <h5 class="font-baloo font-size-25"><?php echo $datedDiff ?? "Unknown"; ?></h5> -->
             <!-- <h5 class="font-baloo font-size-25"><?php echo $_SESSION["item_b"] ?? "Unknown"; ?></h5> -->
             <div class="col-sm-8 d-flex align-items-center justify-content-center">
-                <img style="width:500px; height:auto;" src="../images/cars/<?php echo $item['item_image']; ?>" alt="product" class="img-fluid">
-                
+                <img style="width:500px; height:auto;" src="../images/cars/<?php echo $item['item_image']; ?>"
+                    alt="product" class="img-fluid">
+
             </div>
-            
+
             <div class="col-sm-4 pb-5 pt-4 px-3 border rounded-4 shadow">
-                <h2 class="font-baloo-bold  "><?php echo $item['item_name'] ?? "Unknown"; ?></h2>
-                <!-- <a class="font-baloo font-size-20 " href="vehicles.php"> <?php echo $value['shopname']  ?? "Brand"; ?></a> -->
+                <h2 class="font-baloo-bold"><?php echo $item['item_name'] ?? "Unknown"; ?></h2>
+                
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <?php echo $value['shopname']  ?? "Brand"; ?>
                 </button>
-                
+
+                <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $item_id;?>">
+                    <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
+                </a>
+                <!-- <?php echo $item_id?> -->
                 
                 <hr class="m-0 my-2">
                 <p class="font-baloo font-size-20">Brand: <?php echo $item['item_brand'] ?? "Brand"; ?></p>
-                
+
                 <!-- Product price-->
                 <table class="my-3">
-                <tr class="font-rale font-size-16">
+                    <tr class="font-rale font-size-16">
                         <td>Seating Capacity: </td>
-                        <td class="font-size-20 text-danger"><span><?php echo $item['item_capacity'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                        <td class="font-size-20 text-danger">
+                            <span><?php echo $item['item_capacity'] ?? 0; ?></span><small
+                                class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                        </td>
                     </tr>
                     <tr class="font-rale font-size-16">
                         <td>Transmission Type: </td>
-                        <td class="font-size-20 text-danger"><span><?php echo $item['item_transmission'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                        <td class="font-size-20 text-danger">
+                            <span><?php echo $item['item_transmission'] ?? 0; ?></span><small
+                                class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                        </td>
                     </tr>
                     <tr class="font-rale font-size-16">
                         <td>Deal Price: </td>
-                        <td class="font-size-20 text-danger">₱<span><?php echo $item['item_price'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;/day</small></td>
+                        <td class="font-size-20 text-danger">₱<span><?php echo $item['item_price'] ?? 0; ?></span><small
+                                class="text-dark font-size-12">&nbsp;&nbsp;/day</small></td>
                         <input type="hidden" name="price" id="price" value="<?php echo $item['item_price'] ?? 0;?>">
                     </tr>
                     <tr class="font-rale font-size-16">
-                        <td>Units Available:</td>
-                        <td><span class="font-size-16 text-danger"><?php echo $item['item_stock'] ?? 0; ?></span></td>
-                    </tr>
-                    <tr class="font-rale font-size-16">
                         <td>License Plate:</td>
-                        <td><span class="font-size-16 text-danger"><?php echo $item['item_license_plate'] ?? 0; ?></span></td>
+                        <td><span
+                                class="font-size-16 text-danger"><?php echo $item['item_license_plate'] ?? 0; ?></span>
+                        </td>
                     </tr>
                     <tr class="font-rale font-size-16">
                         <td>Color:</td>
@@ -274,7 +284,7 @@
                 <!-- !Product price-->
 
                 <!-- #Policy-->
-                
+
                 <!-- !#Policy-->
                 <hr>
 
@@ -284,10 +294,10 @@
                     <small><i class="fas fa-map-marker-alt color-primary"></i>&nbsp;&nbsp;Deliver to Customer - 424201</small>
                 </div>
                 -->
-               
+
                 <!-- FORM DIV -->
-                <form action="#" method="POST" class="row g-3 "> 
-                   
+                <form action="#" method="POST" class="row g-3 ">
+
                     <!-- <div class="input-box">
                         <span>Pick-up Date</span>
                         <input type="date" name="dateFrom" id="dateFrom" value="<?php echo $dF ?? $dated;?>">
@@ -296,12 +306,14 @@
                     <!-- <?php echo $item['item_id'] ?? 0;?> -->
                     <div class="input-box col-md-4">
                         <span>Pick-up Date</span>
-                        <input type="datetime-local" name="dateFrom" id="dateFrom" min="<?php echo $dated;?>" value="<?php echo $dF ?? $dated;?>">
+                        <input type="datetime-local" name="dateFrom" id="dateFrom" min="<?php echo $dated;?>"
+                            value="<?php echo $dF ?? $dated;?>">
                     </div>
 
                     <div class="input-box col-md-4">
                         <span>Return Date</span>
-                        <input type="datetime-local" name="dateTo" id="dateTo"  min="<?php echo $dated;?>" value="<?php echo $dT ?? $dated;?>">
+                        <input type="datetime-local" name="dateTo" id="dateTo" min="<?php echo $dated;?>"
+                            value="<?php echo $dT ?? $dated;?>">
                     </div>
 
                     <div class="form-group mt-4 align-self-start">
@@ -309,27 +321,30 @@
                         <input type="radio" name="driver_stat" id="driver_stat" value="Yes" /> Yes
                         <input type="radio" name="driver_stat" id="driver_stat" value="No" /> No
                     </div>
-                    <p class = "text-muted"> Note: Choosing without a driver will require an image of your Driver's License for confirmation. </p>
-              
+                    <p class="text-muted"> Note: Choosing without a driver will require an image of your Driver's
+                        License for confirmation. </p>
+
                     <hr>
-                <!-- </form> -->
+                    <!-- </form> -->
                     <!-- REFRESH DIV -->
                     <div class="total">
                         <div class="row">
                             <div class="col-9 " style="padding-right:0px;">
-                                <h5 class="font-baloo font-size-25">Total:</h5> 
+                                <h5 class="font-baloo font-size-25">Total:</h5>
                                 <h5 class="font-baloo font-size-25" style="display: inline;">₱</h5>
-                                <h5 class="font-baloo font-size-25" name="total_num" id="total_num" style="display: inline;"><?php echo $total?? "Unknown"; ?></h5>
-                                    <input type="hidden" name="overall" id="overall" value="<?php echo $total ?? "Unknown";?> .00">
+                                <h5 class="font-baloo font-size-25" name="total_num" id="total_num"
+                                    style="display: inline;"><?php echo $total?? "Unknown"; ?></h5>
+                                <input type="hidden" name="overall" id="overall"
+                                    value="<?php echo $total ?? "Unknown";?> .00">
                                 <h5 class="font-baloo font-size-25" style="display: inline;">.00</h5>
                                 <img src="images/loader.gif" id="loading" style="display: none;">
-                                <div class="container ps-2 "  style="display: inline;">
+                                <div class="container ps-2 " style="display: inline;">
                                     <button type="button" id="addBtn" class="btn btn-dark ">
-                                        <i class="fa-solid fa-rotate" id="rota_im"></i>    
+                                        <i class="fa-solid fa-rotate" id="rota_im"></i>
                                     </button>
 
                                 </div>
-                               
+
                             </div>
                             <!-- REFRESH BUTTON -->
                             <div class="col-6 " style="padding-left:0px;">
@@ -338,15 +353,15 @@
                                     <i class="fa-solid fa-rotate"></i>
                                     
                                 </button> -->
-                              
+
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
 
                     <?php if (isset($_GET['error'])) {             ?>
-                            <p class="error"> <?php echo $_GET['error']; ?> </p>
+                    <p class="error"> <?php echo $_GET['error']; ?> </p>
 
                     <?php }?>
                     <!-- <?php 
@@ -355,20 +370,23 @@
                             <p class="error"> <?php echo $_GET['error']; ?> </p>
 
                     <?php }?> -->
-                <!-- <form action="#" method="POST" > -->
+                    <!-- <form action="#" method="POST" > -->
                     <!-- TERMS AND RESERVE DIV -->
                     <div class="container pt-3 font-size-16 font-baloo">
                         <div class="row">
-                            <p><input type="checkbox"  id="terms"  autocomplete="off" onchange="activateButton(this)"> I accept the <a class = "text-warning" data-bs-toggle="modal" data-bs-target="#TermsModal" style="cursor: pointer">Terms and Conditions</a></p>
-                           
+                            <p><input type="checkbox" id="terms" autocomplete="off" onchange="activateButton(this)"> I
+                                accept the <a class="text-warning" data-bs-toggle="modal" data-bs-target="#TermsModal"
+                                    style="cursor: pointer">Terms and Conditions</a></p>
+
                             <!-- RESERVE BUTTON -->
                             <div class="col-6">
                                 <!-- <button type="button" name="conf_button" class="btn btn-danger " data-toggle="modal" data-target="#confirm_modal">Reserve</button> -->
-                                <button type="button" name="conf_button" id="reservebutton" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm_modal" >Reserve</button>
+                                <button type="button" name="conf_button" id="reservebutton" class="btn btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#confirm_modal">Reserve</button>
                             </div>
-                            
-                
-                <!-- <button  type="button" name="conf_button" id="reservebutton" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm_modal" >Reserve</button> -->
+
+
+                            <!-- <button  type="button" name="conf_button" id="reservebutton" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm_modal" >Reserve</button> -->
                             <!-- For Wishlist -->
                             <!-- <div class="col-6">
                                 <form method="post">
@@ -385,32 +403,35 @@
                         </div> -->
                         </div>
                     </div>
-                
-                <div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                        
+
+                    <div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <h5>Confirm Reservation</h5>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" name="confirmreserve" id="confirmreserve" class="btn btn-danger" >Reserve</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="confirmreserve" id="confirmreserve"
+                                        class="btn btn-danger">Reserve</button>
                                 </div>
                             </div>
-                        
-                    </div>
-                </div>
 
-                <!-- Disable Submit Button -->
-                                  
+                        </div>
+                    </div>
+
+                    <!-- Disable Submit Button -->
+
                 </form>
                 <!-- !size -->
 
@@ -427,49 +448,59 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Shop Details</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container ">
-                    
-                    
-                    <table class="my-3 d-flex align-items-center justify-content-center">
-                        <tr class="font-rale font-size-16">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Shop Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container ">
+
+
+                        <table class="my-3 d-flex align-items-center justify-content-center">
+                            <tr class="font-rale font-size-16">
                                 <td>Shop Name: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['shopname'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['shopname'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Email: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['email'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['email'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Contact Number: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['contact_num'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['contact_num'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Address:</td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span></td>
+                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span>
+                                </td>
                             </tr>
-                            
-                    </table>
-                    
-                    
-                </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                
-            </div>
-            </div>
-        </div>
-        </div>
 
-        <div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+                        </table>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Condition</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -477,104 +508,95 @@
                 <div class="modal-body">
                     <div class="container ">
                         <div class="multiline" style="white-space:pre-wrap;">
-1. Reservation of vehicle is not confirmed until shop authorizes the reservation.
+                            1. Reservation of vehicle is not confirmed until shop authorizes the reservation.
 
-2. Vehicle must be picked up at the shop if the reservation is without a driver.
+                            2. Vehicle must be picked up at the shop if the reservation is without a driver.
 
-3. Choosing without a driver will require Driver's License for confirmation.
+                            3. Choosing without a driver will require Driver's License for confirmation.
 
-4. Vehicle must not be returned after business hours.
+                            4. Vehicle must not be returned after business hours.
 
-5. Upon reservation, we will require a deposit of P2,500.00. This will be given back to the customer upon returning the car and found with no damages or deductions from other fees.
+                            5. Upon reservation, we will require a deposit of P2,500.00. This will be given back to the
+                            customer upon returning the car and found with no damages or deductions from other fees.
 
-6. Vehicles not canceled before 24-hours will be charged (P100) per day per vehicle/s.
-
+                            6. Vehicles not canceled before 24-hours will be charged (P100) per day per vehicle/s.
 
                         </div>
-                        
-                        
-                       
-                        
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    
-                </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
-        
-            // $(document).ready(function(){
-            //     $("#dateTo,#dateFrom").keyup(function()){
-            //         $price = $_SESSION["item_p"] ?? 0;
-            //         $datedDiff =  $dateFro - $dateT;
-            //         $days = floor($datedDiff/(60*60*24));
-            //         $_SESSION["days_rent"] = $days;
-            //         $total = ($price * $days)*-1;
-                    
-            //         var tot_price = ($price * $days)*-1;
-            //         $("#overall").val(total);
-            //         var divobj= document.getElementByID('overall');
-            //         divobj.value=tot_price;
-            //     }
-            // });
-            
-            // $(document).ready(function(){
-            //     $('#terms').click(function(event) {
-            //     if(this.checked) {
-            //         $('.invoiceOption').each(function() {
-            //             this.checked = true;
-            //         });
-            //     } else {
-            //         $('.invoiceOption').each(function() {
-            //             this.checked = false;
-            //         });
-            //     }
-            // })
-            // });
-            $(document).ready(function(){
-                // alert("hi");
-                $('.conf_button').click(function(e){
-                    $('#confirm_modal').modal('show');
-                });
-                // // var data1="<?php echo $_SESSION["item_n"];?>";
-                // var data1=document.getElementById("item_n");
-                // // document.getElementById("price");
-                // var price= document.getElementById("price");
-            
-                // // var date1 = document.getElementById("driver_stat");
-                // // var date2 = document.getElementById("dateTo");
-                // // var datee1 = "<?php echo $_SESSION["dateFrom"];?>";
-                // // var datee2 = "<?php echo $_SESSION["dateTo"];?>";
-                // // var dates = new Date(document.getElementById("dateFrom"));
-                // // var getda = dates.getDate();
-                // var datee1 = document.getElementById("dateFrom");
-                // var date2 = document.getElementById("dateTo");
-                // $('#addBtn').click(function(){
-                //     $.ajax({
-                //         type:'POST',
-                //         url:'total.php',
-                //         data:{
-                //             num1:$(datee1).val(),
-                //             num2:$(date2).val(),
-                //             // prod_id:$(data1).val(),
-                //             price:$(price).val(),
-                //         },
-                //         success:function(data){
-                //             $('#total_num').html(data);
-                //         }
-                //     })
-                // });
-            });
-            
+    // $(document).ready(function(){
+    //     $("#dateTo,#dateFrom").keyup(function()){
+    //         $price = $_SESSION["item_p"] ?? 0;
+    //         $datedDiff =  $dateFro - $dateT;
+    //         $days = floor($datedDiff/(60*60*24));
+    //         $_SESSION["days_rent"] = $days;
+    //         $total = ($price * $days)*-1;
 
-                       
+    //         var tot_price = ($price * $days)*-1;
+    //         $("#overall").val(total);
+    //         var divobj= document.getElementByID('overall');
+    //         divobj.value=tot_price;
+    //     }
+    // });
+
+    // $(document).ready(function(){
+    //     $('#terms').click(function(event) {
+    //     if(this.checked) {
+    //         $('.invoiceOption').each(function() {
+    //             this.checked = true;
+    //         });
+    //     } else {
+    //         $('.invoiceOption').each(function() {
+    //             this.checked = false;
+    //         });
+    //     }
+    // })
+    // });
+    $(document).ready(function() {
+        // alert("hi");
+        $('.conf_button').click(function(e) {
+            $('#confirm_modal').modal('show');
+        });
+        // // var data1="<?php echo $_SESSION["item_n"];?>";
+        // var data1=document.getElementById("item_n");
+        // // document.getElementById("price");
+        // var price= document.getElementById("price");
+
+        // // var date1 = document.getElementById("driver_stat");
+        // // var date2 = document.getElementById("dateTo");
+        // // var datee1 = "<?php echo $_SESSION["dateFrom"];?>";
+        // // var datee2 = "<?php echo $_SESSION["dateTo"];?>";
+        // // var dates = new Date(document.getElementById("dateFrom"));
+        // // var getda = dates.getDate();
+        // var datee1 = document.getElementById("dateFrom");
+        // var date2 = document.getElementById("dateTo");
+        // $('#addBtn').click(function(){
+        //     $.ajax({
+        //         type:'POST',
+        //         url:'total.php',
+        //         data:{
+        //             num1:$(datee1).val(),
+        //             num2:$(date2).val(),
+        //             // prod_id:$(data1).val(),
+        //             price:$(price).val(),
+        //         },
+        //         success:function(data){
+        //             $('#total_num').html(data);
+        //         }
+        //     })
+        // });
+    });
     </script>
     <script src="index.js"></script>
 

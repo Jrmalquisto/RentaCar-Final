@@ -451,7 +451,18 @@ if(isset($_POST['update_res'])){
 
 			<div class="form-group">
 				<label>Driver</label>
-				<input type="text" class="form-control" autocomplete="off" name="driver1" id="driver1" <?php echo $driver; ?>">
+				<br>
+				<select style="width:100%;" name="driver1" id="driver1">
+					<option value="">Select Driver</option>		
+					<?php
+					include ('../connection.php');
+
+					$categories= mysqli_query($con, "SELECT * FROM drivers WHERE seller_id=$com_id");
+					while($categoriesres = mysqli_fetch_array($categories)){
+					?>
+						<option value="<?php echo $categoriesres['driver_id']?>"><?php echo $categoriesres['driver_name']?> </option>
+						<?php } ?>
+				</select>
 			</div>
 
 			<div class="form-group">

@@ -29,7 +29,6 @@
             $date = date('M d Y', $date);
 
             $_SESSION['shopname'] = $shop;
-            $_SESSION['email'] = $email;
             $_SESSION['com_id'] = $com_id;
             if($verified == 1){
                 

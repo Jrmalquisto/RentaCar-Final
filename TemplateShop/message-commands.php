@@ -5,7 +5,7 @@ include('../connection.php');
 $com_id=$_SESSION["com_id"];
 
 if (isset($_POST['send'])) {
-    $seller_id = $_GET['seller_id'];
+    $convo_id = $_GET['convo_id'];
     $body = $_POST['message'];
     $attachment = $_FILES['attachment'];
   
@@ -13,13 +13,13 @@ if (isset($_POST['send'])) {
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/mpeg', 'video/quicktime'];
     $attachmentType = $attachment['type'];
   
-    // $convo_query = "SELECT * FROM convo 
-    //                               JOIN seller ON seller.seller_id = convo.recipient
-    //                               WHERE convo_id='$convo_id'";
-    // $convo_query = mysqli_query($con, $convo_query);
-    // $convo = mysqli_fetch_assoc($convo_query);
+    $convo_query = "SELECT * FROM convo 
+                                  JOIN seller ON seller.seller_id = convo.recipient
+                                  WHERE convo_id='$convo_id'";
+    $convo_query = mysqli_query($con, $convo_query);
+    $convo = mysqli_fetch_assoc($convo_query);
   
-    // $recipient = $convo['recipient'] == $com_id ? $convo['user_id'] : $convo['recipient'];
+    $recipient = $convo['recipient'] == $com_id ? $convo['user_id'] : $convo['recipient'];
   
     if (!empty($attachment['tmp_name'])) {
       if (!in_array($attachmentType, $allowedTypes)) {
@@ -33,7 +33,7 @@ if (isset($_POST['send'])) {
   
           // Move the uploaded attachment to the desired location
           move_uploaded_file($attachmentTmpName, $attachmentPath);
-          $addMessage = "INSERT INTO messages ( message, from_id, to_id, attachment) VALUES ('$body', '$com_id', '$seller_id', '$attachmentPath')";
+          $addMessage = "INSERT INTO messages (convo_id, message, from_id, to_id, attachment) VALUES ('$convo_id', '$body', '$com_id', '$recipient', '$attachmentPath')";
           $message[] = 'Message successfully sent!';
           mysqli_query($con, $addMessage);
         } else {
@@ -41,7 +41,7 @@ if (isset($_POST['send'])) {
         }
       }
     } else {
-      $addMessage = "INSERT INTO messages (message, from_id, to_id) VALUES ('$body', '$com_id', '$seller_id')";
+      $addMessage = "INSERT INTO messages (convo_id, message, from_id, to_id) VALUES ('$convo_id', '$body', '$com_id', '$recipient')";
       $message[] = 'Message successfully sent!';
       mysqli_query($con, $addMessage);
     }
