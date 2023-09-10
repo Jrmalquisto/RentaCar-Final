@@ -4,31 +4,33 @@ $(document).ready(function(){
 // alert("hi");
 
 // products.php(Reload Price)
-    $('#addBtn').click(function(){
+    // $('#addBtn').click(function(){
    
-        var price= document.getElementById("price");
-        var datee1 = document.getElementById("dateFrom");
-        var date2 = document.getElementById("dateTo");
+    //     var price= document.getElementById("price");
+    //     var datee1 = document.getElementById("dateFrom");
+    //     var date2 = document.getElementById("dateTo");
     
-        $.ajax({
-            type:'POST',
-            url:'total.php',
-            data:{
-                num1:$(datee1).val(),
-                num2:$(date2).val(),
-                price:$(price).val(),
-            },
-            beforeSend:function(){
-                $("#loading").show();
-                $("#addBtn").hide();
-            },
-            success:function(data){
-                $('#total_num').html(data);
-                $("#loading").hide();
-                $("#addBtn").show(); 
-            }
-        })
-    });
+    //     $.ajax({
+    //         type:'POST',
+    //         url:'total.php',
+    //         data:{
+    //             num1:$(datee1).val(),
+    //             num2:$(date2).val(),
+    //             price:$(price).val(),
+    //         },
+    //         beforeSend:function(){
+    //             $("#loading").show();
+    //             $("#addBtn").hide();
+    //         },
+    //         success:function(data){
+    //             $('#total_num').html(data);
+    //             $("#loading").hide();
+    //             $("#addBtn").show(); 
+    //         }
+    //     })
+    // });
+    
+    
     window.addEventListener('scroll', function(){
         var scrollPosition = window.pageYOffset;
         // var bgParallax = document.getElementById('backg')[0];

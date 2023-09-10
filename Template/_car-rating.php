@@ -31,6 +31,26 @@ $item_name = $res['item_name'];
 $item_image = $res['item_image'];   
 }
 
+$get_rating = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1'");
+$rating = mysqli_num_rows($get_rating);
+
+$rate5 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1' AND user_rating = 5");
+$r5 = mysqli_num_rows($rate5);
+
+$rate4 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1' AND user_rating = 4");
+$r4 = mysqli_num_rows($rate4);
+
+$rate3 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1' AND user_rating = 3");
+$r3 = mysqli_num_rows($rate3);
+
+$rate2 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1' AND user_rating = 2");
+$r2 = mysqli_num_rows($rate2);
+
+$rate1 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$value1' AND user_rating = 1");
+$r1 = mysqli_num_rows($rate1);
+
+$ave= $r5 + $r4 + $r3 + $r2 + $r1 / 5; 
+
 ?>
 
 <!DOCTYPE HTML>
@@ -75,7 +95,7 @@ $item_image = $res['item_image'];
 
                     <div class="col-sm-3 text-center">
                         <h1 class="text-warning mt-4 mb-4">
-                            <b><span id="average_rating">0.0</span> / 5</b>
+                            <b><span id="average_rating"><?php echo round($ave);?></span> / 5</b>
                         </h1>
                         <div class="mb-3">
                             <i class="fas fa-star star-light mr-1 main_star"></i>
@@ -84,51 +104,51 @@ $item_image = $res['item_image'];
                             <i class="fas fa-star star-light mr-1 main_star"></i>
                             <i class="fas fa-star star-light mr-1 main_star"></i>
                         </div>
-                        <h3><span id="total_review">0</span> Review</h3>
+                        <h3><span id="total_review"><?php echo $rating;?></span> Review</h3>
                     </div>
                     <div class="col-sm-3">
                         <p>
                         <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
 
-                        <div class="progress-label-right">(<span id="total_five_star_review">0</span>)</div>
+                        <div class="progress-label-right">(<span id="total_five_star_review"> <?php echo $r5;?></span>)</div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r5;?>%" aria-valuenow="0" aria-valuemin="0"
                                 aria-valuemax="100" id="five_star_progress"></div>
                         </div>
                         </p>
                         <p>
                         <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
 
-                        <div class="progress-label-right">(<span id="total_four_star_review">0</span>)</div>
+                        <div class="progress-label-right">(<span id="total_four_star_review"><?php echo $r4;?></span>)</div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r4;?>%" aria-valuenow="0" aria-valuemin="0"
                                 aria-valuemax="100" id="four_star_progress"></div>
                         </div>
                         </p>
                         <p>
                         <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
 
-                        <div class="progress-label-right">(<span id="total_three_star_review">0</span>)</div>
+                        <div class="progress-label-right">(<span id="total_three_star_review"><?php echo $r3;?></span>)</div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r3;?>%" aria-valuenow="0" aria-valuemin="0"
                                 aria-valuemax="100" id="three_star_progress"></div>
                         </div>
                         </p>
                         <p>
                         <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
 
-                        <div class="progress-label-right">(<span id="total_two_star_review">0</span>)</div>
+                        <div class="progress-label-right">(<span id="total_two_star_review"><?php echo $r2;?></span>)</div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r2;?>%" aria-valuenow="0" aria-valuemin="0"
                                 aria-valuemax="100" id="two_star_progress"></div>
                         </div>
                         </p>
                         <p>
                         <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
 
-                        <div class="progress-label-right">(<span id="total_one_star_review">0</span>)</div>
+                        <div class="progress-label-right">(<span id="total_one_star_review"><?php echo $r1;?></span>)</div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r1;?>%" aria-valuenow="0" aria-valuemin="0"
                                 aria-valuemax="100" id="one_star_progress"></div>
                         </div>
                         </p>
@@ -306,7 +326,7 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     $('#review_modal').modal('hide');
-
+                    location.reload();
                     load_rating_data();
 
                     alert(data);

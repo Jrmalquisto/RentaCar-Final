@@ -5,64 +5,64 @@
     $dated = date("Y-m-d");
     $con = mysqli_connect("localhost","root","","rentacar");
     
-        if(!isset($_SESSION["dateFrom"],$_SESSION["dateTo"])){
+        // if(!isset($_SESSION["dateFrom"],$_SESSION["dateTo"])){
             
-            if(isset($_POST['submit'])){
+        //     if(isset($_POST['submit'])){
                 
-                    $dF = date('Y m d', strtotime($_POST['dateFrom']));
-                    $dF = strtolower($dF);
-                    $dF = str_replace(" ", "-", $dF);
+        //             $dF = date('Y m d', strtotime($_POST['dateFrom']));
+        //             $dF = strtolower($dF);
+        //             $dF = str_replace(" ", "-", $dF);
                 
-                    $dT = date('Y m d', strtotime($_POST['dateTo']));
-                    $dT = strtolower($dT);
-                    $dT = str_replace(" ", "-", $dT);
+        //             $dT = date('Y m d', strtotime($_POST['dateTo']));
+        //             $dT = strtolower($dT);
+        //             $dT = str_replace(" ", "-", $dT);
                 
-                    $_SESSION["dateFrom"]=$dF;
-                    $_SESSION["dateTo"]=$dT;
+        //             $_SESSION["dateFrom"]=$dF;
+        //             $_SESSION["dateTo"]=$dT;
             
-                    $dateFrom = strtotime($dF);
-                    $dateTo= strtotime($dT);
-                    $datedDiff =  $dateTo - $dateFrom ;
+        //             $dateFrom = strtotime($dF);
+        //             $dateTo= strtotime($dT);
+        //             $datedDiff =  $dateTo - $dateFrom ;
                     
-                    $days = floor($datedDiff/(60*60*24));
+        //             $days = floor($datedDiff/(60*60*24));
         
-                    $_SESSION["days_rent"] = $days;
-            }
+        //             $_SESSION["days_rent"] = $days;
+        //     }
             
             
-        } else {
-            $dF = $_SESSION["dateFrom"];
-            $dT = $_SESSION["dateTo"];
+        // } else {
+        //     $dF = $_SESSION["dateFrom"];
+        //     $dT = $_SESSION["dateTo"];
 
            
-            $dateFrom = strtotime($dF);
-            $dateTo= strtotime($dT);
-            $datedDiff =  $dateTo - $dateFrom ;
+        //     $dateFrom = strtotime($dF);
+        //     $dateTo= strtotime($dT);
+        //     $datedDiff =  $dateTo - $dateFrom ;
             
-            $days = floor($datedDiff/(60*60*24));
+        //     $days = floor($datedDiff/(60*60*24));
 
-            $_SESSION["days_rent"] = $days;
+        //     $_SESSION["days_rent"] = $days;
             
-        }
+        // }
         
-        //CANCEL RESERVATION
-        if(isset($_POST['removeRes'])){
-            $product = $_POST['removeRes'];
+        // //CANCEL RESERVATION
+        // if(isset($_POST['removeRes'])){
+        //     $product = $_POST['removeRes'];
         
-            $query = "DELETE FROM reservation WHERE item_id='$product' ";
-            $query = mysqli_query($con, $query);
+        //     $query = "DELETE FROM reservation WHERE item_id='$product' ";
+        //     $query = mysqli_query($con, $query);
 
-            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $product";
-            $query_run1 = mysqli_query($con, $queryupdate);
+        //     $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $product";
+        //     $query_run1 = mysqli_query($con, $queryupdate);
 
         
-            if($query_run){
-                header("location: userreservation.php");
-            }
-            else {
-                header("location: userreservation.php");
-            }
-        }
+        //     if($query_run){
+        //         header("location: userreservation.php");
+        //     }
+        //     else {
+        //         header("location: userreservation.php");
+        //     }
+        // }
 
         //PROCEED RESERVATION
         if(isset($_POST['pay'])){
@@ -112,7 +112,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="font-size-25 mt-5 fw-bold">Your Reservations</h1>
+                <h1 class="font-size-25 mt-5 fw-bold">Completed Transactions</h1>
             </div>
             <div class="col-1">
                 <a class="btn btn-danger font-size-20 px-4 mt-5" href="profile.php">Back</a>
@@ -123,7 +123,7 @@
 
 
     <?php
-            $countedReserve = $product->getReserveCount();
+            $countedReserve = $product->getCompleteCount();
             foreach ($countedReserve as $value):
                 
                 foreach ($product->getOnProduct($value['item_id']) as $item):
@@ -151,6 +151,15 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <?php echo $shop['shopname']  ?? "Brand"; ?>
                 </button>
+                <?php 
+                            if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
+                            echo '<button type="button" class="btn userinfo btn-secondary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Driver details
+                                </button>';
+
+                                
+                            } 
+                        ?>
 
                 <!-- <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $value['item_id'];?> &seller_id=<?php echo $item['seller_id'];?>">
                     <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
@@ -163,6 +172,7 @@
 
                 <hr class="m-0 my-2">
                 <p class="font-baloo font-size-20">Brand: <?php echo $item['item_brand'] ?? "Brand"; ?></p>
+                
                 <!-- Product price-->
                 <table class="my-3">
                     <tr class="font-rale font-size-16">
@@ -249,9 +259,9 @@
                         <p class="text-muted"> Note: You can only cancel a reservation within 24 hours. Further
                             cancellation above timeframe will ensue a cancellation fee per vehicle/s. </p>
 
-                        <p class="fw-bold fs-5" style="display: inline;"> Status:</p>
+                        <!-- <p class="fw-bold fs-5" style="display: inline;"> Status:</p>
                         <p class="status fw-bold text-success text-decoration-underline fs-5" style="display: inline;"
-                            name="status"> <?php echo $value['status'] ?? 0; ?></p>
+                            name="status"> <?php echo $value['status'] ?? 0; ?></p> -->
                     </div>
                     <hr>
 
@@ -261,21 +271,13 @@
                         <h5 class=" text-danger fw-bold inline"> ₱ <?php echo $value['overall_price'] ?? 0; ?>.00</h5>
 
 
-                        <form action="#" method="POST" class="d-inline">
+                        <!-- <form action="#" method="POST" class="d-inline">
                             <button type="submit" name="pay" class="pay btn btn-danger btn-sm mb-2"
                                 value="<?=$value['item_id'];?>">Pay</button>
                             <button type="submit" name="removeRes" class="btn btn-danger btn-sm mb-2"
                                 onclick='return checkReserve()' value="<?=$value['item_id'];?>">Cancel</button>
-                        </form>
-                        <?php 
-                            if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
-                            echo '<button type="button" class="btn userinfo btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Driver details
-                                </button>';
-
-                                
-                            } 
-                        ?>
+                        </form> -->
+                        
                     </div>
                     <!-- <?php echo $value['driver_id'];?> -->
 

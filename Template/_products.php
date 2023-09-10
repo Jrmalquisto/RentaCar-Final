@@ -4,7 +4,50 @@
     $userid = $_SESSION["user_id"];
     $dated = date("Y-m-d H:m");
     $con = mysqli_connect("localhost","root","","rentacar");
-   
+
+    $findresult1 = mysqli_query($con, "SELECT * FROM user WHERE user_id= '$userid'");
+
+    if($res = mysqli_fetch_array($findresult1)){
+        $id1 = $res['user_id'];
+        $fullname = $res['fullname'];
+        $email = $res['email'];
+    }
+    
+    $findresult2 = mysqli_query($con, "SELECT * FROM product WHERE item_id= '$item_id'");
+    
+    if($res = mysqli_fetch_array($findresult2)){
+        $id2 = $res['item_id'];
+        $seller_id = $res['seller_id'];
+        $item_name = $res['item_name'];
+        $item_image = $res['item_image'];   
+    }
+    
+    $get_rating = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id'");
+    $rating = mysqli_num_rows($get_rating);
+    
+    $rate5 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 5");
+    $r5 = mysqli_num_rows($rate5);
+    
+    $rate4 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 4");
+    $r4 = mysqli_num_rows($rate4);
+    
+    $rate3 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 3");
+    $r3 = mysqli_num_rows($rate3);
+    
+    $rate2 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 2");
+    $r2 = mysqli_num_rows($rate2);
+    
+    $rate1 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 1");
+    $r1 = mysqli_num_rows($rate1);
+    
+    if($rating!=0){
+        $total=( $r5 + $r4 + $r3 + $r2 + $r1);
+        $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total)); 
+    } else{
+        $ave = 0;
+    }
+    
+    
     if(!isset($_SESSION["dateFrom"],$_SESSION["dateTo"])){
         $date = date("Y-m-d H:m");
         $date= strtotime($date);
@@ -150,7 +193,7 @@
                         $seller = $value["seller_id"];
                         $event = $_POST['dateFrom'];
                         $events = $_POST["dateTo"];
-                        $overall = $_SESSION["total_amount"];
+                        $overall = $_POST["overall"];
                         $driver_stat = $_POST["driver_stat"];
                         // $event = $_SESSION["dateFrom"];
                         // $events = $_SESSION["dateTo"];
@@ -241,7 +284,9 @@
                 </button>
 
                 <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $item_id;?>">
-                    <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
+                    <!-- <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button> -->
+                    <!-- <button type="button" name="add_review" id="add_reviews" class="btn btn-danger" style="float:right;">Rate</button> -->
+
                 </a>
                 <!-- <?php echo $item_id?> -->
                 
@@ -333,17 +378,17 @@
                                 <h5 class="font-baloo font-size-25">Total:</h5>
                                 <h5 class="font-baloo font-size-25" style="display: inline;">₱</h5>
                                 <h5 class="font-baloo font-size-25" name="total_num" id="total_num"
-                                    style="display: inline;"><?php echo $total?? "Unknown"; ?></h5>
-                                <input type="hidden" name="overall" id="overall"
-                                    value="<?php echo $total ?? "Unknown";?> .00">
-                                <h5 class="font-baloo font-size-25" style="display: inline;">.00</h5>
+                                    style="display: inline;"><?php echo $total?? 0; ?>.00</h5>
+                                
+                                <input type="hidden" name="overall" id="overall" value="0" />
+                                <!-- <h5 class="font-baloo font-size-25" style="display: inline;">.00</h5> -->
                                 <img src="images/loader.gif" id="loading" style="display: none;">
-                                <div class="container ps-2 " style="display: inline;">
+                                <!-- <div class="container ps-2 " style="display: inline;">
                                     <button type="button" id="addBtn" class="btn btn-dark ">
                                         <i class="fa-solid fa-rotate" id="rota_im"></i>
                                     </button>
 
-                                </div>
+                                </div> -->
 
                             </div>
                             <!-- REFRESH BUTTON -->
@@ -442,9 +487,149 @@
                 <!--<p class="font-rale font-size-16">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat inventore vero numquam error est ipsa, consequuntur temporibus debitis nobis sit, delectus officia ducimus dolorum sed corrupti. Sapiente optio sunt provident, accusantium eligendi eius reiciendis animi? Laboriosam, optio qui? Numquam, quo fuga. Maiores minus, accusantium velit numquam a aliquam vitae vel?</p>
                 <p class="font-rale font-size-16">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat inventore vero numquam error est ipsa, consequuntur temporibus debitis nobis sit, delectus officia ducimus dolorum sed corrupti. Sapiente optio sunt provident, accusantium eligendi eius reiciendis animi? Laboriosam, optio qui? Numquam, quo fuga. Maiores minus, accusantium velit numquam a aliquam vitae vel?</p>-->
             </div>
+            <div class="card">
+            <!-- <div class="card-header">Sample Product</div> -->
+            <div class="card-body">
+                <div class="row">
+
+                    <!-- <div class="col-sm-3 mt-2 d-flex align-items-center justify-content-center">
+                        <figure style="margin:auto;">
+                            <img style="width:150px; height:auto; margin-bottom:10px;" src="../images/cars/<?php echo $item_image; ?>"
+                                alt="product" class="img-fluid">
+                                
+                            <figcaption><p style="text-align:center;font-size:25px;font-weight:bold;"><?php echo $item_name;?><p></figcaption>
+                        </figure>
+                    </div> -->
+
+                    <div class="col-sm-4 text-center">
+                        <h1 class="text-warning mt-4 mb-4">
+                            <b id="average_rate"><?php echo $ave;?></b> <b> / 5</b>
+                        </h1>
+                        <div class="mb-3">
+                                <input type = "hidden"name="average_rates" id="average_rates" class="form-control"
+                                value="<?php echo $ave;?>">
+                            <i class="fas fa-star star-light mr-1 main_star" id = "main_star_1"></i>
+                            <i class="fas fa-star star-light mr-1 main_star" id = "main_star_2"></i>
+                            <i class="fas fa-star star-light mr-1 main_star" id = "main_star_3"></i>
+                            <i class="fas fa-star star-light mr-1 main_star" id = "main_star_4"></i>
+                            <i class="fas fa-star star-light mr-1 main_star" id = "main_star_5"></i>
+                        </div>
+                        <h3><span id="total_review"></h3><h3><?php echo $rating;?></span> Review</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>
+                        <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right">(<span id="total_five_star_review"><?php echo $r5;?></span>)</div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r5;?>%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100" id="five_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right">(<span id="total_four_star_review"><?php echo $r4;?></span>)</div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r4;?>%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100" id="four_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right">(<span id="total_three_star_review"><?php echo $r3;?></span>)</div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r3;?>%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100" id="three_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right">(<span id="total_two_star_review"><?php echo $r2;?></span>)</div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r2;?>%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100" id="two_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right">(<span id="total_one_star_review"><?php echo $r1;?></span>)</div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style = "width:<?php echo $r1;?>%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100" id="one_star_progress"></div>
+                        </div>
+                        </p>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <h3 class="mt-4 mb-3">Write Review Here</h3>
+                        <button type="button" name="add_review" id="add_review" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review_modal">Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
+<div id="review_modal" class="modal fade" tabindex="-1" role="dialog">      
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-titles">Submit Review</h5>
+                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+            </div>
+            <form action="#" method="POST" class="row g-3 ">
+                <div class="modal-body">
+                    <h4 class="text-center mt-2 mb-4">
+                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
+                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
+                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
+                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
+                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
+                    </h4>
+
+                    <div class="form-group">a
+                        <input name="user_id" id="user_id" class="form-control" value="<?php echo $userid; ?>"
+                            readonly>
+                    </div>
+
+                    <div class="form-group">b
+                        <input  name="item_id" id="item_id" class="form-control" value="<?php echo $item_id; ?>"
+                            readonly>
+                    </div>
+
+                    <div class="form-group">c
+                        <input  name="seller_id" id="seller_id" class="form-control"
+                            value="<?php echo $seller_id; ?>" readonly>
+                    </div>
+
+                    <div class="form-group">d
+                        <input type="text" name="user_name" id="user_name" class="form-control"
+                            value="<?php echo $fullname; ?>" readonly>
+                    </div>
+
+                    <div class="form-group">e
+                        <input type="text" name="car_name" id="car_name" class="form-control"
+                            value="<?php echo $item_name; ?>" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea name="user_review" id="user_review" class="form-control"
+                            placeholder="Type Review Here"></textarea>
+                    </div>
+
+                    <div class="form-group text-center mt-4">
+                        <button type="button" class="btn btn-primary" id="save_review">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>                             
+                                    
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -531,7 +716,23 @@
             </div>
         </div>
     </div>
+    <style>
+    .progress-label-left {
+        float: left;
+        margin-right: 0.5em;
+        line-height: 1em;
+    }
 
+    .progress-label-right {
+        float: right;
+        margin-left: 0.3em;
+        line-height: 1em;
+    }
+
+    .star-light {
+        color: #e9ecef;
+    }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
@@ -564,38 +765,265 @@
     // })
     // });
     $(document).ready(function() {
+
         // alert("hi");
+        
+
+        var average_rate = parseInt(document.getElementById("average_rates").value)  ;
+        var average = Number(average_rate);
+        document.getElementById("average_rate").innerHTML = average_rate;
+        average_rating();
+        function average_rating() {
+            for (var count = 1; count <= average_rate; count++) {
+
+                $('#main_star_' + count).addClass('text-warning');
+                $('#main_star_' + count).removeClass('star-light');
+            }
+        }
+       
+        document.getElementById("dateFrom").addEventListener("change", calculatePrice);
+        document.getElementById("dateTo").addEventListener("change", calculatePrice);
+
+        function calculatePrice() {
+            const pickupDate = new Date(document.getElementById("dateFrom").value);
+            const returnDate = new Date(document.getElementById("dateTo").value);
+            
+            if (pickupDate < returnDate) {
+                const price = calculatePriceBasedOnDates(pickupDate, returnDate);
+                document.getElementById("total_num").innerHTML = `${price.toFixed(2)}`;
+                document.getElementById("overall").value = `${price.toFixed(2)}`;
+            } else {
+                alert("Return date must be after pick-up date.");
+            }
+        }
+
+        function calculatePriceBasedOnDates(pickupDate, returnDate) {
+            // Calculate price based on your business logic here
+            // For example, you can calculate the price based on the number of days
+            // or hours between pickupDate and returnDate.
+            var price = parseInt(document.getElementById("price").value);
+            const timeDiff = returnDate - pickupDate; // Difference in milliseconds
+            const hoursDiff = timeDiff / (1000 * 60 * 60); // Difference in hours
+            const pricePerHour = price / 24; // Change this to your pricing per hour
+            return hoursDiff * pricePerHour;
+        }
+
         $('.conf_button').click(function(e) {
             $('#confirm_modal').modal('show');
         });
-        // // var data1="<?php echo $_SESSION["item_n"];?>";
-        // var data1=document.getElementById("item_n");
-        // // document.getElementById("price");
-        // var price= document.getElementById("price");
+        
+        $('#add_review').click(function() {
+            $('#review_modal').modal('show');
+        });
+        
+        $('#save_review').click(function() {
 
-        // // var date1 = document.getElementById("driver_stat");
-        // // var date2 = document.getElementById("dateTo");
-        // // var datee1 = "<?php echo $_SESSION["dateFrom"];?>";
-        // // var datee2 = "<?php echo $_SESSION["dateTo"];?>";
-        // // var dates = new Date(document.getElementById("dateFrom"));
-        // // var getda = dates.getDate();
-        // var datee1 = document.getElementById("dateFrom");
-        // var date2 = document.getElementById("dateTo");
-        // $('#addBtn').click(function(){
+            var user_id1= document.getElementById("user_id");
+            var item_id1= document.getElementById("item_id");
+            var seller_id1= document.getElementById("seller_id");
+            var car_name1= document.getElementById("car_name");
+            var user_name1= document.getElementById("user_name");
+            var user_review1= document.getElementById("user_review");
+
+            // var user_id1 = $('#user_id').val();
+
+            // var item_id1 = $('#item_id').val();
+
+            // var seller_id1 = $('#seller_id').val();
+
+            // var car_name1 = $('#car_name').val();
+
+            // var user_name1 = $('#user_name').val();
+
+            // var user_review1 = $('#user_review').val();
+
+            if (user_review == '') {
+                alert("Please Write Your Review");
+                myGeeks();
+                return false;
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '../Template/submit_rating.php',
+                    data: {
+                        rating_data: rating_data,
+                        user_id:$(user_id1).val(),
+                        item_id:$(item_id1).val(),
+                        seller_id:$(seller_id1).val(),
+                        car_name:$(car_name1).val(),
+                        user_name:$(user_name1).val(),
+                        user_review:$(user_review1).val(),
+                        
+                        
+                        // item_id: item_id,
+                        // seller_id: seller_id,
+                        // car_name: car_name,
+                        // user_name: user_name,
+                        // user_review: user_review,
+                    },
+                    success: function(data) {
+                        $('#review_modal').modal('hide');
+
+                        location.reload();
+                        load_rating_data();
+
+                        alert(data);
+                    }
+                })
+            }
+
+            });
+
+        
+
+        $(document).on('mouseenter', '.submit_star', function() {
+
+            var rating = $(this).data('rating');
+
+            reset_background();
+
+            for (var count = 1; count <= rating; count++) {
+
+                $('#submit_star_' + count).addClass('text-warning');
+
+            }
+
+        });
+
+        
+           
+
+        function reset_background() {
+            for (var count = 1; count <= 5; count++) {
+
+                $('#submit_star_' + count).addClass('star-light');
+
+                $('#submit_star_' + count).removeClass('text-warning');
+
+            }
+        }
+
+        $(document).on('mouseleave', '.submit_star', function() {
+
+            reset_background();
+
+            for (var count = 1; count <= rating_data; count++) {
+
+                $('#submit_star_' + count).removeClass('star-light');
+
+                $('#submit_star_' + count).addClass('text-warning');
+            }
+            $( "modal-titles", this ).text( rating_data );
+        });
+
+        $(document).on('click', '.submit_star', function() {
+
+            rating_data = $(this).data('rating');
+
+        });
+
+        
+        // load_rating_data();
+
+        // function load_rating_data() {
         //     $.ajax({
-        //         type:'POST',
-        //         url:'total.php',
-        //         data:{
-        //             num1:$(datee1).val(),
-        //             num2:$(date2).val(),
-        //             // prod_id:$(data1).val(),
-        //             price:$(price).val(),
+        //         url: "../submit_rating.php",
+        //         method: "POST",
+        //         data: {
+        //             action: 'load_data'
         //         },
-        //         success:function(data){
-        //             $('#total_num').html(data);
+        //         dataType: "JSON",
+        //         success: function(data) {
+        //             $('#average_rating').text(data.average_rating);
+        //             $('#total_review').text(data.total_review);
+
+        //             var count_star = 0;
+
+        //             $('.main_star').each(function() {
+        //                 count_star++;
+        //                 if (Math.ceil(data.average_rating) >= count_star) {
+        //                     $(this).addClass('text-warning');
+        //                     $(this).addClass('star-light');
+        //                 }
+        //             });
+
+        //             $('#total_five_star_review').text(data.five_star_review);
+
+        //             $('#total_four_star_review').text(data.four_star_review);
+
+        //             $('#total_three_star_review').text(data.three_star_review);
+
+        //             $('#total_two_star_review').text(data.two_star_review);
+
+        //             $('#total_one_star_review').text(data.one_star_review);
+
+        //             $('#five_star_progress').css('width', (data.five_star_review / data.total_review) *
+        //                 100 + '%');
+
+        //             $('#four_star_progress').css('width', (data.four_star_review / data.total_review) *
+        //                 100 + '%');
+
+        //             $('#three_star_progress').css('width', (data.three_star_review / data
+        //                 .total_review) * 100 + '%');
+
+        //             $('#two_star_progress').css('width', (data.two_star_review / data.total_review) *
+        //                 100 + '%');
+
+        //             $('#one_star_progress').css('width', (data.one_star_review / data.total_review) *
+        //                 100 + '%');
+
+        //             if (data.review_data.length > 0) {
+        //                 var html = '';
+
+        //                 for (var count = 0; count < data.review_data.length; count++) {
+        //                     html += '<div class="row mb-3">';
+
+        //                     html +=
+        //                         '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2"><h3 class="text-center">' +
+        //                         data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
+
+        //                     html += '<div class="col-sm-11">';
+
+        //                     html += '<div class="card">';
+
+        //                     html += '<div class="card-header"><b>' + data.review_data[count].user_name +
+        //                         '</b></div>';
+
+        //                     html += '<div class="card-body">';
+
+        //                     for (var star = 1; star <= 5; star++) {
+        //                         var class_name = '';
+
+        //                         if (data.review_data[count].rating >= star) {
+        //                             class_name = 'text-warning';
+        //                         } else {
+        //                             class_name = 'star-light';
+        //                         }
+
+        //                         html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+        //                     }
+
+        //                     html += '<br />';
+
+        //                     html += data.review_data[count].user_review;
+
+        //                     html += '</div>';
+
+        //                     html += '<div class="card-footer text-right">On ' + data.review_data[count]
+        //                         .datetime + '</div>';
+
+        //                     html += '</div>';
+
+        //                     html += '</div>';
+
+        //                     html += '</div>';
+        //                 }
+
+        //                 $('#review_content').html(html);
+        //             }
         //         }
         //     })
-        // });
+        // }
     });
     </script>
     <script src="index.js"></script>
