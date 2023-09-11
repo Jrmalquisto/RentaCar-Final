@@ -29,7 +29,70 @@ $(document).ready(function(){
     //         }
     //     })
     // });
+    $('#send1').click(function(){
+        // $("#form12").on("submit",(function(e) {   
     
+            var messages = document.getElementById("mytext");
+            // var message = messages.value;        
+            var cust_email = document.getElementById("cust_email");
+            var seller_email = document.getElementById("seller_email");
+            // var attachment = document.getElementById("attachment");
+            
+            alert("hey");
+            $.ajax({
+                type:'POST',
+                url:'../send_data_user.php',
+                data:{
+                    messages:$(messages).val(),
+                    email:$(cust_email).val(),
+                    to_email:$(seller_email).val(),
+                    // attachment:$(attachment).val(),
+                },beforeSend:function(){
+                        $("#loading").show();
+                        // $("#send1").hide();
+                },
+                success: function(data){
+                    $(messages).val("");
+                    // $('#title').html(data);
+                    $("#convo").load(location.href + " #convo");
+                    $("#loading").hide();
+                    $("#send1").show(); 
+                },
+            });
+             
+    });   
+    $('#send2').click(function(){
+        // $("#form12").on("submit",(function(e) {   
+    
+            var messages = document.getElementById("mytext");
+            // var message = messages.value;        
+            var cust_email1 = document.getElementById("cust_email1");
+            var seller_email1 = document.getElementById("seller_email1");
+            // var attachment = document.getElementById("attachment");
+            
+            alert("hey");
+            $.ajax({
+                type:'POST',
+                url:'../send_data_shop.php',
+                data:{
+                    messages:$(messages).val(),
+                    email:$(seller_email1).val(),
+                    to_email:$(cust_email1).val(),
+                    // attachment:$(attachment).val(),
+                },beforeSend:function(){
+                        $("#loading").show();
+                        // $("#send1").hide();
+                },
+                success: function(data){
+                    $(messages).val("");
+                    // $('#title').html(data);
+                    $("#convo").load(location.href + " #convo");
+                    $("#loading").hide();
+                    $("#send1").show(); 
+                },
+            });
+             
+    }); 
     
     window.addEventListener('scroll', function(){
         var scrollPosition = window.pageYOffset;

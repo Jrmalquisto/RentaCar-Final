@@ -279,7 +279,7 @@ $image= $res['pic_ID'];
                 ?>
 
                                         <p class="text-s font-weight-bold mb-0"> <a
-                                                href="/Template/_user-message.php?seller_id=<?= $rows1['seller_id'] ?>"
+                                                href="/Template/_user-message.php?seller_id=<?= $rows1['seller_id'] ?>&email=<?=$rows1['email']?>"
                                                 style="color:#333;text-decoration: none;"><?php echo $rows1['shopname'] ?>
                                         </p>
 

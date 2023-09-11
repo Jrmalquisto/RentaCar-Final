@@ -1,6 +1,7 @@
 <?php
 
 include ('message-commands.php');
+// include ('../send_data.php');
 
 
   function dd($data) {
@@ -9,29 +10,43 @@ include ('message-commands.php');
 	die;
 }
 
-$com_id=$_SESSION["com_id"];
-$convo_id = $_GET['convo_id'];
+$com_id = $_SESSION["com_id"];
+$email = $_SESSION["email"];
+
+$user_id = $_GET['user_id'];
+$u_email = $_GET['email'];
 
 $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
 if ($res = mysqli_fetch_array($result)) {
 	$shopname = $res['shopname'] ?? '';
 	$username = $res['username']  ?? '';
     $address = $res['address']  ?? '';
-	$email = $res['email']  ?? '';
+	$s_email = $res['email']  ?? '';
 	$contact = $res['contact_num']  ?? '';
 	$logo = $res['shop_logo']  ?? '';
 }
 
-$users = mysqli_query($con, "SELECT * FROM seller");
 
-$convo_query = "SELECT * FROM convo 
-								JOIN seller ON seller.seller_id = convo.recipient
-								WHERE convo_id='$convo_id'";
-$convo_query = mysqli_query($con, $convo_query);
-$convo = mysqli_fetch_assoc($convo_query);
+// $convo_query = "SELECT * FROM convo 
+// 								JOIN seller ON seller.seller_id = convo.recipient
+// 								WHERE convo_id='$seller_id'";
+// $convo_query = mysqli_query($con, $convo_query);
+// $convo = mysqli_fetch_assoc($convo_query);
 
-$messages_query = "SELECT * FROM messages 
-WHERE convo_id='$convo_id'";
+// $messages_query = "SELECT * FROM seller INNER JOIN messages ON  messages.from_id = seller.seller_id 
+// 															WHERE (messages.email = '$email' AND seller.email = '$s_email' ) 
+															
+// 															AND (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
+// 															AND messages.to_email = '$u_email'";
+															
+// $messages_query = "SELECT * FROM messages INNER JOIN seller ON  messages.email = seller.email 
+// 															-- WHERE  seller.email = '$s_email' AND(messages.email = '$email' AND messages.to_email = '$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
+// 															-- WHERE (messages.email = '$email' AND messages.to_email='$u_email') OR (messages.email = '$u_email' AND messages.to_email = '$email')
+// 															WHERE messages.to_email='$email' AND messages.email = '$u_email'
+// 															-- WHERE (from_id='$com_id' AND to_id = '$user_id') OR (from_id='$user_id' AND to_id = '$com_id')
+// 															";
+$messages_query = "SELECT * FROM messages WHERE (messages.to_email='$email' AND messages.email = '$u_email') OR  (messages.email = '$email' AND messages.to_email='$u_email')";
+
 $messages = mysqli_query($con, $messages_query);
   ?>
 
@@ -81,7 +96,7 @@ $messages = mysqli_query($con, $messages_query);
 
 <div class="wrapper">
 
-<form action="" method="post" enctype='multipart/form-data'/>
+<form action="" method="post" enctype='multipart/form-data'>
 
 	  <div class="body-overlay"></div>
 	 
@@ -214,7 +229,7 @@ $messages = mysqli_query($con, $messages_query);
 				 </div>
 				 
 				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title">Dashboard</h4>
+				    <h4 class="page-title" id="title">Dashboard</h4>
 					<!--<ol class="breadcrumb">
 					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
 					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
@@ -233,15 +248,17 @@ $messages = mysqli_query($con, $messages_query);
             <div class="row col-14 border-right pr-0">
                 <div class="p-5 pb-0">
                     <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
-                            <h4 style="font-size:30px; color:white; font-family:'Poppins',sans-serif;">Subject: <?= $convo['subject'] ?></h4>
-                            <small style="font-size:18px; color:white; font-family:'Poppins',sans-serif;">Conversation with <?= $convo['email'] ?></small>
+                            <!-- <h4 style="font-size:30px; color:white; font-family:'Poppins',sans-serif;">Subject: <?= $convo['subject'] ?></h4>
+                            <small style="font-size:18px; color:white; font-family:'Poppins',sans-serif;">Conversation with <?= $convo['email'] ?></small> -->
                     </div>
                     
                     <div class="mt-2 pt-3 border-top">
+                                <p class="text-s font-weight-bold mb-0"> <?php echo print_r($messages)."\n" ?> </p>
+                                <p class="text-s font-weight-bold mb-0"> <?php echo $u_email ?> </p>
 
                         <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
-                                <div class="<?= $row['from_id'] != $com_id ? 'sender' : 'receiver' ?>">
+                                <div class="<?= $row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
                                     <?php if (!empty($row['attachment'])) { ?>
                                         <?php if (strpos($row['attachment'], '.mp4') !== false || strpos($row['attachment'], '.mpeg') !== false || strpos($row['attachment'], '.mov') !== false) { ?>
@@ -257,14 +274,16 @@ $messages = mysqli_query($con, $messages_query);
                         </div>
 
                         <div class="mt-3">
-                                
-                            <form action="" method="POST" enctype="multipart/form-data">
+						<div class="statusMsg"></div>
+                            <form action="" id="form12" method="POST" enctype="multipart/form-data">
                                 <div class="textarea-container">
-                                <textarea id="mytext" class="form-control mt-2" rows="1" name="message" placeholder="Enter reply.."></textarea>
-                                <input type="submit" value="Send Reply" class="btn button-update" name="send">
-                                
+								<input  id="seller_email1" type="hidden" name="seller_email1" value="<?= $email ?>">
+								<input  id="cust_email1" type="hidden" name="cust_email1" value="<?= $u_email ?>">
+                                <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
+                                <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
+                                <button type="button" value="Send Reply" class="btn button-update" id="send2" ></button>
                                 <label for="fimage"><iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon></label>
-                                <input type="file" id="fimage" name="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
+                                <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
                                 </div>
                             </form>
                         </div>
@@ -315,10 +334,15 @@ $messages = mysqli_query($con, $messages_query);
    <script src="/js/popper.min.js"></script>
    <script src="/js/bootstrap.min.js"></script>
    <script src="/js/jquery-3.3.1.min.js"></script>
-  
-  
+   <script src="../index.js"></script>
+
   <script type="text/javascript">
        $(document).ready(function(){
+			$("html, body").animate({
+                    scrollTop: $(
+                      'html, body').get(0).scrollHeight
+            }, 2000);
+				
 	      $(".xp-menubar").on('click',function(){
 		    $("#sidebar").toggleClass('active');
 			$("#content").toggleClass('active');

@@ -13,8 +13,8 @@ $response = array(
 ); 
 
 $messages = $_POST['messages'];
-$id1 = $_POST["id1"];
-$id2 = $_POST["id2"];
+$email = $_POST["email"];
+$to_email = $_POST["to_email"];
 // $attachment = $_POST["attachment"];
 
 
@@ -35,9 +35,9 @@ $id2 = $_POST["id2"];
 // $addMessage = "INSERT INTO messages (message, from_id, to_id) VALUES ('$messages', '$id1', '$id2')";
 // $response[] = 'Message successfully sent!';
 // mysqli_query($con, $addMessage);
-$sqlQ = "INSERT INTO messages (message, from_id, to_id) VALUES (?,?,?)"; 
+$sqlQ = "INSERT INTO messages (message, email, to_email) VALUES (?,?,?)"; 
 $stmt = $con->prepare($sqlQ); 
-$stmt->bind_param("sss", $messages, $id1, $id2); 
+$stmt->bind_param("sss", $messages, $email, $to_email); 
 $insert = $stmt->execute(); 
 if($insert){ 
     $response['status'] = 1; 
