@@ -7,14 +7,17 @@
 
         //get form data
         $username=$_POST['username'];
+
         $firstname=$_POST['firstname'];
         $lastname=$_POST['lastname'];
+
+        $fullname = $firstname . " ". $lastname;
         $password=$_POST['password'];
         $password2=$_POST['password2'];
         $email_user=$_POST['email'];
         $contact=$_POST['cont_num'];
         $address=$_POST['address'];
-        $validID=$_POST['pic_ID'];
+        // $validID=$_POST['pic_ID'];
         $dob=date('Y-m-d', strtotime($_POST['birthday']));
        
         $img_name = $_FILES['pic_ID']['name'];
@@ -53,8 +56,8 @@
 
                      //sanitize form data
                     $username = $mysqli ->real_escape_string($username);
-                    $firstname = $mysqli ->real_escape_string($firstname);
-                    $lastname = $mysqli ->real_escape_string($lastname);
+                    $fullname = $mysqli ->real_escape_string($fullname);
+                    
                     $password = $mysqli ->real_escape_string($password);
                     $password2 = $mysqli ->real_escape_string($password2);
                     $email_user = $mysqli ->real_escape_string($email_user);
@@ -76,8 +79,8 @@
 
                         // Insert into Database
                         
-                        $insert = $mysqli->query("insert into user(user_name,first_name,last_name,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
-                        values ('$username','$firstname','$lastname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
+                        $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
+                        values ('$username','$fullname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
                         // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
                         // values (0,0)");
 

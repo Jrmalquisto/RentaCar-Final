@@ -4,138 +4,114 @@ $(document).ready(function(){
 // alert("hi");
 
 // products.php(Reload Price)
-    $('#addBtn').click(function(){
+    // $('#addBtn').click(function(){
    
-        var price= document.getElementById("price");
-        var datee1 = document.getElementById("dateFrom");
-        var date2 = document.getElementById("dateTo");
+    //     var price= document.getElementById("price");
+    //     var datee1 = document.getElementById("dateFrom");
+    //     var date2 = document.getElementById("dateTo");
     
-        $.ajax({
-            type:'POST',
-            url:'total.php',
-            data:{
-                num1:$(datee1).val(),
-                num2:$(date2).val(),
-                price:$(price).val(),
-            },
-            beforeSend:function(){
-                $("#loading").show();
-                $("#addBtn").hide();
-            },
-            success:function(data){
-                $('#total_num').html(data);
-                $("#loading").hide();
-                $("#addBtn").show(); 
-            }
-        })
-    });
-
-    //CHAT SEND BTN
-    $('#send1').click(function(){
-    // $("#form12").on("submit",(function(e) {   
-       
-        var messages = document.getElementById("mytext");
-        // var message = messages.value;        
-        var cust_id = document.getElementById("cust_id");
-        var seller_id = document.getElementById("seller_id");
-        // var attachment = document.getElementById("attachment");
-        
-        alert("hey");
-        $.ajax({
-            type:'POST',
-            url:'../send_data.php',
-            data:{
-                messages:$(messages).val(),
-                id1:$(cust_id).val(),
-                id2:$(seller_id).val(),
-                // attachment:$(attachment).val(),
-            },beforeSend:function(){
-                    $("#loading").show();
-                    // $("#send1").hide();
-            },
-            success: function(data){
-                $(messages).val("");
-                $('#title').html(data);
-                $("#convo").load(location.href + " #convo");
-                $("#loading").hide();
-                $("#send1").show(); 
-            },
-            // type: 'POST',
-            // url: '../send_data.php',
-            // data:  new FormData(this),
-            // dataType: 'json',
-            // encode: true,
-            // beforeSend:function(){
-            //     $("#loading").show();
-            //     $("#addBtn").hide();
-            // },
-            // success: function(response){
-            //     $('.statusMsg').html('');
-            //     if(response.status == 1){
-            //         $('#fupForm')[0].reset();
-            //         $('.statusMsg').html('<p class="alert alert-success">'+response.message+'</p>');
-            //     }else{
-            //         $('.statusMsg').html('<p class="alert alert-danger">'+response.message+'</p>');
-            //     }
-            //     $('#fupForm').css("opacity","");
-            //     $(".submitBtn").removeAttr("disabled");
-            // },
-        // }).done(function (data){
-        //     $('#title').html(data);
-        //     $("#loading").hide();
-        //     $("#send1").show(); 
-        // }).fail(function (data) {
-        //     $("#form12").html(
-        //       '<div class="alert alert-danger">Could not reach server, please try again later.</div>'
-        //     );
-        // });
-        // e.preventDefault();
-            // success:function(data){
-               
-                // $("#convo").load(location.href + " #convo");
-                
-                // $.ajax({
-                //     type:'FILES',
-                //     url:'../send_data.php',
-                //     data:{
-                //         messages:$(messages).val(),
-                //         id1:$(cust_id).val(),
-                //         id2:$(seller_id).val(),
-                //         attachment:$(attachment).val(),
-                //     },
-                //     beforeSend:function(){
-                //         $("#loading").show();
-                //         $("#addBtn").hide();
-                //     },
-                //     success:function(data){
-                //         $('#title').html(data);
-                //         $("#convo").load(location.href + " #convo");
-                //         $("#loading").hide();
-                //         $("#send1").show(); 
-                //     }
-                // });
-            });
-        }); 
-    // }));
-
-    // window.addEventListener('scroll', function(){
-    //     var scrollPosition = window.pageYOffset;
-    //     // var bgParallax = document.getElementById('backg')[0];
-    //     var bgParallax = document.getElementsByClassName('masthead')[0];
-    //     var limit = bgParallax.offsetTop + bgParallax.offsetHeight;  
-    //     if (scrollPosition > bgParallax.offsetTop && scrollPosition <= limit){
-    //         bgParallax.style.backgroundPositionY = (50 - 10*scrollPosition/limit) + '%';   
-    //     }else{
-    //         bgParallax.style.backgroundPositionY = '50%';    
-    //     }
-        
-    //     var bgParallax1 = document.getElementsByClassName('wallp3')[0];
-    //     if (scrollPosition > bgParallax1.offsetTop && scrollPosition <= limit){
-    //         bgParallax1.style.backgroundPositionY = (50 - 10*scrollPosition1/limit) + '%';   
-    //     }else{
-    //         bgParallax1.style.backgroundPositionY = '50%';    
-    //     }
+    //     $.ajax({
+    //         type:'POST',
+    //         url:'total.php',
+    //         data:{
+    //             num1:$(datee1).val(),
+    //             num2:$(date2).val(),
+    //             price:$(price).val(),
+    //         },
+    //         beforeSend:function(){
+    //             $("#loading").show();
+    //             $("#addBtn").hide();
+    //         },
+    //         success:function(data){
+    //             $('#total_num').html(data);
+    //             $("#loading").hide();
+    //             $("#addBtn").show(); 
+    //         }
+    //     })
     // });
+    $('#send1').click(function(){
+        // $("#form12").on("submit",(function(e) {   
+    
+            var messages = document.getElementById("mytext");
+            // var message = messages.value;        
+            var cust_email = document.getElementById("cust_email");
+            var seller_email = document.getElementById("seller_email");
+            // var attachment = document.getElementById("attachment");
+            
+            alert("hey");
+            $.ajax({
+                type:'POST',
+                url:'../send_data_user.php',
+                data:{
+                    messages:$(messages).val(),
+                    email:$(cust_email).val(),
+                    to_email:$(seller_email).val(),
+                    // attachment:$(attachment).val(),
+                },beforeSend:function(){
+                        $("#loading").show();
+                        // $("#send1").hide();
+                },
+                success: function(data){
+                    $(messages).val("");
+                    // $('#title').html(data);
+                    $("#convo").load(location.href + " #convo");
+                    $("#loading").hide();
+                    $("#send1").show(); 
+                },
+            });
+             
+    });   
+    $('#send2').click(function(){
+        // $("#form12").on("submit",(function(e) {   
+    
+            var messages = document.getElementById("mytext");
+            // var message = messages.value;        
+            var cust_email1 = document.getElementById("cust_email1");
+            var seller_email1 = document.getElementById("seller_email1");
+            // var attachment = document.getElementById("attachment");
+            
+            alert("hey");
+            $.ajax({
+                type:'POST',
+                url:'../send_data_shop.php',
+                data:{
+                    messages:$(messages).val(),
+                    email:$(seller_email1).val(),
+                    to_email:$(cust_email1).val(),
+                    // attachment:$(attachment).val(),
+                },beforeSend:function(){
+                        $("#loading").show();
+                        // $("#send1").hide();
+                },
+                success: function(data){
+                    $(messages).val("");
+                    // $('#title').html(data);
+                    $("#convo").load(location.href + " #convo");
+                    $("#loading").hide();
+                    $("#send1").show(); 
+                },
+            });
+             
+    }); 
+    
+    window.addEventListener('scroll', function(){
+        var scrollPosition = window.pageYOffset;
+        // var bgParallax = document.getElementById('backg')[0];
+        var bgParallax = document.getElementsByClassName('masthead')[0];
+        var limit = bgParallax.offsetTop + bgParallax.offsetHeight;  
+        if (scrollPosition > bgParallax.offsetTop && scrollPosition <= limit){
+            bgParallax.style.backgroundPositionY = (50 - 10*scrollPosition/limit) + '%';   
+        }else{
+            bgParallax.style.backgroundPositionY = '50%';    
+        }
+        
+        var bgParallax1 = document.getElementsByClassName('wallp3')[0];
+        if (scrollPosition > bgParallax1.offsetTop && scrollPosition <= limit){
+            bgParallax1.style.backgroundPositionY = (50 - 10*scrollPosition1/limit) + '%';   
+        }else{
+            bgParallax1.style.backgroundPositionY = '50%';    
+        }
+    });
 // banner owl carousel
     $("#banner-area .owl-carousel").owlCarousel({
         dots: true,
@@ -393,24 +369,24 @@ $(document).ready(function(){
 //         });
 // })
 
-// const navOptions={
-//     threshold: .25,
-// };
+const navOptions={
+    threshold: .25,
+};
 
-// const nav = document.querySelector('nav');
-// const cards = document.querySelectorAll("#backg");
-// const fade = document.querySelector(".fade-up");
-// const navbar = document.querySelector("#backyy");
-// const products=  document.querySelectorAll("#special-offers");
+const nav = document.querySelector('nav');
+const cards = document.querySelectorAll("#backg");
+const fade = document.querySelector(".fade-up");
+const navbar = document.querySelector("#backyy");
+const products=  document.querySelectorAll("#special-offers");
 
-// const observer = new IntersectionObserver(entries =>{
-//     console.log(entries[0].isIntersecting)
-//     nav.classList.toggle('active', !entries[0].isIntersecting)
-//     navbar.classList.toggle('active', !entries[0].isIntersecting)
-//     fade.classList.toggle('faded', !entries[0].isIntersecting)
-// }, navOptions);
+const observer = new IntersectionObserver(entries =>{
+    console.log(entries[0].isIntersecting)
+    nav.classList.toggle('active', !entries[0].isIntersecting)
+    navbar.classList.toggle('active', !entries[0].isIntersecting)
+    fade.classList.toggle('faded', !entries[0].isIntersecting)
+}, navOptions);
 
-// observer.observe(cards[0]);
+observer.observe(cards[0]);
 // cards[0]);
 
 // const newObserver = new IntersectionObserver((ent) =>{

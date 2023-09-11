@@ -42,6 +42,22 @@ if(isset($_POST['update_res'])){
 }
 ?>
 
+<?php
+	if(isset($_POST['removePending'])){
+    	$id = $_POST['id2'];
+
+    	$query = "DELETE FROM reservation WHERE id='$id' AND status='Pending' ";
+    	$query = mysqli_query($con, $query);
+
+    if($query_run){
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
+    else {
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -344,7 +360,7 @@ if(isset($_POST['update_res'])){
 										</button>
 									</form>
 
-									<form action="_manage-reservations2.php" class="d-inline">
+									<form action="_pending-reservations2.php" class="d-inline">
 										<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteReservationModal">
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
 										</button>
@@ -364,113 +380,6 @@ if(isset($_POST['update_res'])){
 </div>
 					
 
-									   <!----add-modal start--------->
-<div class="modal fade" tabindex="-1" id="addEmployeeModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="form-group">
-		    <label>Name</label>
-			<input type="text" class="form-control" required>
-		</div>
-		<div class="form-group">
-		    <label>Email</label>
-			<input type="emil" class="form-control" required>
-		</div>
-		<div class="form-group">
-		    <label>Address</label>
-			<textarea class="form-control" required></textarea>
-		</div>
-		<div class="form-group">
-		    <label>Phone</label>
-			<input type="text" class="form-control" required>
-		</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-					   <!----edit-modal end--------->
-					   
-					   
-					   
-					   
-					   
-				   <!----edit-modal start--------->
-<!-- <div class="modal fade" tabindex="-1" id="editReservationModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Car</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      	<div class="modal-body">
-
-			<form method="POST" enctype="multipart/form-data">
-				<input type="hidden" id="id1" name="id1"  />
-				<input type="hidden" id="item_id1" name="item_id1"  />
-
-			<div class="form-group">
-				<label>Name</label>
-				<input type="text" class="form-control" autocomplete="off" name="name1" id="name1" <?php echo $name; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Contact Number</label>
-				<input type="text" class="form-control" autocomplete="off" name="number1" id="number1" <?php echo $number; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Vehicle</label>
-				<input type="text" class="form-control" autocomplete="off" name="vehicle1" id="vehicle1" <?php echo $vehicle; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Pick-up Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="pickup1" id="pickup1" <?php echo $pickup; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Return Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="return1" id="return1" <?php echo $return; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Total Amount</label>
-				<input type="text" class="form-control" autocomplete="off" name="price1" id="price1" <?php echo $price; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Status</label>
-				<select name="reserve1" id="reserve1">
-					<option value="Pending">Pending</option>
-					<option value="Reserved">Reserve</option>
-					
-				</select>
-      		</div>
-
-      <div class="modal-footer">
-	  	<button type="submit" name="update_res" id="update_res" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 					   <!----edit-modal end--------->	   
 
@@ -507,19 +416,29 @@ if(isset($_POST['update_res'])){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete Employees</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title">Delete Reservation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete this Record</p>
-		<p class="text-warning"><small>this action Cannot be Undone,</small></p>
+
+	<form method="POST" class="d-inline">
+
+      	<div class="modal-body">
+
+	  		<input type="hidden" id="id2" name="id2"/>
+
+			<p>Are you sure you want to delete this Record</p>
+			<p class="text-warning"><small>this action Cannot be Undone,</small></p>
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success">Delete</button>
+	  	<button type="submit" name="removePending" id="removePending" class="btn btn-success">Delete</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
+
+	  </form>
+
     </div>
   </div>
 </div>
@@ -559,6 +478,27 @@ if(isset($_POST['update_res'])){
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 	</script>
   
+
+  <script>
+		$(document).ready(function(){
+
+			$('.del_button').click(function(e){
+					
+				$('#deleteReservationModal').modal('show');
+
+					$tr=$(this).closest('tr');
+
+					var data = $tr.children("td").map(function(){
+						return $(this).text();
+					}).get();
+
+					console.log(data);
+
+					$('#id2').val(data[0]);
+				
+			});
+		});
+</script>
   
   <script type="text/javascript">
        $(document).ready(function(){

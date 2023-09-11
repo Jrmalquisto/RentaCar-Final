@@ -137,9 +137,11 @@ $image= $res['pic_ID'];
 						<ul style="list-style: none;">
 						  <li><a href="index.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
 						  <li><a href="profile.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
+						  <li><a href="message.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-message"></i> <span>Message</span></a></li>
 						  <li><a href="userreservation.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-calendar-check"></i> <span>My Reservation</span></a></li>
-						  <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i> <span style="padding-left:5px">My Rented Cars</span></a></li>
-						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Change Password</span></a></li>
+						  <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i><span>My Rented Cars</span></a></li>
+						  <li><a href="completed_trans.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i><span>Completed Transactions</span></a></li>
+						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-lock"></i> <span>Change Password</span></a></li>
 						</ul>
 					</nav>
 				</div>
@@ -152,7 +154,7 @@ $image= $res['pic_ID'];
 						<div class="row mt-2 border-top">
 							<input type="hidden" name="user_id" value="<?php echo $fetch_user['user_id'];?>">
 
-							<div class="mt-3 col-md-6"><label class="labels">full Name</label>
+							<div class="mt-3 col-md-6"><label class="labels">Full Name</label>
 								<input type="text" name="fullname" placeholder="Enter your full name" autocomplete="off" class="form-control" value="<?php echo $fullname;?>">
 							</div>
 

@@ -1,7 +1,6 @@
 <?php
 
-session_start();
-include('../connection.php');
+include('connection.php');
 $com_id=$_SESSION["com_id"];
 
 if (isset($_POST['send'])) {

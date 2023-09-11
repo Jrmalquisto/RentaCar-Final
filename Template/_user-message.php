@@ -14,6 +14,8 @@ $com_id=$_SESSION["user_id"];
 $seller_id = $_GET['seller_id'];
 
 $email=$_SESSION["email"];
+$u_email = $_GET['email'];
+
 
 // $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
 // if ($res = mysqli_fetch_array($result)) {
@@ -33,7 +35,7 @@ $users = mysqli_query($con, "SELECT * FROM seller");
 // $convo_query = mysqli_query($con, $convo_query);
 // $convo = mysqli_fetch_assoc($convo_query);
 
-$messages_query = "SELECT * FROM messages INNER JOIN user ON  messages.from_id = user.user_id WHERE messages.email = '$email' AND(from_id='$com_id' AND to_id = '$seller_id') OR (from_id='$seller_id' AND to_id = '$com_id') ";
+$messages_query = "SELECT * FROM messages WHERE (messages.to_email='$email' AND messages.email = '$u_email') OR  (messages.email = '$email' AND messages.to_email='$u_email')";
 $messages = mysqli_query($con, $messages_query);
   ?>
 
@@ -74,7 +76,9 @@ $messages = mysqli_query($con, $messages_query);
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
       <link id="pagestyle" href="../TemplateShop/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
       <link rel="stylesheet" href="../TemplateShop/assets/css/style.css">
-      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 
   </head>
   <body>
@@ -193,7 +197,7 @@ $messages = mysqli_query($con, $messages_query);
 
                         <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
-                                <div class="<?= $row['from_id'] != $com_id ? 'sender' : 'receiver' ?>">
+                                <div class="<?=$row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
                                     <?php if (!empty($row['attachment'])) { ?>
                                         <?php if (strpos($row['attachment'], '.mp4') !== false || strpos($row['attachment'], '.mpeg') !== false || strpos($row['attachment'], '.mov') !== false) { ?>
@@ -212,10 +216,11 @@ $messages = mysqli_query($con, $messages_query);
 						<div class="statusMsg"></div>
                             <form action="" id="form12" method="POST" enctype="multipart/form-data">
                                 <div class="textarea-container">
-								<input  id="cust_id" type="hidden" name="cust_id" value="<?= $com_id ?>">
-								<input  id="seller_id" type="hidden" name="seller_id" value="<?= $seller_id ?>">
+								<input  id="cust_email" type="hidden" name="cust_email" value="<?= $email ?>">
+								<input  id="seller_email" type="hidden" name="seller_email" value="<?= $u_email ?>">
                                 <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
+								<!-- SEND REPLY //index.js/ -->
                                 <button type="button" value="Send Reply" class="btn button-update" id="send1" >Send</button>
                                 <label for="fimage"><iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon></label>
                                 <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
@@ -273,20 +278,20 @@ $messages = mysqli_query($con, $messages_query);
 
   <script type="text/javascript">
        $(document).ready(function(){
-		setTimeout(function(){
-			// $('#convo').show(); // to show div after 5 sec of page load
+		// setTimeout(function(){
+		// 	// $('#convo').show(); // to show div after 5 sec of page load
 
-			// To reshow on every one minute
-			setInterval(function() {
-						$('#convo').show();
-					}, 5000);
+		// 	// To reshow on every one minute
+		// 	setInterval(function() {
+		// 				$('#convo').show();
+		// 			}, 5000);
+		// }, 2000);
+
+		$("html, body").animate({
+				scrollTop: $(
+					'html, body').get(0).scrollHeight
 		}, 2000);
-
-			$("html, body").animate({
-                    scrollTop: $(
-                      'html, body').get(0).scrollHeight
-            }, 2000);
-				
+			
 	      $(".xp-menubar").on('click',function(){
 		    $("#sidebar").toggleClass('active');
 			$("#content").toggleClass('active');

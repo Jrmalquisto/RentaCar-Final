@@ -3,10 +3,13 @@
 session_start();
 include('../connection.php');
 
-$com_id=$_SESSION["com_id"];
+$com_id=$_SESSION["user_id"];
 
+//SEND
 if (isset($_POST['send'])) {
     $seller_id = $_GET['seller_id'];
+    $to_email = $_GET['email'];
+    $email = $_SESSION['email'];
     $body = $_POST['message'];
     $attachment = $_FILES['attachment'];
   
@@ -34,7 +37,7 @@ if (isset($_POST['send'])) {
   
           // Move the uploaded attachment to the desired location
           move_uploaded_file($attachmentTmpName, $attachmentPath);
-          $addMessage = "INSERT INTO messages ( message, from_id, to_id, attachment) VALUES ('$body', '$com_id', '$seller_id', '$attachmentPath')";
+          $addMessage = "INSERT INTO messages (message, email, to_email, attachment) VALUES ('$body', '$email', '$to_email', '$attachmentPath')";
           $message[] = 'Message successfully sent!';
           mysqli_query($con, $addMessage);
         } else {
@@ -42,7 +45,7 @@ if (isset($_POST['send'])) {
         }
       }
     } else {
-      $addMessage = "INSERT INTO messages (message, from_id, to_id) VALUES ('$body', '$com_id', '$seller_id')";
+      $addMessage = "INSERT INTO messages (message, email, to_email) VALUES ('$body', '$email', '$to_email',)";
       $message[] = 'Message successfully sent!';
       mysqli_query($con, $addMessage);
     }

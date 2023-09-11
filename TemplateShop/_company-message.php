@@ -277,11 +277,11 @@ $messages = mysqli_query($con, $messages_query);
 						<div class="statusMsg"></div>
                             <form action="" id="form12" method="POST" enctype="multipart/form-data">
                                 <div class="textarea-container">
-								<input  id="cust_id" type="hidden" name="cust_id" value="<?= $com_id ?>">
-								<input  id="seller_id" type="hidden" name="seller_id" value="<?= $seller_id ?>">
+								<input  id="seller_email1" type="hidden" name="seller_email1" value="<?= $email ?>">
+								<input  id="cust_email1" type="hidden" name="cust_email1" value="<?= $u_email ?>">
                                 <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
-                                <button type="button" value="Send Reply" class="btn button-update" id="send1" ></button>
+                                <button type="button" value="Send Reply" class="btn button-update" id="send2" ></button>
                                 <label for="fimage"><iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon></label>
                                 <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
                                 </div>

@@ -14,16 +14,7 @@ include ('../connection.php');
 $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id'");
 
 if($res = mysqli_fetch_array($findresult)){
-	$image = $res['shop_logo'];
-
-
-}
-//shows salesreport graph
-$sql1 = "SELECT * FROM salesreport";
-$result1= mysqli_query($con, $sql1);
-while($row1 = mysqli_fetch_array($result1)){
-	$product[] = $row1['brand'];
-	$sales[] = $row1['overall_price'];
+$image = $res['shop_logo'];
 }
 
 ?>
@@ -234,10 +225,7 @@ while($row1 = mysqli_fetch_array($result1)){
 			 </div>
 		  </div>
 		  <!------top-navbar-end-----------> 
-<div>
 
-	<canvas id="chartjs_bar"></canvas>
-</div>
         <!------boxes-start-----------> 
 <div class="boxes">
 
@@ -400,11 +388,8 @@ while($row1 = mysqli_fetch_array($result1)){
                     
             </tbody>         
         </table>
-		
 	</div>
 </div>
-
-
 					
 
 					   
@@ -467,34 +452,10 @@ while($row1 = mysqli_fetch_array($result1)){
    <script src="/js/bootstrap.min.js"></script>
    <script src="/js/jquery-3.3.1.min.js"></script>
    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 	</script>
-
-
-	<script>
-		var ctx = document.getElementById("chartjs_bar");
-		new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels:<?php echo json_encode($product); ?>,
-			datasets: [{
-				label: 'Sales',
-				data:<?php echo json_encode($sales); ?>,
-				borderWidth: 1
-			}]
-			},
-			options: {
-			scales: {
-				y: {
-				beginAtZero: true
-				}
-			}
-			}
-		});
-						
-	</script>
+  
   <script>
 		$(document).ready(function(){
 
