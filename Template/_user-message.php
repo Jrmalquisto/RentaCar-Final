@@ -195,7 +195,7 @@ $messages = mysqli_query($con, $messages_query);
                     
                     <div class="mt-2 pt-3 border-top">
 
-                        <div class="convo" id="convo">
+                        <!-- <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
                                 <div class="<?=$row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
@@ -210,10 +210,13 @@ $messages = mysqli_query($con, $messages_query);
                                     <small><span><?= $row['message_added'] ?></span></small>
                                 </div>
                             <?php } ?>
-                        </div>
+                        </div> -->
+						<div class="messages" id="messages">
+							
+						</div>
 
                         <div class="mt-3">
-						<div class="statusMsg"></div>
+						<div class="statusMsg"id="statusMsg"></div>
                             <form action="" id="form12" method="POST" enctype="multipart/form-data">
                                 <div class="textarea-container">
 								<input  id="cust_email" type="hidden" name="cust_email" value="<?= $email ?>">
@@ -286,6 +289,41 @@ $messages = mysqli_query($con, $messages_query);
 		// 				$('#convo').show();
 		// 			}, 5000);
 		// }, 2000);
+		var divElement = document.getElementById("messages");
+		
+
+		divElement.onmouseenter = ()=>{
+			divElement.classList.add("active");
+		}
+		divElement.onmouseleave = ()=>{
+			divElement.classList.remove("active");;
+		}
+		function fetchMessages() {
+			
+			if(!divElement.classList.contains("active")){
+				scrollDiv();
+			}
+			var cust_email = document.getElementById("cust_email");
+        	var seller_email = document.getElementById("seller_email");
+			$.ajax({
+				url: "chat_user.php",
+				method: "POST",
+				
+				data: { action: "fetch",
+					email:$(cust_email).val(),
+                    to_email:$(seller_email).val(),
+
+				 },
+				success: function(data) {
+					$("#messages").html(data);
+				}
+			});
+    	}
+		function scrollDiv(){
+            divElement.scrollTop = divElement.scrollHeight;
+		}
+		setInterval(fetchMessages, 500);
+		fetchMessages();
 
 		$("html, body").animate({
 				scrollTop: $(
@@ -302,6 +340,7 @@ $messages = mysqli_query($con, $messages_query);
 		  });
 		  
 	   });
+	   
   </script>
   
   

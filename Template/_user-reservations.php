@@ -79,6 +79,7 @@
               
                 
                 $item_id=$row["item_id"];
+                $driver = $row["driver_id"];
                 
                 if(!$product==$item_id){
                     $query = "UPDATE reservation SET status='In Use' WHERE item_id='$product' ";
@@ -87,7 +88,10 @@
                     $query1 = mysqli_query($con, $query1);
 
                     header("location: in_use.php");
-                } else {
+                } else if (empty($driver)){
+                    header('Location: ../userreservation.php?&&error=Driver not assigned yet');
+                    exit();
+                }else {
                     header('Location: ../userreservation.php?&&error=Your reservation has not been approved yet');
                     exit();
                 }
@@ -120,8 +124,7 @@
         </div>
     </div>
 
-
-
+    
     <?php
             $countedReserve = $product->getReserveCount();
             foreach ($countedReserve as $value):
@@ -148,10 +151,12 @@
             <div class="col-sm-4 pb-5 pt-3 border border-end-0">
                 <h5 class="font-baloo-bold font-size-25"><?php echo $item['item_name'] ?? "Unknown"; ?></h5>
                 <!-- <a class="font-baloo font-size-20 " href="vehicles.php"> <?php echo $shop['shopname']  ?? "Shop"; ?></a> -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <!-- <button type="button" class="btn btn-primary" id="shop_btn" name="shop_btn" >
+                    <?php echo $shop['shopname']  ?? "Brand"; ?>
+                </button> -->
+                <button type="button" class="btn btn-primary"  id="shop_btn" name="shop_btn" data-bs-toggle="modal" data-bs-target="#shopModal">
                     <?php echo $shop['shopname']  ?? "Brand"; ?>
                 </button>
-
                 <!-- <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $value['item_id'];?> &seller_id=<?php echo $item['seller_id'];?>">
                     <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
                 </a> -->
@@ -313,10 +318,63 @@
 
 
     <!-- Button trigger modal -->
+<!-- Shop Details Modal -->
 
+    <div class="modal" id="shopModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Shop Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container ">
+
+
+                        <table class="my-3 d-flex align-items-center justify-content-center">
+                            <tr class="font-rale font-size-16">
+                                <td>Shop Name: </td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['shopname'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
+                            </tr>
+                            <tr class="font-rale font-size-16">
+                                <td>Email: </td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['email'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
+                            </tr>
+                            <tr class="font-rale font-size-16">
+                                <td>Contact Number: </td>
+                                <td class="font-size-20 text-dark">
+                                    <span><?php echo $value['contact_num'] ?? 0; ?></span><small
+                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
+                                </td>
+                            </tr>
+                            <tr class="font-rale font-size-16">
+                                <td>Address:</td>
+                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -388,68 +446,46 @@
         </div>
     </div>
 
-    <!-- Shop Details Modal -->
+    
 
-    <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel1">Shop Details</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container ">
-
-
-                        <table class="my-3 d-flex align-items-center justify-content-center">
-                            <tr class="font-rale font-size-16">
-                                <td>Shop Name: </td>
-                                <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['shopname'] ?? 0; ?></span><small
-                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
-                                </td>
-                            </tr>
-                            <tr class="font-rale font-size-16">
-                                <td>Email: </td>
-                                <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['email'] ?? 0; ?></span><small
-                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
-                                </td>
-                            </tr>
-                            <tr class="font-rale font-size-16">
-                                <td>Contact Number: </td>
-                                <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['contact_num'] ?? 0; ?></span><small
-                                        class="text-dark font-size-12">&nbsp;&nbsp;</small>
-                                </td>
-                            </tr>
-                            <tr class="font-rale font-size-16">
-                                <td>Address:</td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span>
-                                </td>
-                            </tr>
-
-                        </table>
-
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+    
 </section>
 
 <script>
-$(document).ready(function() {
 
+$(document).ready(function() {
+    // $("#shop_btn").click(function() {
+    //         $("#shopModal").modal();
+    // });
+    
+    // const myModal = document.getElementById('shop_btn');
+    // const myInput = document.getElementById('shopModal');
+
+    // myModal.addEventListener('shown.bs.modal', () => {
+    //     myInput.focus()
+    // });
+    // import { Modal } from 'bootstrap';
+    // export default {
+    //     name: 'MyModal',
+    //     mounted() { <-- Just right
+    //         const myModal = new Modal(document.getElementById('shop_btn'), {})
+    //         myModal.show()
+    //     }
+    // };
+    let modal = null;
+    function getModal() {
+        if (!modal) {
+            modal = new $bootstrap.Modal('#shopModal');   
+        }
+        return modal
+    }
+
+    function toggleModal() {
+    // modal.toggle();
+        getModal().show()
+    }
+    
     $('.conf_button').click(function(e) {
         // $('#editEmployeeModal').modal('show');
 

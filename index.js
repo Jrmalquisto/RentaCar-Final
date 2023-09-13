@@ -38,7 +38,6 @@ $(document).ready(function(){
             var seller_email = document.getElementById("seller_email");
             // var attachment = document.getElementById("attachment");
             
-            alert("hey");
             $.ajax({
                 type:'POST',
                 url:'../send_data_user.php',
@@ -70,7 +69,6 @@ $(document).ready(function(){
             var seller_email1 = document.getElementById("seller_email1");
             // var attachment = document.getElementById("attachment");
             
-            alert("hey");
             $.ajax({
                 type:'POST',
                 url:'../send_data_shop.php',
@@ -94,24 +92,24 @@ $(document).ready(function(){
              
     }); 
     
-    window.addEventListener('scroll', function(){
-        var scrollPosition = window.pageYOffset;
-        // var bgParallax = document.getElementById('backg')[0];
-        var bgParallax = document.getElementsByClassName('masthead')[0];
-        var limit = bgParallax.offsetTop + bgParallax.offsetHeight;  
-        if (scrollPosition > bgParallax.offsetTop && scrollPosition <= limit){
-            bgParallax.style.backgroundPositionY = (50 - 10*scrollPosition/limit) + '%';   
-        }else{
-            bgParallax.style.backgroundPositionY = '50%';    
-        }
+    // window.addEventListener('scroll', function(){
+    //     var scrollPosition = window.pageYOffset;
+    //     // var bgParallax = document.getElementById('backg')[0];
+    //     var bgParallax = document.getElementsByClassName('masthead')[0];
+    //     var limit = bgParallax.offsetTop + bgParallax.offsetHeight;  
+    //     if (scrollPosition > bgParallax.offsetTop && scrollPosition <= limit){
+    //         bgParallax.style.backgroundPositionY = (50 - 10*scrollPosition/limit) + '%';   
+    //     }else{
+    //         bgParallax.style.backgroundPositionY = '50%';    
+    //     }
         
-        var bgParallax1 = document.getElementsByClassName('wallp3')[0];
-        if (scrollPosition > bgParallax1.offsetTop && scrollPosition <= limit){
-            bgParallax1.style.backgroundPositionY = (50 - 10*scrollPosition1/limit) + '%';   
-        }else{
-            bgParallax1.style.backgroundPositionY = '50%';    
-        }
-    });
+    //     var bgParallax1 = document.getElementsByClassName('wallp3')[0];
+    //     if (scrollPosition > bgParallax1.offsetTop && scrollPosition <= limit){
+    //         bgParallax1.style.backgroundPositionY = (50 - 10*scrollPosition1/limit) + '%';   
+    //     }else{
+    //         bgParallax1.style.backgroundPositionY = '50%';    
+    //     }
+    // });
 // banner owl carousel
     $("#banner-area .owl-carousel").owlCarousel({
         dots: true,
@@ -386,7 +384,7 @@ const observer = new IntersectionObserver(entries =>{
     fade.classList.toggle('faded', !entries[0].isIntersecting)
 }, navOptions);
 
-observer.observe(cards[0]);
+// observer.observe(cards[0]);
 // cards[0]);
 
 // const newObserver = new IntersectionObserver((ent) =>{

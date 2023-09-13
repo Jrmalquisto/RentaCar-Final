@@ -87,7 +87,8 @@ $messages = mysqli_query($con, $messages_query);
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
       <link id="pagestyle" href="../TemplateShop/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
       <link rel="stylesheet" href="../TemplateShop/assets/css/style.css">
-      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   <script src="/js/popper.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script>
 
   </head>
   <body>
@@ -101,59 +102,9 @@ $messages = mysqli_query($con, $messages_query);
 	  <div class="body-overlay"></div>
 	 
 	 <!-------sidebar--design------------>
-	 
-	 <div id="sidebar">
-	    <div class="sidebar-header">
-		   <h3><img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>"><span>RentaCar</span></h3>
-		</div>
-		<ul class="list-unstyled component m-0">
-		  <li class="active">
-		  <a href="#" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
-		  </li>
-		  
-		  <li class="approval">
-		  <a  href="_pending-reservations2.php">
-		  <i class="material-icons">summarize</i>Pending Reservations
-		  </a>
-		  </li>
-
-		  <li class="dropdown">
-		  <a  href="_manage-cars2.php">
-		  <i class="material-icons">directions_car</i>Car Management
-		  </a>
-		  </li>
-
-		  
-
-		  <li class="reserve">
-		  <a  href="_manage-reservations2.php">
-		  <i class="material-icons">book_online</i>Car Reservation
-		  </a>
-		  </li>
-
-		  <li class="drivers">
-		  <a  href="_manage-to-be-returned2.php">
-		  <i class="material-icons">fact_check</i>Cars to be Returned
-		  </a>
-		  </li>
-
-		  <li class="drivers">
-		  <a  href="_manage-drivers2.php">
-		  <i class="material-icons">person</i>Drivers
-		  </a>
-		  </li>
-
-		  <br>
-
-          <li class="reserve">
-		  <a  href="_manage-sales2.php">
-		  <i class="material-icons">summarize</i>Sales Report
-		  </a>
-		  </li>
-
-		
-		</ul>
-	 </div>
+	 <?php 
+	 	include ('../TemplateShop/_company-sidebar.php');
+	 ?>
 	 
    <!-------sidebar--design- close----------->
    
@@ -161,88 +112,16 @@ $messages = mysqli_query($con, $messages_query);
    
       <!-------page-content start----------->
    
-      <div id="content">
 	     
 		  <!------top-navbar-start-----------> 
 		   
-		  <div class="top-navbar">
-		<div class="xd-topbar">
-			<div class="row">
-				<div class="col-2 col-md-1 col-lg-4 order-2 order-md-1 align-self-center">
-				<div class="xp-menubar">
-					<span class="material-icons text-white">signal_cellular_alt</span>
-				</div>
-				</div>
-					 
-					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-					<div class="xp-profilebar text-right">
-					<nav class="navbars p-0">
-						<ul class="nav navbar-nav flex-row ml-auto">
-						<li class="dropdown nav-item">
-							<a class="nav-link" href="#" data-toggle="dropdown">
-							<span class="material-icons">notifications</span>
-							<span class="notifications">4</span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
-							</ul>
-						</li>
-							   
-							   <li class="nav-item">
-							     <a class="nav-link" href="/TemplateShop/_company-messages.php">
-								   <span class="material-icons">question_answer</span>
-								 </a>
-							   </li>
-							   <i class="fas ml-3 me-2"></i><?php echo "<p>" . $_SESSION['shopname'] . "</p>"; ?>
-							   <li class="dropdown nav-item" >
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								 <img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>">
-								  <span class="xp-user-live"></span>
-								 </a>
-								 
-								  <ul class="dropdown-menu small-menu dropmenu">
-								     <li><a href="_company-profile.php">
-									 <span class="material-icons">person_outline</span>
-									 Profile
-									 </a></li>
-									 <li><a href="#">
-									 <span class="material-icons">settings</span>
-									 Settings
-									 </a></li>
-									 <li><a href="_company-login.php">
-									 <span class="material-icons">logout</span>
-									 Logout
-									 </a></li>
-									 
-								  </ul>
-							   </li>
-							   
-							   
-							   </ul>
-							</nav>
-						 </div>
-					 </div>
-					 
-				 </div>
-				 
-				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title" id="title">Dashboard</h4>
-					<!--<ol class="breadcrumb">
-					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
-					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
-					</ol>-->
-				 </div>
-				 
-				 
-			 </div>
-		  </div>
+		<?php 
+			include ('../TemplateShop/_company-header.php');
+		?>
 		  <!------top-navbar-end-----------> 
 
 		   <!------main-content-start-----------> 
-           <div class="container-fluid py-4 main-container">
+    <div class="container-fluid py-4 main-container">
     <div class=" mb-6">
         <div class="row">
             <div class="row col-14 border-right pr-0">
@@ -253,10 +132,10 @@ $messages = mysqli_query($con, $messages_query);
                     </div>
                     
                     <div class="mt-2 pt-3 border-top">
-                                <p class="text-s font-weight-bold mb-0"> <?php echo print_r($messages)."\n" ?> </p>
-                                <p class="text-s font-weight-bold mb-0"> <?php echo $u_email ?> </p>
+                                <!-- <p class="text-s font-weight-bold mb-0"> <?php echo print_r($messages)."\n" ?> </p>
+                                <p class="text-s font-weight-bold mb-0"> <?php echo $u_email ?> </p> -->
 
-                        <div class="convo" id="convo">
+                        <!-- <div class="convo" id="convo">
                             <?php foreach ($messages as $row) { ?>
                                 <div class="<?= $row['to_email'] != $u_email ? 'sender' : 'receiver' ?>">
                                     <span class="convomess"><?= $row['message'] ?></span>
@@ -271,7 +150,11 @@ $messages = mysqli_query($con, $messages_query);
                                     <small><span><?= $row['message_added'] ?></span></small>
                                 </div>
                             <?php } ?>
-                        </div>
+                        </div> -->
+						<div class="messages" id="messages">
+
+
+						</div>
 
                         <div class="mt-3">
 						<div class="statusMsg"></div>
@@ -330,27 +213,63 @@ $messages = mysqli_query($con, $messages_query);
   
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <script src="/js/jquery-3.3.1.slim.min.js"></script>
+   <!-- <script src="/js/jquery-3.3.1.slim.min.js"></script>
    <script src="/js/popper.min.js"></script>
    <script src="/js/bootstrap.min.js"></script>
    <script src="/js/jquery-3.3.1.min.js"></script>
-   <script src="../index.js"></script>
+   <script src="../index.js"></script> -->
 
   <script type="text/javascript">
        $(document).ready(function(){
+		var divElement = document.getElementById("messages");
+		
+
+		divElement.onmouseenter = ()=>{
+			divElement.classList.add("active");
+		}
+		divElement.onmouseleave = ()=>{
+			divElement.classList.remove("active");;
+		}
+		function fetchMessages() {
+			
+			if(!divElement.classList.contains("active")){
+				scrollDiv();
+			}
+			var cust_email = document.getElementById("cust_email1");
+        	var seller_email = document.getElementById("seller_email1");
+			$.ajax({
+				url: "chat_shop.php",
+				method: "POST",
+				
+				data: { action: "fetch",
+					email:$(cust_email).val(),
+                    to_email:$(seller_email).val(),
+
+				 },
+				success: function(data) {
+					$("#messages").html(data);
+				}
+			});
+    	}
+		function scrollDiv(){
+            divElement.scrollTop = divElement.scrollHeight;
+		}
+		setInterval(fetchMessages, 500);
+		fetchMessages();
+
 			$("html, body").animate({
                     scrollTop: $(
                       'html, body').get(0).scrollHeight
             }, 2000);
 				
-	      $(".xp-menubar").on('click',function(){
-		    $("#sidebar").toggleClass('active');
-			$("#content").toggleClass('active');
-		  });
+	    //   $(".xp-menubar").on('click',function(){
+		//     $("#sidebar").toggleClass('active');
+		// 	$("#content").toggleClass('active');
+		//   });
 		  
-		  $('.xp-menubar,.body-overlay').on('click',function(){
-		     $("#sidebar,.body-overlay").toggleClass('show-nav');
-		  });
+		//   $('.xp-menubar,.body-overlay').on('click',function(){
+		//      $("#sidebar,.body-overlay").toggleClass('show-nav');
+		//   });
 		  
 	   });
   </script>
@@ -359,8 +278,7 @@ $messages = mysqli_query($con, $messages_query);
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
   </form>
-  </body>
-  
-  </html>
-
+  <?php 
+	include ('../TemplateShop/_company-footer.php');
+  ?>
 

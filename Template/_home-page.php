@@ -129,6 +129,7 @@ if(!isset($_SESSION["dateFrom"]) && !isset($_SESSION["dateTo"])){
             bgParallax1.style.backgroundPositionY = '50%';    
         }
     });
+    observer.observe(cards[0]);
     // $(function() {
     //     $("#dateFrom").datepicker(
 
