@@ -306,6 +306,27 @@ public function getSellerItem($table = null){
         
     }
 
+    public function getCompleteCount(){
+        
+        $userid = $_SESSION["user_id"];
+        $result = $this->db->con->query("SELECT * FROM salesreport WHERE user_id = {$userid} ");
+        // WHERE user_id={$userid} 
+        $resultArray = array();
+
+        //fetch product data one by one
+        while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $resultArray[] = $item;
+        }
+
+        return $resultArray;
+    
+    // $result = mysqli_query($this->db->con,"SELECT * FROM product WHERE status = '0' ");
+
+    // return $resultArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    
+    }
+
     public function getInUseCount(){
         
         $userid = $_SESSION["user_id"];

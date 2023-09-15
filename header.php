@@ -23,12 +23,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentaCar</title>
 
-    <!--Bootstrap CDN-->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>     -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> -->
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <!-- Owl-carousel CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
@@ -43,13 +44,16 @@
 
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
 
     <!-- Jquery -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-
-
+    <!--Bootstrap CDN-->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
 
 
 
@@ -71,23 +75,41 @@
 
             <ul class="navbar-nav justify-content-center col-sm-8">
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'index.php'?'active':'' ?>" href="index.php">Reservations
+                    <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Reservations
                     <span  class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'specialoffers.php'?'active':'' ?>" href="specialoffers.php">Special Offers</a>
+                    <a class="nav-link <?= $page == '../specialoffers.php'?'active':'' ?>" href="../specialoffers.php">Special Offers</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link <?= $page == 'vehicles.php'?'active':'' ?>" href="vehicles.php">Shops</a>
+                    <a class="nav-link <?= $page == '../vehicles.php'?'active':'' ?>" href="../vehicles.php">Shops</a>
                 </li>
             </ul>
             <ul class="navbar-nav align-items-center col-sm-3 ">
-                <li class="pe-3">
+                <!-- <li class="pe-3">
                     <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
                          <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
                     </button>
-                </li>
+                </li> -->
+                <li class="dropdown nav-item">
+                <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
+                         <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
+                    </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
+                                            </ul>
+                                        </li>
                 <li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../messages.php">
+                        <i class="btn btn-dark border fa-regular fa-message"></i>
+                    </a>
+                </li>
+
 
                     <input type="search" id="form1" class="form-control w-100" placeholder="Search" />
                     <!-- <label class="form-label" for="form1">Search</label> -->

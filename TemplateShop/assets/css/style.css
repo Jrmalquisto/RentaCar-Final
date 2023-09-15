@@ -88,10 +88,10 @@ span.convomess{
     height:100%;
 }
 
-.convo {
+.messages {
     display: flex;
     flex-direction: column;
-    max-height: 325px;
+    max-height: 50vh;
     overflow-y: auto;
     scrollbar-color: #E6873C #EEAF7D;
     scrollbar-width: thin;

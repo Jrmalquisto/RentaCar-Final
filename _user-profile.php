@@ -26,13 +26,13 @@ $image= $res['pic_ID'];
 <head>
 	<title>User Profile</title>
 	<link rel="stylesheet" type="text/css" href="style1.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script> -->
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js" rel="stylesheet">
    -->
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style1.css">
 
@@ -137,9 +137,11 @@ $image= $res['pic_ID'];
 						<ul style="list-style: none;">
 						  <li><a href="index.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
 						  <li><a href="profile.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Profile</span></a></li>
+						  <li><a href="message.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-message"></i> <span>Message</span></a></li>
 						  <li><a href="userreservation.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-calendar-check"></i> <span>My Reservation</span></a></li>
-						  <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i> <span style="padding-left:5px">My Rented Cars</span></a></li>
-						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i> <span>Change Password</span></a></li>
+						  <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i><span>My Rented Cars</span></a></li>
+						  <li><a href="completed_trans.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i><span>Completed Transactions</span></a></li>
+						  <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-lock"></i> <span>Change Password</span></a></li>
 						</ul>
 					</nav>
 				</div>
@@ -152,7 +154,7 @@ $image= $res['pic_ID'];
 						<div class="row mt-2 border-top">
 							<input type="hidden" name="user_id" value="<?php echo $fetch_user['user_id'];?>">
 
-							<div class="mt-3 col-md-6"><label class="labels">full Name</label>
+							<div class="mt-3 col-md-6"><label class="labels">Full Name</label>
 								<input type="text" name="fullname" placeholder="Enter your full name" autocomplete="off" class="form-control" value="<?php echo $fullname;?>">
 							</div>
 
