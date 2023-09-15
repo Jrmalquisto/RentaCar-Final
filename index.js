@@ -53,7 +53,7 @@ $(document).ready(function(){
                 success: function(data){
                     $(messages).val("");
                     // $('#title').html(data);
-                    $("#convo").load(location.href + " #convo");
+                    // $("#convo").load(location.href + " #convo");
                     $("#loading").hide();
                     $("#send1").show(); 
                 },
@@ -63,8 +63,7 @@ $(document).ready(function(){
     $('#send2').click(function(){
         // $("#form12").on("submit",(function(e) {   
     
-            var messages = document.getElementById("mytext");
-            // var message = messages.value;        
+            var messages1 = document.getElementById("mytext1");
             var cust_email1 = document.getElementById("cust_email1");
             var seller_email1 = document.getElementById("seller_email1");
             // var attachment = document.getElementById("attachment");
@@ -73,7 +72,7 @@ $(document).ready(function(){
                 type:'POST',
                 url:'../send_data_shop.php',
                 data:{
-                    messages:$(messages).val(),
+                    messages1:$(messages1).val(),
                     email:$(seller_email1).val(),
                     to_email:$(cust_email1).val(),
                     // attachment:$(attachment).val(),
@@ -82,12 +81,13 @@ $(document).ready(function(){
                         // $("#send1").hide();
                 },
                 success: function(data){
-                    $(messages).val("");
+                    $(messages1).val("");
                     // $('#title').html(data);
-                    $("#convo").load(location.href + " #convo");
+                    // $("#convo").load(location.href + " #convo");
                     $("#loading").hide();
-                    $("#send1").show(); 
+                    $("#send2").show(); 
                 },
+                
             });
              
     }); 

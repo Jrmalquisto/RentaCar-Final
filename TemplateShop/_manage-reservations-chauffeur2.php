@@ -202,13 +202,13 @@ if(isset($_POST['update_res'])){
                                 <td>
 									<div class="row">
 										<form action="_manage-reservations2.php" class="d-inline" >
-										<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-bs-toggle="modal" data-bs-target="#editReservationModal" >
+										<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-toggle="modal" data-target="#editReservationModal" >
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
 										</button>
 									</form>
 
 									<form action="_manage-reservations2.php" class="d-inline">
-										<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteReservationModal">
+										<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-toggle="modal" data-target="#deleteReservationModal">
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
 										</button>
 									</form>
@@ -276,7 +276,7 @@ if(isset($_POST['update_res'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -340,7 +340,7 @@ if(isset($_POST['update_res'])){
       	</div>
       <div class="modal-footer">
 	  	<button type="submit" name="update_res" id="update_res" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

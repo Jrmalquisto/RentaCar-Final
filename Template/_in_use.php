@@ -56,10 +56,10 @@
 
         
             if($query_run){
-                header("location: userreservation.php");
+                header("location: in_use.php");
             }
             else {
-                header("location: userreservation.php");
+                header("location: in_use.php");
             }
         }
     
@@ -67,7 +67,7 @@
     // $datet = str_replace(" ", "-", $datet);
     
 ?>
-<section class="reserve_sect" class="py-3">
+<section class="in_use" class="py-3">
 <div class="container">
     <div class="row">
         <div class="col">
@@ -162,18 +162,18 @@
                     </div> -->
                     <div class="input-box">
                         <span>Pickup Date</span>
-                        <input type="datetime-local" name="dateFrom" id="dateFrom" value="<?php echo $dF ?? $dated;?>" readonly>
+                        <p class="fw-bold  ml-3 p-1 border rounded"> <?php echo date('m/d/Y\ H:i a', strtotime($value['pickupdate']))?? 0; ?></p>
                     </div>
 
                     <div class="input-box">
                         <span>Return Date</span>
-                        <input type="datetime-local" name="dateTo" id="dateTo" value="<?php echo $dT ?? $dated;?>" readonly>
+                        <p class="fw-bold  ml-3 p-1 border rounded"> <?php echo date('m/d/Y\ H:i a', strtotime($value['returndate']))?? 0; ?></p>
                     </div>
                     
                     <div class="form-group mt-4 align-self-start">
                         <p class = "fw-bold  ml-3"> With Driver: <?php echo $value['driver_stat'] ?? 0; ?></p>
 
-                        <p class = "text-muted"> Note: You can only cancel a reservation within 24 hours. Further cancellation above timeframe will ensue a cancellation fee per vehicle/s. </p>
+                        <!-- <p class = "text-muted"> Note: You can only cancel a reservation within 24 hours. Further cancellation above timeframe will ensue a cancellation fee per vehicle/s. </p> -->
                         
                     </div>
                     <hr>
@@ -221,9 +221,7 @@
     <?php
         // }, $product->getProdCount($value['item_id']));
                     
-                endforeach;
-            endforeach;
-        endforeach;
+                
 
         foreach ($product->getDriver($value['driver_id']??0) as $driver):
             $driverid = $value['driver_id'];
@@ -311,19 +309,19 @@
                     <table class="my-3 d-flex align-items-center justify-content-center">
                         <tr class="font-rale font-size-16">
                                 <td>Shop Name: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['shopname'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark"><span><?php echo $shop['shopname'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Email: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['email'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark"><span><?php echo $shop['email'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Contact Number: </td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['contact_num'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
+                                <td class="font-size-20 text-dark"><span><?php echo $shop['contact_num'] ?? 0; ?></span><small class="text-dark font-size-12">&nbsp;&nbsp;</small></td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Address:</td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span></td>
+                                <td class="font-size-20 text-dark"><span><?php echo $shop['address'] ?? 0; ?></span></td>
                             </tr>
                             
                     </table>
@@ -334,7 +332,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
             </div>
         </div>
@@ -348,7 +346,9 @@
     
 <!----------------------------------------------PRODUCTS-------------------------------------------------------->
 <?php
-    
+    endforeach;
+endforeach;
+endforeach;
 endforeach;
     ?>
 

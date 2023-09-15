@@ -10,7 +10,7 @@
         }
     }
     
-    $countedSeller = $product->getSellerCount();
+    $countedSeller = $product->getAllSellers();
     
     $count = 0;
     // <?php foreach ($product_shop as $item){
@@ -27,10 +27,13 @@
             // }
                 // while ($count <= $countedSeller){
                 //     $count++;
+                // print_r(array_unique($countedSeller, SORT_REGULAR));
+                $countedSeller = array_unique($countedSeller, SORT_REGULAR);
                 foreach ($countedSeller as $value):
                     // $trimmedArray = array_map('trim', $value);
                     // $emptyRemoved = array_filter($trimmedArray);
-
+                    // var_dump($value);
+                    
     ?>
                    
                         

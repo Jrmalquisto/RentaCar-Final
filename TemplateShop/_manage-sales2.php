@@ -175,7 +175,7 @@ $image = $res['shop_logo'];
                 <th width="200">Vehicle Model</th>
 				<th width="100">Plate No.</th>
                 <th width="200">Pick-up Date and Time</th>
-                <th width="200">Reutrn Date and Time</th>
+                <th width="200">Return Date and Time</th>
 				<th width="150">No. of Days Rented</th>
 				<th width="150">Additional Fee</th>
                 <th width="150">Total Amount</th>
@@ -236,7 +236,7 @@ $image = $res['shop_logo'];
                     <td><?php echo $return?></td>
 					<td><?php echo $days?></td>
 					<td><?php echo $fee?></td>
-                    <td><?php echo $price?></td>
+                    <td>₱<?php echo $price?></td>
 					<td>
 					<form action="_manage-sales2.php" class="d-inline">
 							<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteSalesModal">

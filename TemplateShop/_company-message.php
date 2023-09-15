@@ -61,7 +61,7 @@ $messages = mysqli_query($con, $messages_query);
 	    <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="/css/bootstrap.min.css">
 	    <!----css3---->
-        <link rel="stylesheet" href="/css/custom.css">
+        <!-- <link rel="stylesheet" href="/css/custom.css"> -->
 		
 		
 		<!--google fonts -->
@@ -77,18 +77,28 @@ $messages = mysqli_query($con, $messages_query);
 	   <!--google material icon-->
       <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
 
-      <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
+      <!-- <link rel="stylesheet" href="../css/bootstrap.min.css"> -->
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+
+      <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+     -->
+
 	    <!----css3---->
-        <link rel="stylesheet" href="../css/custom.css">
+      <link rel="stylesheet" href="../css/custom.css">
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
       <link href="../TemplateShop/assets/css/nucleo-icons.css" rel="stylesheet" />
       <link href="../TemplateShop/assets/css/nucleo-svg.css" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
       <link id="pagestyle" href="../TemplateShop/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
       <link rel="stylesheet" href="../TemplateShop/assets/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   <script src="/js/popper.min.js"></script>
-   <script src="/js/bootstrap.min.js"></script>
+      <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   -->
+      <!-- <script src="/js/popper.min.js"></script> -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+      <script src="/js/bootstrap.min.js"></script>
 
   </head>
   <body>
@@ -162,9 +172,9 @@ $messages = mysqli_query($con, $messages_query);
                                 <div class="textarea-container">
 								<input  id="seller_email1" type="hidden" name="seller_email1" value="<?= $email ?>">
 								<input  id="cust_email1" type="hidden" name="cust_email1" value="<?= $u_email ?>">
-                                <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
+                                <textarea id="mytext1" class="form-control mt-2" rows="1" name="mytext1"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
-                                <button type="button" value="Send Reply" class="btn button-update" id="send2" ></button>
+                                <button type="button" value="Send Reply" class="btn button-update" id="send2" >Send</button>
                                 <label for="fimage"><iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon></label>
                                 <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
                                 </div>
@@ -213,12 +223,14 @@ $messages = mysqli_query($con, $messages_query);
   
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <!-- <script src="/js/jquery-3.3.1.slim.min.js"></script>
+   <!-- <script src="/js/jquery-3.3.1.slim.min.js"></script> -->
+   <!-- <script src="/js/popper.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script> -->
+   <!-- <script src="/js/jquery-3.3.1.min.js"></script> -->
+   <script src="../index.js"></script>
+   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   -->
    <script src="/js/popper.min.js"></script>
-   <script src="/js/bootstrap.min.js"></script>
-   <script src="/js/jquery-3.3.1.min.js"></script>
-   <script src="../index.js"></script> -->
-
   <script type="text/javascript">
        $(document).ready(function(){
 		var divElement = document.getElementById("messages");
@@ -275,7 +287,7 @@ $messages = mysqli_query($con, $messages_query);
   </script>
   
   
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  
 
   </form>
   <?php 

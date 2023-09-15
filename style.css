@@ -825,17 +825,21 @@ height: 180px;
     margin-left: -100px;
 }
 /* Footer */
-
+/* 
 .footer{
-    height: 35vh;
     width: 100%;
-}
+ } */
 footer{
     background-color: #353535;
-    padding: 35px 0;
-    height: 50vh;
-    margin-top:auto;
+    color: #ffffff;
+    /* padding: 35px 0;
+    margin-top:auto; */
 }
+footer .col ul li a{
+    color: #ffffff;
+
+}
+/*
 .footer .row{
 	display: flex;
 	flex-wrap: wrap;
@@ -902,7 +906,7 @@ footer{
 }
 #footer{
     border-top: 1px solid #ccc;
-}
+} */
 
 /* Company */
 :root {
