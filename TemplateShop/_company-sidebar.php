@@ -16,7 +16,7 @@
 		  </li>
 		  
 		  <li class="car_management">
-		  <a  href="#">
+		  <a  href="_manage-cars2.php">
 		  <i class="material-icons">directions_car</i>Car Management
 		  </a>
 		  </li>

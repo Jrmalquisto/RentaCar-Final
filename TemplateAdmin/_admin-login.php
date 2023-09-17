@@ -10,8 +10,7 @@ $pass_word = "";
 
 
 if (isset($_POST['submit'])) {
-    function validate($data)
-    {
+    function validate($data){
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
@@ -50,18 +49,14 @@ if (isset($_POST['submit'])) {
         $row = $resultSet->fetch(PDO::FETCH_ASSOC);
 
 
-        $verified = $row['verified'];
-        $user_id = $row['user_id'];
-        $user_name = $row['user_name'];
-        $email = $row['email'];
-        $date = $row['register_date'];
+        $admin_id = $row['admin_id'];
+        $username = $row['user_name'];
+        $adminname = $row['admin_name'];
         $contact = $row['contact_num'];
-        $date = strtotime($date);
-        $date = date('M d Y', $date);
 
-        $_SESSION["user_id"] = $user_id;
-        $_SESSION["cont_num"] = $contact;
-        $_SESSION["user_name"] = $user_name;
+        $_SESSION["admin_id"] = $admin_id;
+        $_SESSION["admin_name"] = $adminname;
+        $_SESSION["user_name"] = $username;
 
         if ($row['user_name'] === $username && $row['admin_pass'] === $password) {
             header('Location:.dashboardAdmin.php');
@@ -161,7 +156,8 @@ if (isset($_POST['seller-submit'])) {
                         <!-- <button type="submit" class="btn solid" name="submit">Login</button> -->
 
 
-                        <p class="social-text">Don`t have an account? <a href="_admin_create_acc.php?signup=free">Register Here!</p>
+                        <p class="social-text">Don`t have an account? 
+                            <a href="_admin_create_acc.php?signup=free">Register Here!</p>
                         <div class="social-media">
                             <a href="#" class="social-icon">
                                 <i class="fab fa-facebook-f"></i>

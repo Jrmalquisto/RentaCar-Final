@@ -12,7 +12,7 @@ $response = array(
     'message' => 'Form submission failed, please try again.' 
 ); 
 
-$messages = $_POST['messages'];
+$messages = $_POST['messages1'];
 $email = $_POST["email"];
 $to_email = $_POST["to_email"];
 // $attachment = $_POST["attachment"];

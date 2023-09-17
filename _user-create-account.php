@@ -49,7 +49,7 @@
                 //Check if email is valid
                 if ($password!=$password2){
                     //echo '<script> alert("Password not matched")</script>';
-                    header ("Location: ../_user-create-account.php?signup=pwerror&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username");
+                    header ("Location: ../_user-create-account.php?signup=pwerror&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
                     exit();
                 }  else {
                     $mysqli = new mysqli('localhost', 'root','','rentacar');
@@ -71,41 +71,50 @@
                     //password encryption
                     $password = md5($password);
                     
-                    if (in_array($img_ex_lc, $allowed_exs)) {
-                        $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                        // $new_img_name = "assets/SampleProd/".$img_name;
-                        $img_upload_path = 'assets/legal_id/'.$new_img_name;
-                        move_uploaded_file($tmp_name, $img_upload_path);
-
-                        // Insert into Database
-                        
-                        $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
-                        values ('$username','$fullname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
-                        // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
-                        // values (0,0)");
-
-                        if ($insert){
-                            
-                                header("Location: ../_user-login.php");
-                            
-                            
-                        } else {
-                        
-                            $em = "Sorry, yours.";
-                            header("Location: ../_user-create-account.php?error=$em");
-            
-                            echo "<script> alert('$error');window.location=index.php</script>";
-                                
-                        }
-
+                    if ($error==4){
+                        header ("Location: ../_user-create-account.php?signup=noid&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
                     } else {
-                        
-                        $em = $validID;
-                        $errrr = $tmp_name;
-                        header("Location: ../_user-create-account.php?error=$em, aasd=$errrr");
-        
-                        echo "<script> alert('$error');window.location= _user-create-account.php</script>";
-                        
+
+                        if (in_array($img_ex_lc, $allowed_exs)) {
+                            $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                            // $new_img_name = "assets/SampleProd/".$img_name;
+                            $img_upload_path = 'assets/legal_id/'.$new_img_name;
+                            move_uploaded_file($tmp_name, $img_upload_path);
+
+                            // Insert into Database
+                            
+                            $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
+                            values ('$username','$fullname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
+                            // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
+                            // values (0,0)");
+
+                            if ($insert){
+                                
+                                $notificationMessage = "New account created: " . $username;
+                                $insertNotification = $mysqli->query("INSERT INTO notifications (message, timestamp, status) VALUES ('$notificationMessage', NOW(), 'unread')");
+
+                                header("Location: ../_user-login.php");
+                                
+                                
+                            } else {
+                            
+                                $em = "Sorry, yours.";
+                                header("Location: ../_user-create-account.php?error=$em");
+                
+                                echo "<script> alert('$error');window.location=index.php</script>";
+                                    
+                            }
+
+                        } else {
+                            
+                            $em = $validID;
+                            $errrr = $tmp_name;
+                            header("Location: ../_user-create-account.php?error=$em&aasd=$errrr");
+            
+                            echo "<script> alert('$error');window.location= _user-create-account.php</script>";
+                            
+                        }
                     }
                 }
             }
@@ -255,16 +264,32 @@
                     <!-- Contact Number -->
                     <div class="input-field col-6 mb-3">
                         
-                        <input type="text" name="cont_num" style="border-radius:30px" class="form-control" placeholder="Contact Number" value="">
+                        <!-- <input type="text" name="cont_num" style="border-radius:30px" class="form-control" placeholder="Contact Number" value=".$contact"> -->
 
-                        
+                        <?php
+                            if (isset($_GET['contact'])) {
+                                $contact = $_GET['contact'];
+                                echo '<input type="text" name="cont_num" style="border-radius:30px" class="form-control" placeholder="Contact Number" value="'.$contact.'">';
+                                
+                            } else {
+                                echo '<input type="text" name="cont_num" style="border-radius:30px" class="form-control" placeholder="Contact Number" value="">';
+                            }
+                    ?>  
                     </div>
                 </div>
                 <!-- Address -->
                 <div class="input-field mb-3">
                         
-                    <input type="text" name="address" style="border-radius:30px" class="form-control" placeholder="Address" value="">
+                    <?php
+                            if (isset($_GET['address'])) {
+                                $address = $_GET['address'];
+                                echo '<input type="text" name="address" style="border-radius:30px" class="form-control" placeholder="Address" value="'.$address.'">';
+                                // <input type="text" name="address" style="border-radius:30px" class="form-control" placeholder="Address" value=".$address.">
 
+                            } else {
+                                echo '<input type="text" name="address" style="border-radius:30px" class="form-control" placeholder="Address" value="">';
+                            }
+                    ?>  
                         
                 </div>
                   <!-- Email -->
@@ -274,8 +299,7 @@
                                 $email = $_GET['email'];
                                 echo '<input type="email" name="email" style="border-radius:30px" class="form-control" placeholder="Email" value="'.$email.'">';
                                 
-                            }
-                            else {
+                            } else {
                                 echo '<input type="email" class="form-control" style="border-radius:30px" placeholder="Email" name="email" autocomplete="off" required/>';
                             }
                     ?>   
@@ -285,7 +309,15 @@
                 <div class="form-group mb-5 border-bottom-0">
                     <label for="pic_ID">Please upload Valid ID.</label>
                     <input type="file" class="form-control-file" id="pic_ID" name="pic_ID">
+
+                    <?php 
+                        if ($_GET['signup'] == 'noid') {
+                                
+                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Valid ID is required.</small></p>";
+                        }
+                    ?>
                 </div>
+                
                
                 
                 

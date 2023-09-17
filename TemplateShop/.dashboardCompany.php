@@ -136,7 +136,7 @@ $image = $res['shop_logo'];
 		<div class="box">
         <p><?php
             $con = new mysqli("localhost", "root", "", "rentacar");
-            $query = "SELECT id FROM reservation WHERE status='In Use'";
+            $query = "SELECT id FROM reservation WHERE status='In Use' AND seller_id='$com_id'";
             $result = mysqli_query($con, $query);
             $row = mysqli_num_rows($result);echo '' .$row. '';
             ?><br/>

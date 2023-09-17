@@ -127,7 +127,7 @@
                         <!-- <button type="submit" class="btn solid" name="submit">Login</button> -->
                     
 
-                        <p class="social-text">Don`t have an account? <a href="_company-create-account.php?signup=free">Register Here!</p>
+                        <p class="social-text">Don`t have an account? <a href="_company-create-account.php?error=free">Register Here!</p>
                         
                     </form>
 
@@ -148,7 +148,7 @@
 
                         <input type="submit" class="btn" value="Login" name="seller-submit">
 
-                        <p class="social-text">Don`t have an account? <a href="_company-create-account.php?signup=free">Register Here!</p>
+                        <p class="social-text">Don`t have an account? <a href="_company-create-account.php?error=free">Register Here!</p>
                         <div class="social-media">
                             <a href="#" class="social-icon">
                                 <i class="fab fa-facebook-f"></i>

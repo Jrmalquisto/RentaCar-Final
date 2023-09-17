@@ -2,7 +2,6 @@
     $item_id = $_GET['item_id']??1;
     $_SESSION["item_id"] = $item_id;
     $userid = $_SESSION["user_id"];
-
     $dated = date("Y-m-d H:m");
     $con = mysqli_connect("localhost","root","","rentacar");
 
@@ -207,14 +206,11 @@
 
                        
                         $sql = "SELECT * from reservation where item_id = $item_id AND status ='Pending' AND user_id = $user_id";
-                        $sql1 = "SELECT verified from user where user_id = $user_id";
                         $result =$con->query($sql);
-                        $result1 =$con->query($sql1);
+
                         
                        
                         $row = $result->fetch_assoc();
-                        $row1 = $result1->fetch_assoc();
-                        $verify =  $row1["verified"];
                         $product=$row["item_id"];
                         
                             if(!$product==$item_id){
@@ -235,6 +231,7 @@
                                 } else if(empty($_POST["driver_stat"])){
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Please pick your driver status.');
                                     exit();
+        
                                 } else {
         
                                     $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
@@ -265,76 +262,6 @@
             }
     
 ?>
-
-<?php
-if(isset($_POST['uploadLicense'])){
-$folder='../images/shop/';
-
-$file = $_FILES['Front_Photo']['tmp_name'];
-$file_name = $_FILES['Front_Photo']['name'];
-$file_name_array = explode(".", $file_name); 
-    $extension = end($file_name_array);
-
-    $new_image_name ='Front_'.rand() . '.' . $extension;
-		if ($_FILES["pic_ID"]["size"] >10000000) {
-		$error[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-		}
-
-        if($file != ""){
-			if($extension!= "jpg" && $extension!= "png" && $extension!= "jpeg"
-			&& $extension!= "gif" && $extension!= "PNG" && $extension!= "JPG" && $extension!= "GIF" && $extension!= "JPEG"){
-				$error[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-			}
-		}
-
-$file1 = $_FILES['Back_Photo']['tmp_name'];
-$file_name1 = $_FILES['Back_Photo']['name'];
-$file_name_array1 = explode(".", $file_name1); 
-    $extension1 = end($file_name_array1);
-
-    $new_image_name1 ='Back_'.rand() . '.' . $extension1;
-		if ($_FILES["pic_ID"]["size"] >10000000) {
-		$error1[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-		}
-
-		if($file1 != ""){
-			if($extension1!= "jpg" && $extension1!= "png" && $extension1!= "jpeg"
-			&& $extension1!= "gif" && $extension1!= "PNG" && $extension1!= "JPG" && $extension1!= "GIF" && $extension1!= "JPEG"){
-				$error1[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-			}
-		}
-
-        if(!isset($error)){ 
-			if($file!= ""){
-			  	$stmt = mysqli_query($con,"SELECT license_front FROM user WHERE user_id='$userid'");
-			  	$row = mysqli_fetch_array($stmt); 
-			  	$deleteimage=$row['license_front'];
-				unlink($folder.$deleteimage);
-				move_uploaded_file($file, $folder . $new_image_name); 
-				mysqli_query($con,"UPDATE user SET license_front='$new_image_name' WHERE user_id='$userid'");
-			}
-
-		if($file1!= ""){
-				$stmt1 = mysqli_query($con,"SELECT license_back FROM user WHERE user_id='$userid'");
-				$row1 = mysqli_fetch_array($stmt1); 
-				$deleteimage=$row1['license_back'];
-			  	unlink($folder.$deleteimage);
-			  	move_uploaded_file($file1, $folder . $new_image_name1); 
-			  	mysqli_query($con,"UPDATE user SET license_back='$new_image_name1' WHERE user_id='$userid'");
-		  	}
-		  
-		
-		if(!$error){
-			header('Location:../product.php');
-		} else {
-			header('Location:../product.php?error=Upload Failed');
-		}
-  
-	  }
-
-}
-?>
-
 <section id="product" class="py-3" onload="disableSubmit()">
     <div class="container ">
         <div class="row">
@@ -436,14 +363,9 @@ $file_name_array1 = explode(".", $file_name1);
 
                     <div class="form-group mt-4 align-self-start">
                         <label for=>With driver?</label>
-                        <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
-                        <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
+                        <input type="radio" name="driver_stat" id="driver_stat" value="Yes" /> Yes
+                        <input type="radio" name="driver_stat" id="driver_stat" value="No" /> No
                     </div>
-
-                    <button id="uploadText"  style="display: none; margin-top: 15px;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#UploadModal">
-                        Upload Photo of Driver's License
-                    </button>
-
                     <p class="text-muted"> Note: Choosing without a driver will require an image of your Driver's
                         License for confirmation. </p>
 
@@ -481,13 +403,12 @@ $file_name_array1 = explode(".", $file_name1);
 
                         </div>
                     </div>
-                    
+
+
                     <?php if (isset($_GET['error'])) {             ?>
                     <p class="error"> <?php echo $_GET['error']; ?> </p>
 
                     <?php }?>
-
-                    
                     <!-- <?php 
                     $signupCheck = $_GET['error'];
                     if ($signupCheck == 'fnameerr') {             ?>
@@ -495,7 +416,6 @@ $file_name_array1 = explode(".", $file_name1);
 
                     <?php }?> -->
                     <!-- <form action="#" method="POST" > -->
-                    
                     <!-- TERMS AND RESERVE DIV -->
                     <div class="container pt-3 font-size-16 font-baloo">
                         <div class="row">
@@ -545,8 +465,10 @@ $file_name_array1 = explode(".", $file_name1);
                                     <h5>Confirm Reservation</h5>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" name="confirmreserve" id="confirmreserve" class="btn btn-danger">Reserve</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="confirmreserve" id="confirmreserve"
+                                        class="btn btn-danger">Reserve</button>
                                 </div>
                             </div>
 
@@ -761,45 +683,13 @@ $file_name_array1 = explode(".", $file_name1);
         </div>
     </div>
 
-    <div class="modal mt-5 fade" id="UploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Front and Back Photo of Your Driver's License</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-                <div class="modal-body">
-                    <div class="container ">
-                        
-                    <form action="" method="post" enctype="multipart/form-data">
-                    <div class="form-group col-6 mt-3">
-                        <label for="Front_Photo" style="font-size:17px; font-weight:400; width:200%;">Front Photo of Driver's License</label><br>
-                        <input class="form-control" type="file" name="Front_Photo" id="Front_Photo" style="width:200%;" >
-        			</div>
-						
-                    <div class="form-group col-6 mt-3">
-                        <label for="Back_Photo" style="font-size:17px; font-weight:400; width:200%;">Back Photo of Driver's License</label><br>
-                        <input class="form-control" type="file" name="Back_Photo" id="Back_Photo" style="width:200%;" >
-                    </div>
-						
-                    </div>
+    <div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Condition</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="uploadLicense" class="btn btn-success">Upload</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Condition</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
                 <div class="modal-body">
                     <div class="container ">
                         <div class="multiline" style="white-space:pre-wrap;">
@@ -821,10 +711,11 @@ $file_name_array1 = explode(".", $file_name1);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
     <style>
     .progress-label-left {
         float: left;
@@ -892,7 +783,6 @@ $file_name_array1 = explode(".", $file_name1);
        
         document.getElementById("dateFrom").addEventListener("change", calculatePrice);
         document.getElementById("dateTo").addEventListener("change", calculatePrice);
-
 
         function calculatePrice() {
             const pickupDate = new Date(document.getElementById("dateFrom").value);
@@ -1136,32 +1026,6 @@ $file_name_array1 = explode(".", $file_name1);
         // }
     });
     </script>
-
-<script>
-    var uploadText = document.getElementById("uploadText");
-    var yesRadioButton = document.getElementById("driver_stat_yes");
-    var noRadioButton = document.getElementById("driver_stat_no");
-
-    function toggleUploadText() {
-        if (noRadioButton.checked) {
-            uploadText.style.display = "block";
-        } else {
-            uploadText.style.display = "none";
-        }
-    }
-
-    yesRadioButton.addEventListener("change", toggleUploadText);
-    noRadioButton.addEventListener("change", toggleUploadText);
-
-    // Check the initial state when the page loads
-    toggleUploadText();
-</script>
-
-<script>
-    document.getElementById("Front_Photo").value = fileName;
-    document.getElementById("Back_Photo").value = fileName;
-</script>
-
     <script src="index.js"></script>
 
 </section>

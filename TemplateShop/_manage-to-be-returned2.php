@@ -15,6 +15,7 @@ $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id
 
 if($res = mysqli_fetch_array($findresult)){
 $image = $res['shop_logo'];
+$verified = $res['verified'];
 }
 
 
@@ -136,6 +137,10 @@ if(isset($_POST['update_res2'])){
 		     
 		<?php 
 			include ('../TemplateShop/_company-header.php');
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
+
+			} else {
 		?>
 		  <!------top-navbar-end-----------> 
 
@@ -234,13 +239,13 @@ if(isset($_POST['update_res2'])){
 									<div class="row">
 
 									<form action="_manage-reservations2.php" class="d-inline" >
-                                	<button type="button" name="edit_button" id="edit_button" class="btn btn-success edit_button mr-2" data-bs-toggle="modal" data-bs-target="#editReservationModal" >
+                                	<button type="button" name="edit_button" id="edit_button" class="btn btn-success edit_button mr-2" data-toggle="modal" data-target="#editReservationModal" >
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
 									</button>
                                 	</form>
 
 									<form action="_manage-reservations2.php" class="d-inline" >
-										<button type="button" name="conf_button" id="conf_button" class="btn btn-primary conf_button mr-2" data-bs-toggle="modal" data-bs-target="#completeModal" >
+										<button type="button" name="conf_button" id="conf_button" class="btn btn-primary conf_button mr-2" data-toggle="modal" data-target="#completeModal" >
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xe86c;</i>
 										</button>
 									</form>
@@ -275,7 +280,7 @@ if(isset($_POST['update_res2'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Add Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -319,7 +324,7 @@ if(isset($_POST['update_res2'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Rented Car</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -373,7 +378,7 @@ if(isset($_POST['update_res2'])){
       	</div>
       <div class="modal-footer">
 	  	<button type="submit" name="update_res" id="update_res" class="btn btn-success">Complete</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -388,7 +393,7 @@ if(isset($_POST['update_res2'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Rented Car</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -441,7 +446,7 @@ if(isset($_POST['update_res2'])){
       	</div>
       <div class="modal-footer">
 	  	<button type="submit" name="update_res2" id="update_res2" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -551,5 +556,6 @@ if(isset($_POST['update_res2'])){
 </script>
 
 <?php 
+			}
 	include ('../TemplateShop/_company-footer.php');
 ?>

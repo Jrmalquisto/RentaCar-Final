@@ -69,31 +69,37 @@
             
             try{
                 
-                $product = $_POST['pay'];
-                $pending = "Pending";
-                $sql = "SELECT * from reservation where item_id = $product AND status ='Pending' AND user_id = $userid";
+                $products = $_POST['pay'];
+                $driver_id = $_POST['driver_id'];
+                $driver_stat = $_POST['driver_stat'];
+                $res_stat = $_POST['res_stat'];
+                // $pending = "Pending";
+                
+            //     $result = $con->query("SELECT * from reservation WHERE item_id = $products AND status ='Pending' AND user_id = $userid");
+            //     // $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            //    if($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            //         $item_id = $row["item_id"];
+            //         $driver = $row["driver_id"];
+            //         $driver_stat = $row["driver_stat"];
+            //         $res_stat = $row["status"];
+            //     }
                
-                $result =$con->query($sql);
-                $row = $result->fetch_assoc();
+                $query = "UPDATE reservation SET status='In Use' WHERE item_id='$products' ";
+                $query1 = "UPDATE product SET status = 1 WHERE item_id='$products'";
+                
 
-              
                 
-                $item_id=$row["item_id"];
-                $driver = $row["driver_id"];
+                if ($res_stat=="Pending"){
+                    header('Location: ../userreservation.php?&&error=Your reservation has not been approved yet');                    
                 
-                if(!$product==$item_id){
-                    $query = "UPDATE reservation SET status='In Use' WHERE item_id='$product' ";
+                } else if ($driver_id == 0 && $driver_stat == "Yes"){
+                    header('Location: ../userreservation.php?&&error=Driver not assigned yet. Please do stand by.');
+                    
+                } else {
                     $query = mysqli_query($con, $query);
-                    $query1 = "UPDATE product SET status= 1 WHERE item_id='$product'";
                     $query1 = mysqli_query($con, $query1);
-
                     header("location: in_use.php");
-                } else if (empty($driver)){
-                    header('Location: ../userreservation.php?&&error=Driver not assigned yet');
-                    exit();
-                }else {
-                    header('Location: ../userreservation.php?&&error=Your reservation has not been approved yet');
-                    exit();
+                    exit();                    
                 }
             
                 // if($query){
@@ -161,9 +167,6 @@
                     <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>
                 </a> -->
                 
-                <!-- <?php echo $userid?>
-                <?php echo $item['item_id'];?>
-                <?php echo $item['seller_id'];?> -->
                 
 
                 <hr class="m-0 my-2">
@@ -221,17 +224,6 @@
 
                 <form action="#" method="POST" class="row g-3 ">
 
-                    <!-- <div class="input-box">
-                        <span>Pick-up Date</span>
-                        <input type="date" name="dateFrom" id="dateFrom" value="<?php echo $dF ?? $dated;?>">
-                    </div> -->
-
-                    <!-- <div class="input-box">
-                        <span>Pickup Date</span>
-                        <input type="datetime-local" name="dateFrom" id="dateFrom" value="<?php echo $dF ?? $dated;?>"
-                            readonly>
-                    </div> -->
-                    
                     <div class="input-box">
                         <span>Pickup Date</span>
                         <!-- <input type="datetime-local" value="<?php echo date('m/d/Y\ H:i:s', strtotime($value['pickupdate'])) ?? $dated ;?>"
@@ -265,14 +257,18 @@
 
                         <h5 class=" text-danger fw-bold inline"> ₱ <?php echo $value['overall_price'] ?? 0; ?>.00</h5>
 
-
+                        
                         <form action="#" method="POST" class="d-inline">
+                        <input type="hidden" id="driver_stat" name="driver_stat" value="<?=$value['driver_stat'];?>">
+                        <input type="hidden" id="driver_id" name="driver_id" value="<?=$value['driver_id'];?>">
+                        <input type="hidden" id="res_stat" name="res_stat" value="<?=$value['status'];?>">
+
                             <button type="submit" name="pay" class="pay btn btn-danger btn-sm mb-2"
                                 value="<?=$value['item_id'];?>">Pay</button>
                             <button type="submit" name="removeRes" class="btn btn-danger btn-sm mb-2"
                                 onclick='return checkReserve()' value="<?=$value['item_id'];?>">Cancel</button>
                         </form>
-                        <?php 
+                        <!-- <?php 
                             if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
                             echo '<button type="button" class="btn userinfo btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Driver details
@@ -280,7 +276,7 @@
 
                                 
                             } 
-                        ?>
+                        ?> -->
                     </div>
                     <!-- <?php echo $value['driver_id'];?> -->
 
@@ -308,10 +304,7 @@
     <?php
         // }, $product->getProdCount($value['item_id']));
                     
-                endforeach;
-            endforeach;
-        endforeach;
-
+                
         foreach ($product->getDriver($value['driver_id']??0) as $driver):
             $driverid = $value['driver_id'];
         ?>
@@ -320,7 +313,7 @@
     <!-- Button trigger modal -->
 <!-- Shop Details Modal -->
 
-    <div class="modal" id="shopModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -335,27 +328,27 @@
                             <tr class="font-rale font-size-16">
                                 <td>Shop Name: </td>
                                 <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['shopname'] ?? 0; ?></span><small
+                                    <span><?php echo $shop['shopname'] ?? 0; ?></span><small
                                         class="text-dark font-size-12">&nbsp;&nbsp;</small>
                                 </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Email: </td>
                                 <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['email'] ?? 0; ?></span><small
+                                    <span><?php echo $shop['email'] ?? 0; ?></span><small
                                         class="text-dark font-size-12">&nbsp;&nbsp;</small>
                                 </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Contact Number: </td>
                                 <td class="font-size-20 text-dark">
-                                    <span><?php echo $value['contact_num'] ?? 0; ?></span><small
+                                    <span><?php echo $shop['contact_num'] ?? 0; ?></span><small
                                         class="text-dark font-size-12">&nbsp;&nbsp;</small>
                                 </td>
                             </tr>
                             <tr class="font-rale font-size-16">
                                 <td>Address:</td>
-                                <td class="font-size-20 text-dark"><span><?php echo $value['address'] ?? 0; ?></span>
+                                <td class="font-size-20 text-dark"><span><?php echo $shop['address'] ?? 0; ?></span>
                                 </td>
                             </tr>
 
@@ -374,7 +367,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -518,6 +511,9 @@ $(document).ready(function() {
 <!----------------------------------------------PRODUCTS-------------------------------------------------------->
 
 <?php
-    
+    endforeach;
+endforeach;
+endforeach;
+
 endforeach;
     ?>

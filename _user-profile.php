@@ -63,10 +63,10 @@ $image= $res['pic_ID'];
 		$phonenumber=$_POST['contact_num'];
 
 
-		$folder='images/';
+		$folder='images/user/';
+
 		$file = $_FILES['image']['tmp_name'];  
 		$file_name = $_FILES['image']['name']; 
-
 		$file_name_array = explode(".", $file_name); 
 		$extension = end($file_name_array);
 
@@ -127,7 +127,7 @@ $image= $res['pic_ID'];
 						<?php if($image==NULL){
 							echo '<img src="assets/user_profile/profile.png" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
 						} else { 
-							echo '<img src="images/'.$image.'" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
+							echo '<img src="images/user/'.$image.'" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
 						}
 						?>
 					<div class="row mt-1"></div>
@@ -198,7 +198,7 @@ $image= $res['pic_ID'];
 							<?php if($image==NULL){
 								echo '<img src="user_profile/profile.png">';
 							} else { 
-								echo '<img src="images/'.$image.'" style="height:80px; width: 80px; " class="rounded-circle mt-5>';
+								echo '<img src="images/user/'.$image.'" style="height:80px; width: 80px; " class="rounded-circle mt-5>';
 							}
 							?>
 							

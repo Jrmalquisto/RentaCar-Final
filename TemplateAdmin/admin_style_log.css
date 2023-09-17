@@ -101,9 +101,6 @@ input {
   margin-bottom: 20px;
 } 
 
-.forms-container .form-control
-{}
-
 form {
   display: flex;
   align-items: center;

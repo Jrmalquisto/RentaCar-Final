@@ -143,6 +143,13 @@ if(isset($_POST['update_car'])){
 	<!------top-navbar-start-----------> 
 		<?php 
 			include ('../TemplateShop/_company-header.php');
+
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
+
+			} else {
+
+			
 		?>
 	<!------top-navbar-end-----------> 
 
@@ -244,13 +251,13 @@ if(isset($_POST['update_car'])){
 
 						<div class="row">
 						<form action="_manage-cars2.php" class="d-inline" >
-							<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-bs-toggle="modal" data-bs-target="#editCarModal" >
+							<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-toggle="modal" data-target="#editCarModal" >
 								<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
 							</button>
 						</form>
 
 						<form action="_manage-cars2.php" class="d-inline">
-							<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCarModal">
+							<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-toggle="modal" data-target="#deleteCarModal">
 							<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
 							</button>
 						</form>
@@ -364,7 +371,7 @@ if(isset($_POST['update_car'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Car Information</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -425,7 +432,7 @@ if(isset($_POST['update_car'])){
 
       <div class="modal-footer">
 	  	<button type="submit" name="update_car" id="update_car" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
 	  </form>
     </div>
@@ -436,12 +443,12 @@ if(isset($_POST['update_car'])){
 					   
 					   
 					 <!----delete-modal start--------->
-					 <div class="modal fade" tabindex="-1" id="deleteCarModal" role="dialog">
+<div class="modal fade" tabindex="-1" id="deleteCarModal" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Delete Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -458,7 +465,7 @@ if(isset($_POST['update_car'])){
 
     	<div class="modal-footer">
 	  		<button type="submit" name="removeCar" id="removeCar" class="btn btn-success">Delete</button>
-        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 		</div>
 
 	</form>
@@ -493,6 +500,7 @@ if(isset($_POST['update_car'])){
 
 
 <?php 
+}
 	include ('../TemplateShop/_company-footer.php');
 ?>
 

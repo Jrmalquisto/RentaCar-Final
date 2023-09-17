@@ -15,6 +15,7 @@ $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id
 
 if($res = mysqli_fetch_array($findresult)){
 $image = $res['shop_logo'];
+$verified = $res['verified'];
 }
 
 $name2 = "";
@@ -184,8 +185,12 @@ if(isset($_POST['update'])){
 	     
 		  <!------top-navbar-start-----------> 
 		     
-		<?php 
+		  <?php 
 			include ('../TemplateShop/_company-header.php');
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
+
+			} else {
 		?>
 		  <!------top-navbar-end-----------> 
 
@@ -565,6 +570,7 @@ if(isset($_POST['update'])){
         });
 </script>
 <?php 
+			}
 	include ('../TemplateShop/_company-footer.php');
 ?>
 

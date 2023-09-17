@@ -122,7 +122,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="table-wrapper">
+                        <!-- <div class="table-wrapper">
 
                             <div class="table-title">
                                 <div class="row">
@@ -191,7 +191,7 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
                         
                     <?php } ?>
                   </tbody>
-                            </table>
+                           </table> -->
                             <?php foreach ($users as $row) { ?>
 									
 										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->

@@ -15,6 +15,8 @@ $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id
 
 if($res = mysqli_fetch_array($findresult)){
 $image = $res['shop_logo'];
+$verified = $res['verified'];
+
 }
 
 
@@ -116,6 +118,10 @@ if(isset($_POST['update_res'])){
 		     
 		<?php 
 			include ('../TemplateShop/_company-header.php');
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
+
+			} else {
 		?>
 		  <!------top-navbar-end-----------> 
 
@@ -251,14 +257,14 @@ if(isset($_POST['update_res'])){
 
 					   <!----edit-modal end--------->	   
 
-<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog">
 
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 
 	<div class="modal-content">
 		<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -270,7 +276,7 @@ if(isset($_POST['update_res'])){
 					<h5>Confirm Reservation</h5>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" name="update_res" id="update_res" class="btn btn-danger" >Reserve</button>
 				</div>
 			</form>
@@ -285,7 +291,7 @@ if(isset($_POST['update_res'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Delete Reservation</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -302,7 +308,7 @@ if(isset($_POST['update_res'])){
 
       <div class="modal-footer">
 	  	<button type="submit" name="removePending" id="removePending" class="btn btn-success">Delete</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
 
 	  </form>
@@ -341,7 +347,6 @@ if(isset($_POST['update_res'])){
    <script src="/js/popper.min.js"></script>
    <script src="/js/bootstrap.min.js"></script>
    <script src="/js/jquery-3.3.1.min.js"></script>
-   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 	</script>
@@ -349,7 +354,20 @@ if(isset($_POST['update_res'])){
 
   <script>
 		$(document).ready(function(){
-
+			// $('.conf_button').click(function(e){
+					
+	
+			// 			$tr=$(this).closest('tr');
+	
+			// 			var data = $tr.children("td").map(function(){
+			// 				return $(this).text();
+			// 			}).get();
+	
+			// 			console.log(data);
+	
+			// 			$('#id2').val(data[0]);
+					
+			// 	});
 			$('.del_button').click(function(e){
 					
 				$('#deleteReservationModal').modal('show');
@@ -381,6 +399,7 @@ if(isset($_POST['update_res'])){
 
 		  $('.conf_button').click(function(e){
 					// $('#editEmployeeModal').modal('show');
+					$('#confirm_modal').modal('show');
 
 					$tr=$(this).closest('tr');
 
@@ -418,5 +437,6 @@ if(isset($_POST['update_res'])){
 </script>
 
 <?php 
+			}
 	include ('../TemplateShop/_company-footer.php');
 ?>
