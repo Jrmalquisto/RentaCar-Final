@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $notificationId = $mysqli->real_escape_string($_POST['notification_id']);
 
         // Update the status of the notification to "read" based on the notification ID
-        $updateQuery = "UPDATE notifications SET status = 'read' WHERE id = '$notificationId'";
+        $updateQuery = "UPDATE notifications SET status = 'read' WHERE notification_id = '$notificationId'";
         $mysqli->query($updateQuery);
 
         // Close the database connection

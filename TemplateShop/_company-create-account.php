@@ -62,7 +62,7 @@
                     $password = $mysqli ->real_escape_string($password);
                     $password2 = $mysqli ->real_escape_string($password2);
                     $email_user = $mysqli ->real_escape_string($email_user);
-                    $contact = $mysqli ->real_escape_string($email_user);
+                    $contact = $mysqli ->real_escape_string($contact);
                     $address = $mysqli ->real_escape_string($address);
 
 
@@ -86,24 +86,27 @@
                     
                     if (in_array($img_ex_lc, $allowed_exs)) {
                         $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                        $img_upload_path = 'assets/dti_pic/'.$new_img_name;
+                        $img_upload_path = '../images/dti_pic/'.$new_img_name;
                         move_uploaded_file($tmp_name, $img_upload_path);
 
                         if (in_array($img_ex_lc1, $allowed_exs)) {
                             $new_img_name1 = uniqid("IMG-", true).'.'.$img_ex_lc1;
-                            $img_upload_path1 = 'assets/bp_pic/'.$new_img_name1;
+                            $img_upload_path1 = '../images/bp_pic/'.$new_img_name1;
                             move_uploaded_file($tmp_name1, $img_upload_path1);
     
 
                         // Insert into Database
                         
-                            $insert = $mysqli->query("insert into seller(username,shopname,password,email,vkey,dti_pic,bp_pic)
-                                values ('$username','$shopname','$password','$email_user','$vkey','$new_img_name','$new_img_name1')");
+                            $insert = $mysqli->query("insert into seller(username,shopname,password,email,address,contact_num,vkey,dti_pic,bp_pic)
+                                values ('$username','$shopname','$password','$email_user','$address','$contact','$vkey','$new_img_name','$new_img_name1')");
 
                             // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
                             // values (0,0)");
     
                             if ($insert){
+
+                                $notificationMessage = "New <b>seller</b> account created: " . $shopname;
+                                $insertNotification = $mysqli->query("INSERT INTO notifications (message, timestamp, status, account_type) VALUES ('$notificationMessage', NOW(), 'unread', 'seller')");
                                 
                                     header("Location: ../TemplateShop/_company-login.php");
                                 
@@ -192,13 +195,13 @@
 
                 <div class="input-field mb-3">
                         
-                        
+
                         <?php
                             if (isset($_GET['shopname'])) {
                                 $first = $_GET['shopname'];
                                 echo '<input type="text" name="shopname" style="border-radius:30px" class="form-control" placeholder="What is your shop name?" value="'.$first.'">';
                             } else {
-                                echo '<input type="text" class="form-control" style="border-radius:30px" name="shopname" placeholder="What is your shop name?" autocomplete="off"required/>';
+                                echo '<input type="text" class="form-control" style="border-radius:30px" name="shopname" placeholder="What is your shop name?" autocomplete="off" required/>';
                             }
 
                             $signupCheck = $_GET['error'];
@@ -208,11 +211,8 @@
                                     echo "<p class='error mt-2 mb-1 ml-2 text-danger'><small>Invalid input. Please only use letters (a-z, A-Z).</small></p>";
                                     
                                 }
-                            
-                           
-                            
-                            
                         ?>
+                        
                         
                     </div>
                     <!-- Last name -->

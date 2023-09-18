@@ -299,10 +299,29 @@ function fetchNotifications() {
             notificationDropdown.empty();
 
             // Loop through the fetched notifications and add them to the dropdown
+			if (data.length === 0) {
+                var noNotificationsItem = '<li><a href="#">No notifications</a></li>';
+                notificationDropdown.append(noNotificationsItem);
+            } else {
             $.each(data, function (index, notification) {
-                var notificationItem = '<li><a href="#" class="notification-link" data-notification-id="' + notification.notification_id + '">' + notification.message + '</a></li>';
+                var notificationItem = '<li><a href="#" class="notification-link" data-notification-id="' + notification.notification_id + '" data-account-type="' +notification.account_type + '">' + notification.message + '</a></li>';
                 notificationDropdown.append(notificationItem);
             });
+		}
+
+
+		$('.notification-link').click(function (event) {
+                    event.preventDefault();
+                    var notificationId = $(this).data('notification-id');
+                    var accountType = $(this).data('account-type');
+
+                    // Determine the URL to redirect to based on the account type
+                    var redirectUrl = accountType === 'customer' ? '_manage-users2.php' : '_manage-shops2.php';
+
+                    // Redirect to the appropriate page
+                    window.location.href = redirectUrl;
+                });
+            
 
             // Update the notification count
             $('.notification').text(data.length);
@@ -313,13 +332,15 @@ function fetchNotifications() {
 
                 // Get the notification ID from the data attribute
                 var notificationId = $(this).data('notification-id');
+				console.log('Clicked notification with ID:', notificationId);
 
                 // Send an AJAX request to mark the notification as read
                 $.ajax({
                     url: 'mark_notification_as_read.php', // Create a new PHP file to handle the update
                     type: 'POST',
                     data: { notification_id: notificationId },
-                    success: function () {
+                    success: function (response) {
+						console.log('AJAX success:', response);
                         // Update the notification item appearance (e.g., change color to indicate read status)
                         $(this).removeClass('unread'); // Add appropriate CSS class for "read" appearance
                     }.bind(this) // Ensure the correct element is targeted
