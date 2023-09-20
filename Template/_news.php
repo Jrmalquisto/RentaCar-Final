@@ -9,7 +9,7 @@
                     <h5 class="card-title font-size-16">Upcoming Products</h5>
                     <img loading="lazy" width=216 src="assets/news/HCity.png" alt="cart image" class="card-img-top ">
                     <p class="card-text font-size-25 text-black py-1">Honda City</p>
-                    <a href="#"class="color-second text-left">More. . .</a>
+                    <a href="#"class="color-second text-left card-more">More. . .</a>
                 </div>
             </div>
             <div class="item">
@@ -17,7 +17,7 @@
                     <h5 class="card-title font-size-16">Upcoming Products</h5>
                     <img loading="lazy" width=216 src="assets/news/SErtiga.png" alt="cart image" class="card-img-top ">
                     <p class="card-text font-size-25 text-black py-1">Suzuki Ertiga</p>
-                    <a href="#"class="color-second text-left">More. . .</a>
+                    <a href="#"class="color-second text-left card-more">More. . .</a>
                 </div>
             </div>
             <div class="item ">
@@ -25,7 +25,7 @@
                     <h5 class="card-title font-size-16">Upcoming Products</h5>
                     <img loading="lazy" width=216 src="assets/news/SSwift.png" alt="cart image" class="card-img-top ">
                     <p class="card-text font-size-25 text-black py-1">Suzuki Swift</p>
-                    <a href="#"class="color-second text-left">More. . .</a>
+                    <a href="#"class="color-second text-left card-more">More. . .</a>
                 </div>
             </div>
         </div>

@@ -73,7 +73,7 @@
         </div>
         <div class="collapse navbar-collapse pe-1 justify-content-end" id="navbarSupportedContent">
 
-            <ul class="navbar-nav justify-content-center col-sm-8">
+            <ul class="navbar-nav justify-content-center col-sm-10">
                 <li class="nav-item px-3">
                     <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Reservations
                     <span  class="sr-only">(current)</span></a>
@@ -85,7 +85,7 @@
                     <a class="nav-link <?= $page == '../vehicles.php'?'active':'' ?>" href="../vehicles.php">Shops</a>
                 </li>
             </ul>
-            <ul class="navbar-nav align-items-center col-sm-3 ">
+            <ul class="navbar-nav align-items-center col-sm-2.5 ">
                 <!-- <li class="pe-3">
                     <button type="button" class="btn btn-dark border position-relative fa fa-bell" style="background-color: transparent;">
                          <span class="position-absolute top-0 start-75 translate-middle badge   rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
@@ -111,15 +111,15 @@
                 </li>
 
 
-                    <input type="search" id="form1" class="form-control w-100" placeholder="Search" />
-                    <!-- <label class="form-label" for="form1">Search</label> -->
+                    <!-- <input type="search" id="form1" class="form-control w-100" placeholder="Search" />
+                    <label class="form-label" for="form1">Search</label> -->
 
                 </li>
-                <li>
+                <!-- <li>
                     <button type="button" class="btn btn-dark" style="color:#E0B25B;">
                         <i class="fas fa-search "></i>
                     </button>
-                </li>
+                </li> -->
                 
                 <li class="nav-item dropdown px-3 ps-4">
 

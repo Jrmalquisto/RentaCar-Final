@@ -129,9 +129,9 @@ $img = $res['admin_image'];
 							   <li class="dropdown nav-item">
 							     <a class="nav-link" href="#" data-toggle="dropdown">
 								  <span class="material-icons">notifications</span>
-								  <span class="notification">4</span>
+								  <span class="notification">0</span>
 								 </a>
-								  <ul class="dropdown-menu">
+								  <ul class="dropdown-menu dropdown-notif">
 								     <li><a href="#">You Have 4 New Messages</a></li>
 									 <li><a href="#">You Have 4 New Messages</a></li>
 									 <li><a href="#">You Have 4 New Messages</a></li>
@@ -139,11 +139,11 @@ $img = $res['admin_image'];
 								  </ul>
 							   </li>
 							   
-							   <li class="nav-item">
+							   <!-- <li class="nav-item">
 							     <a class="nav-link" href="#">
 								   <span class="material-icons">question_answer</span>
 								 </a>
-							   </li>
+							   </li> -->
 
 							   <i class="fas"></i><?php echo "<p>" . $_SESSION['user_name'] . "</p>"; ?>
 							   <li class="dropdown nav-item">
@@ -293,7 +293,7 @@ function fetchNotifications() {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            var notificationDropdown = $('.dropdown-menu'); // Replace with the appropriate selector for your dropdown
+            var notificationDropdown = $('.dropdown-notif'); // Replace with the appropriate selector for your dropdown
 
             // Clear existing notifications
             notificationDropdown.empty();
@@ -309,8 +309,9 @@ function fetchNotifications() {
             });
 		}
 
+		$('.notification').text(data.length);
 
-		$('.notification-link').click(function (event) {
+			$('.notification-link').click(function (event) {
                     event.preventDefault();
                     var notificationId = $(this).data('notification-id');
                     var accountType = $(this).data('account-type');
@@ -320,30 +321,22 @@ function fetchNotifications() {
 
                     // Redirect to the appropriate page
                     window.location.href = redirectUrl;
-                });
-            
-
-            // Update the notification count
-            $('.notification').text(data.length);
-
-            // Add click event handler for notification links
-            $('.notification-link').click(function (event) {
-                event.preventDefault(); // Prevent the default link behavior
-
-                // Get the notification ID from the data attribute
-                var notificationId = $(this).data('notification-id');
-				console.log('Clicked notification with ID:', notificationId);
 
                 // Send an AJAX request to mark the notification as read
                 $.ajax({
-                    url: 'mark_notification_as_read.php', // Create a new PHP file to handle the update
-                    type: 'POST',
-                    data: { notification_id: notificationId },
-                    success: function (response) {
-						console.log('AJAX success:', response);
-                        // Update the notification item appearance (e.g., change color to indicate read status)
-                        $(this).removeClass('unread'); // Add appropriate CSS class for "read" appearance
-                    }.bind(this) // Ensure the correct element is targeted
+                        url: 'delete_notification.php',
+                        type: 'POST',
+                        data: { notification_id: notificationId },
+                        success: function (response) {
+                            if (response === 'success') {
+                                console.log('Notification deleted successfully.');
+                            } else {
+                                console.error('Error deleting notification.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('AJAX request failed:', error);
+                        }
                 });
             });
         }

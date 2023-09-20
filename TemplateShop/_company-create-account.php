@@ -178,7 +178,7 @@
         integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
 
     <!-- CSS File -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 
 </head>
 
@@ -187,7 +187,7 @@
 <section class="container-fluid background-radial-gradient overflow-hidden " id = "background"> 
     <div class="container my-4">
         <div class="forms-container">
-        <div class="signupform p-4">
+        <div class="signupform1 p-4">
             <h2 id="createaccount-title" class="font-weight-bold" style="color: #444">Start your business</h2>
             <p class="text-grey-20 font-weight-light text-left mb-4">Fill up the form with correct information about your shop</p>
             

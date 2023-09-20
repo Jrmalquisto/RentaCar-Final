@@ -223,9 +223,9 @@ if(isset($_POST['removeUser'])){
 							   <li class="dropdown nav-item">
 							     <a class="nav-link" href="#" data-toggle="dropdown">
 								  <span class="material-icons">notifications</span>
-								  <span class="notification">4</span>
+								  <span class="notification">0</span>
 								 </a>
-								  <ul class="dropdown-menu">
+								  <ul class="dropdown-menu dropdown-notif">
 								     <li><a href="#">You Have 4 New Messages</a></li>
 									 <li><a href="#">You Have 4 New Messages</a></li>
 									 <li><a href="#">You Have 4 New Messages</a></li>
@@ -233,11 +233,11 @@ if(isset($_POST['removeUser'])){
 								  </ul>
 							   </li>
 							   
-							   <li class="nav-item">
+							   <!-- <li class="nav-item">
 							     <a class="nav-link" href="#">
 								   <span class="material-icons">question_answer</span>
 								 </a>
-							   </li>
+							   </li> -->
 
 							   <i class="fas"></i><?php echo "<p>" . $_SESSION['user_name'] . "</p>"; ?>
 							   <li class="dropdown nav-item">
@@ -380,7 +380,7 @@ if(isset($_POST['removeUser'])){
 									</button>
                                 </form>
 
-								</div>
+								
 
                                 </td>
                             </tr>
@@ -553,7 +553,13 @@ if(isset($_POST['removeUser'])){
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 	</script>
-  
+
+<script>
+        $(document).ready(function(){
+			$('#myTable').dataTable();
+        });
+</script>
+
 
 
 <script>
@@ -649,6 +655,79 @@ if(isset($_POST['removeUser'])){
         modalImage.style.height = "auto";
     }
     </script>
+
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+// Function to fetch and display notifications
+function fetchNotifications() {
+    $.ajax({
+        url: 'fetch_notifications.php', // Create a new PHP file to handle fetching notifications
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var notificationDropdown = $('.dropdown-notif'); // Replace with the appropriate selector for your dropdown
+
+            // Clear existing notifications
+            notificationDropdown.empty();
+
+            // Loop through the fetched notifications and add them to the dropdown
+			if (data.length === 0) {
+                var noNotificationsItem = '<li><a href="#">No notifications</a></li>';
+                notificationDropdown.append(noNotificationsItem);
+            } else {
+            $.each(data, function (index, notification) {
+                var notificationItem = '<li><a href="#" class="notification-link" data-notification-id="' + notification.notification_id + '" data-account-type="' +notification.account_type + '">' + notification.message + '</a></li>';
+                notificationDropdown.append(notificationItem);
+            });
+		}
+
+		$('.notification').text(data.length);
+
+			$('.notification-link').click(function (event) {
+                    event.preventDefault();
+                    var notificationId = $(this).data('notification-id');
+                    var accountType = $(this).data('account-type');
+
+                    // Determine the URL to redirect to based on the account type
+                    var redirectUrl = accountType === 'customer' ? '_manage-users2.php' : '_manage-shops2.php';
+
+                    // Redirect to the appropriate page
+                    window.location.href = redirectUrl;
+
+                // Send an AJAX request to mark the notification as read
+                $.ajax({
+                        url: 'delete_notification.php',
+                        type: 'POST',
+                        data: { notification_id: notificationId },
+                        success: function (response) {
+                            if (response === 'success') {
+                                console.log('Notification deleted successfully.');
+                            } else {
+                                console.error('Error deleting notification.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('AJAX request failed:', error);
+                        }
+                });
+            });
+        }
+    });
+}
+
+// Call the fetchNotifications function when the page loads
+$(document).ready(function () {
+    fetchNotifications();
+
+    // Set an interval to periodically fetch notifications (e.g., every 5 seconds)
+    setInterval(fetchNotifications, 5000);
+});
+
+</script>
+
   </body>
   
   </html>
