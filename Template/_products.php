@@ -2,6 +2,7 @@
     $item_id = $_GET['item_id']??1;
     $_SESSION["item_id"] = $item_id;
     $userid = $_SESSION["user_id"];
+
     $dated = date("Y-m-d H:m");
     $con = mysqli_connect("localhost","root","","rentacar");
 
@@ -11,6 +12,7 @@
         $id1 = $res['user_id'];
         $fullname = $res['fullname'];
         $email = $res['email'];
+        $verified = $res['verified'];
     }
     
     $findresult2 = mysqli_query($con, "SELECT * FROM product WHERE item_id= '$item_id'");
@@ -195,6 +197,11 @@
                         $events = $_POST["dateTo"];
                         $overall = $_POST["overall"];
                         $driver_stat = $_POST["driver_stat"];
+                        $front = $_POST["front_p"];
+                        $back = $_POST["back_p"];
+                        $errors = $_POST["alertss"];
+
+
                         // $event = $_SESSION["dateFrom"];
                         // $events = $_SESSION["dateTo"];
                         // $datedDiff =  $dateTo - $dateFrom ;
@@ -206,33 +213,50 @@
 
                        
                         $sql = "SELECT * from reservation where item_id = $item_id AND status ='Pending' AND user_id = $user_id";
+                        $sql1 = "SELECT verified from user where user_id = $user_id";
                         $result =$con->query($sql);
-
+                        $result1 =$con->query($sql1);
                         
                        
                         $row = $result->fetch_assoc();
-                        $product=$row["item_id"];
+                        $row1 = $result1->fetch_assoc();
+                        $product = $row["item_id"];
+                        $verify =  $row1["verified"];
                         
                             if(!$product==$item_id){
                                 echo $product;
-                                $query = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$overall','Pending')";
+                                $query = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$front','$back','$overall','Pending')";
                         
                         
                                 if (trim($_POST['dateTo'] ) == $dated){
-                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.1');
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.');
                                     exit();
         
                                 }  else if(trim($_POST['dateTo'] ) == "0000-00-00" && trim($_POST['dateFrom'] ) == "0000-00-00"){
-                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.2');
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.');
                                     exit();
-                                } else if(trim($_POST['dateTo'] ) ==  trim($_POST['dateFrom'])){
-                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.3');
+                                } else if(trim($_POST['dateTo'] ) == trim($_POST['dateFrom'])){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Pick-up Date and Return Date not yet set.');
                                     exit();
                                 } else if(empty($_POST["driver_stat"])){
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Please pick your driver status.');
                                     exit();
-        
-                                } else {
+                                } else if(empty($_POST["front_p"]) && empty($_POST["back_p"])){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                    exit();
+                                } else if ($errors == "Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed.');
+                                    exit();
+                                    
+                                } else if ($errors == "Front Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Front Photo - Sorry, only JPG, JPEG, and PNG files are allowed.');
+                                    exit();
+                                
+                                } else if ($errors == "Sorry, your image is too large. Upload less than 10 MB in size ."){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Sorry, your image is too large. Upload less than 10 MB in size.');
+                                    exit();
+                                
+                                }else {
         
                                     $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
                                     // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
@@ -262,7 +286,86 @@
             }
     
 ?>
-<section id="product" class="py-3" onload="disableSubmit()">
+
+<!-- <?php
+    if(isset($_POST['uploadLicense'])){
+    $folder='../images/shop/';
+
+    $file = $_FILES['Front_Photo']['tmp_name'];
+    $file_name = $_FILES['Front_Photo']['name'];
+    $file_name_array = explode(".", $file_name); 
+        $extension = end($file_name_array);
+
+        $new_image_name ='Front_'.rand() . '.' . $extension;
+            if ($_FILES["Front_Photo"]["size"] >10000000) {
+            $error[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
+            }
+
+            if($file != ""){
+                if($extension!= "jpg" && $extension!= "png" && $extension!= "jpeg"
+                && $extension!= "gif" && $extension!= "PNG" && $extension!= "JPG" && $extension!= "GIF" && $extension!= "JPEG"){
+                    $error[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
+                }
+            }
+
+    $file1 = $_FILES['Back_Photo']['tmp_name'];
+    $file_name1 = $_FILES['Back_Photo']['name'];
+    $file_name_array1 = explode(".", $file_name1); 
+        $extension1 = end($file_name_array1);
+
+        $new_image_name1 ='Back_'.rand() . '.' . $extension1;
+            if ($_FILES["Back_Photo"]["size"] >10000000) {
+            $error1[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
+            }
+
+            if($file1 != ""){
+                if($extension1!= "jpg" && $extension1!= "png" && $extension1!= "jpeg"
+                && $extension1!= "gif" && $extension1!= "PNG" && $extension1!= "JPG" && $extension1!= "GIF" && $extension1!= "JPEG"){
+                    $error1[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
+                }
+            }
+
+            if(!isset($error)){ 
+                if($file!= ""){
+                    $stmt = mysqli_query($con,"SELECT license_front FROM user WHERE user_id='$userid'");
+                    $row = mysqli_fetch_array($stmt); 
+                    $deleteimage=$row['license_front'];
+                    unlink($folder.$deleteimage);
+                    move_uploaded_file($file, $folder . $new_image_name); 
+                    mysqli_query($con,"UPDATE user SET license_front='$new_image_name' WHERE user_id='$userid'");
+                }
+
+                if($file1!= ""){
+                        $stmt1 = mysqli_query($con,"SELECT license_back FROM user WHERE user_id='$userid'");
+                        $row1 = mysqli_fetch_array($stmt1); 
+                        $deleteimage=$row1['license_back'];
+                        unlink($folder.$deleteimage);
+                        move_uploaded_file($file1, $folder . $new_image_name1); 
+                        mysqli_query($con,"UPDATE user SET license_back='$new_image_name1' WHERE user_id='$userid'");
+                    }
+            
+            
+                if(empty($error)){
+
+                    if (empty($error1)){
+                        header('Location:../product.php?item_id='.$item_id.'&success=Photo');
+                    } else {
+                        header('Location:../product.php?item_id='.$item_id.'&error=Back Photo not recognized. Please submit again.');
+                    }
+
+                } else {
+                    header('Location:../product.php?item_id='.$item_id.'&error=Front Photo not recognized. Please submit again.');
+                }
+    
+        } else {
+            header('Location:../product.php?item_id='.$item_id.'&error=Invalid file format. Please submit again.');
+
+        }
+
+    }
+?> -->
+
+<section id="product" class="py-3">
     <div class="container ">
         <div class="row">
 
@@ -349,13 +452,15 @@
                     </div> -->
                     <!-- <input type="hidden" name="item_n" id="item_n" value="<?php echo $item['item_id'] ?? 0;?>"> -->
                     <!-- <?php echo $item['item_id'] ?? 0;?> -->
-                    <div class="input-box col-md-4">
+                    <input type="hidden" name="verified" id="verified" value="<?= $verified ?? 0;?>">
+
+                    <div class="input-box col-md-6">
                         <span>Pick-up Date</span>
                         <input type="datetime-local" name="dateFrom" id="dateFrom" min="<?php echo $dated;?>"
                             value="<?php echo $dF ?? $dated;?>">
                     </div>
 
-                    <div class="input-box col-md-4">
+                    <div class="input-box col-md-6">
                         <span>Return Date</span>
                         <input type="datetime-local" name="dateTo" id="dateTo" min="<?php echo $dated;?>"
                             value="<?php echo $dT ?? $dated;?>">
@@ -363,9 +468,26 @@
 
                     <div class="form-group mt-4 align-self-start">
                         <label for=>With driver?</label>
-                        <input type="radio" name="driver_stat" id="driver_stat" value="Yes" /> Yes
-                        <input type="radio" name="driver_stat" id="driver_stat" value="No" /> No
+                        <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
+                        <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
+                        <input hidden type="text" name="front_p" id="front_p" value="" /> 
+                        <input hidden type="text" name="back_p" id="back_p" value="" /> 
+                        <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >
+                        <input  class="form-control" type="file" name="Back_Photo1" id="Back_Photo1" style="width:200%;" > -->
+
                     </div>
+                    <div class="alert alert-warning d-none" id = "messages" >
+                        <div class="d-none" id = "alerts">
+                            <strong>Your account is not verified yet.  </strong>
+                            <p>Please send a photo of a valid ID for the shop to verify your reservation. Thank you.</p>
+                            
+                        </div>
+                    </div>
+                    <input hidden type="text" name="alertss" id="alertss" value="" />
+                    <button  class="btn btn-success fw-bolder"  id="uploadText"  style="display: none; margin-top: 15px;" type="button"data-bs-toggle="modal" data-bs-target="#UploadModal">
+                        Upload Photo of Driver's License
+                    </button>
+
                     <p class="text-muted"> Note: Choosing without a driver will require an image of your Driver's
                         License for confirmation. </p>
 
@@ -403,12 +525,19 @@
 
                         </div>
                     </div>
-
-
+                    
                     <?php if (isset($_GET['error'])) {             ?>
                     <p class="error"> <?php echo $_GET['error']; ?> </p>
 
                     <?php }?>
+                    <?php if (isset($_GET['success'])) {             ?>
+                        <div class="alert alert-success text-center"> 
+                            <?php echo $_GET['success']; ?> 
+                        </div>
+
+                    <?php }?>
+
+                    
                     <!-- <?php 
                     $signupCheck = $_GET['error'];
                     if ($signupCheck == 'fnameerr') {             ?>
@@ -416,6 +545,7 @@
 
                     <?php }?> -->
                     <!-- <form action="#" method="POST" > -->
+                    
                     <!-- TERMS AND RESERVE DIV -->
                     <div class="container pt-3 font-size-16 font-baloo">
                         <div class="row">
@@ -465,10 +595,8 @@
                                     <h5>Confirm Reservation</h5>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" name="confirmreserve" id="confirmreserve"
-                                        class="btn btn-danger">Reserve</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="confirmreserve" id="confirmreserve" class="btn btn-danger">Reserve</button>
                                 </div>
                             </div>
 
@@ -683,13 +811,46 @@
         </div>
     </div>
 
-    <div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Condition</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal mt-5 fade" id="UploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Front and Back Photo of Your Driver's License</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <div class="container ">
+                        
+                    <form id = "uploadFile" action="" method="post" enctype="multipart/form-data">
+                    <div class="form-group col-6 mt-3">
+                        <label for="Front_Photo" style="font-size:17px; font-weight:400; width:200%;">Front Photo of Driver's License</label><br>
+                        <input class="form-control" type="file" name="Front_Photo" id="Front_Photo" style="width:200%;" >
+        			</div>
+						
+                    <div class="form-group col-6 mt-3">
+                        <label for="Back_Photo" style="font-size:17px; font-weight:400; width:200%;">Back Photo of Driver's License</label><br>
+                        <input class="form-control" type="file" name="Back_Photo" id="Back_Photo" style="width:200%;" >
+                    </div>
+						
+                    </div>
                 </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" name="uploadLicense" id="uploadLicense" class="btn btn-success">Upload</button> -->
+                    <button type="button" name="uploadLicense1" id="uploadLicense1" class="btn btn-success">Upload</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TermsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Condition</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
                 <div class="modal-body">
                     <div class="container ">
                         <div class="multiline" style="white-space:pre-wrap;">
@@ -711,11 +872,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                </div>
             </div>
         </div>
     </div>
+</div>
     <style>
     .progress-label-left {
         float: left;
@@ -736,38 +896,186 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
-    // $(document).ready(function(){
-    //     $("#dateTo,#dateFrom").keyup(function()){
-    //         $price = $_SESSION["item_p"] ?? 0;
-    //         $datedDiff =  $dateFro - $dateT;
-    //         $days = floor($datedDiff/(60*60*24));
-    //         $_SESSION["days_rent"] = $days;
-    //         $total = ($price * $days)*-1;
 
-    //         var tot_price = ($price * $days)*-1;
-    //         $("#overall").val(total);
-    //         var divobj= document.getElementByID('overall');
-    //         divobj.value=tot_price;
-    //     }
-    // });
-
-    // $(document).ready(function(){
-    //     $('#terms').click(function(event) {
-    //     if(this.checked) {
-    //         $('.invoiceOption').each(function() {
-    //             this.checked = true;
-    //         });
-    //     } else {
-    //         $('.invoiceOption').each(function() {
-    //             this.checked = false;
-    //         });
-    //     }
-    // })
-    // });
     $(document).ready(function() {
 
         // alert("hi");
+       
+        var uploadText = document.getElementById("uploadText");
+        var verified = document.getElementById("verified").value;
+        var yesRadioButton = document.getElementById("driver_stat_yes");
+        var noRadioButton = document.getElementById("driver_stat_no");
+        // Check the initial state when the page loads
         
+        //Yes and No Radio Button;
+        yesRadioButton.addEventListener("change", function(){
+            if (this.checked){
+                if (verified == 0){
+                        uploadText.style.display = "block";
+                        document.getElementById("uploadText").innerHTML = `Upload your photo of Valid ID`;
+                        verify();
+                } else {
+                    verify1();
+                    uploadText.style.display = "none";
+                }
+                // console.log("Code executed for 'Yes'");
+            }
+        });
+        noRadioButton.addEventListener("change", function(){
+            if (this.checked){
+                if (verified == 0){
+                        uploadText.style.display = "block";
+                        document.getElementById("uploadText").innerHTML = `Upload your Driver's ID`;
+                        verify();
+                        console.log("Code executed for 'No'");
+                } else {
+                    verify1();
+                    uploadText.style.display = "block";
+                    document.getElementById("uploadText").innerHTML = `Upload your Driver's ID`;
+                }
+                // console.log("Code executed for 'Yes'");
+            }
+        });
+        
+        $('#uploadLicense').click(function(e) {
+            
+            checkFile();
+            
+            $('#UploadModal').modal('hide');
+            $('#messages').removeClass('d-none');
+            $('#messages').addClass('d-block');
+
+            $('#alerts').removeClass('d-none');
+            $('#alerts').addClass('d-block');
+            
+
+        });
+       
+        $('#uploadLicense1').click(function() {
+            const message = document.getElementById('alerts');
+            const error = document.getElementById('alertss');
+
+
+            let formData = new FormData();
+            var file_name = document.getElementById('Front_Photo');
+            var file = file_name.files[0];
+            formData.append('file', file);
+
+            var file_name1 = document.getElementById('Back_Photo');
+            let file1 = file_name1.files[0];
+            formData.append('file1', file1);
+
+            $.ajax({
+                url: 'upload.php',
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    if (data != 0){
+                        $('#UploadModal').modal('hide');
+                        message.innerText =  JSON.parse(data);
+                        error.value = JSON.parse(data);
+                        PassValue();
+                    }
+                    // else {
+                    //     alert("File upload error"+ data);
+                    // }
+                }
+            })
+        });
+
+        function verify() {
+            
+                $('#alerts').removeClass('d-none');
+                $('#alerts').addClass('d-block');
+                $('#messages').removeClass('d-none');
+                $('#messages').addClass('d-block');
+                
+        }
+
+        function verify1(){
+            $('#alerts').removeClass('d-block');
+            $('#alerts').addClass('d-none');
+            $('#messages').removeClass('d-block');
+            $('#messages').addClass('d-none');
+               
+        }
+
+        
+        // FrontPhoto.addEventListener("change", checkFile());
+        // FrontPhoto.addEventListener("change", checkFile());
+
+        function PassValue() {
+            var FrontPhoto = document.getElementById("Front_Photo");
+            var BackPhoto = document.getElementById("Back_Photo");
+
+            document.getElementById("front_p").value = FrontPhoto.value;
+            document.getElementById("back_p").value = BackPhoto.value;
+
+
+        }
+        function checkFile() {
+            // const fileInput = document.getElementById('fileInput');
+            const message = document.getElementById('alerts');
+            var FrontPhoto = document.getElementById("Front_Photo");
+            var BackPhoto = document.getElementById("Back_Photo");
+
+            const selectedFile = FrontPhoto.files[0];
+            const selectedFileB = BackPhoto.files[0];
+
+            const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+
+            // Check file
+            
+            // Check file size
+
+            // Check file type
+
+            // const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        
+            // const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+
+
+            if (FrontPhoto.files.length === 0) {
+                message.innerText = "No file selected.";
+                return;
+                
+            } else if (!allowedTypes.includes(selectedFile.type)) {
+                message.innerText = "Front Photo - Invalid file type. Please select an image (JPEG, PNG, GIF).";
+                return;
+            } else if (selectedFile.size > maxSizeInBytes) {
+                message.innerText = "File size exceeds the limit (5MB).";
+                return;
+            } else {
+                document.getElementById("front_p").value = FrontPhoto.value;
+                document.getElementById("Front_Photo1").value = FrontPhoto.value;
+            }
+
+            if (BackPhoto.files.length === 0) {
+                message.innerText = "No file selected.";
+                return;
+            } else  if (!allowedTypes.includes(selectedFileB.type)) {
+                message.innerText = "Back Photo - Invalid file type. Please select an image (JPEG, PNG, GIF).";
+                return;
+            } else if (selectedFileB.size > maxSizeInBytes) {
+                message.innerText = "File size exceeds the limit (5MB).";
+                return;
+            } else {
+                document.getElementById("back_p").value = BackPhoto.value;
+                document.getElementById("Back_Photo1").value = BackPhoto.value;
+            }
+
+
+            
+
+            
+            // If all checks pass, the file is considered correct
+            message.innerText = "Successful!";
+        }
 
         var average_rate = parseInt(document.getElementById("average_rates").value)  ;
         var average = Number(average_rate);
@@ -783,6 +1091,12 @@
        
         document.getElementById("dateFrom").addEventListener("change", calculatePrice);
         document.getElementById("dateTo").addEventListener("change", calculatePrice);
+
+        
+        
+
+        // document.getElementById("Front_Photo").value = fileName;
+        // document.getElementById("Back_Photo").value = fileName;
 
         function calculatePrice() {
             const pickupDate = new Date(document.getElementById("dateFrom").value);
@@ -923,109 +1237,17 @@
         });
 
         
-        // load_rating_data();
-
-        // function load_rating_data() {
-        //     $.ajax({
-        //         url: "../submit_rating.php",
-        //         method: "POST",
-        //         data: {
-        //             action: 'load_data'
-        //         },
-        //         dataType: "JSON",
-        //         success: function(data) {
-        //             $('#average_rating').text(data.average_rating);
-        //             $('#total_review').text(data.total_review);
-
-        //             var count_star = 0;
-
-        //             $('.main_star').each(function() {
-        //                 count_star++;
-        //                 if (Math.ceil(data.average_rating) >= count_star) {
-        //                     $(this).addClass('text-warning');
-        //                     $(this).addClass('star-light');
-        //                 }
-        //             });
-
-        //             $('#total_five_star_review').text(data.five_star_review);
-
-        //             $('#total_four_star_review').text(data.four_star_review);
-
-        //             $('#total_three_star_review').text(data.three_star_review);
-
-        //             $('#total_two_star_review').text(data.two_star_review);
-
-        //             $('#total_one_star_review').text(data.one_star_review);
-
-        //             $('#five_star_progress').css('width', (data.five_star_review / data.total_review) *
-        //                 100 + '%');
-
-        //             $('#four_star_progress').css('width', (data.four_star_review / data.total_review) *
-        //                 100 + '%');
-
-        //             $('#three_star_progress').css('width', (data.three_star_review / data
-        //                 .total_review) * 100 + '%');
-
-        //             $('#two_star_progress').css('width', (data.two_star_review / data.total_review) *
-        //                 100 + '%');
-
-        //             $('#one_star_progress').css('width', (data.one_star_review / data.total_review) *
-        //                 100 + '%');
-
-        //             if (data.review_data.length > 0) {
-        //                 var html = '';
-
-        //                 for (var count = 0; count < data.review_data.length; count++) {
-        //                     html += '<div class="row mb-3">';
-
-        //                     html +=
-        //                         '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2"><h3 class="text-center">' +
-        //                         data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
-
-        //                     html += '<div class="col-sm-11">';
-
-        //                     html += '<div class="card">';
-
-        //                     html += '<div class="card-header"><b>' + data.review_data[count].user_name +
-        //                         '</b></div>';
-
-        //                     html += '<div class="card-body">';
-
-        //                     for (var star = 1; star <= 5; star++) {
-        //                         var class_name = '';
-
-        //                         if (data.review_data[count].rating >= star) {
-        //                             class_name = 'text-warning';
-        //                         } else {
-        //                             class_name = 'star-light';
-        //                         }
-
-        //                         html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-        //                     }
-
-        //                     html += '<br />';
-
-        //                     html += data.review_data[count].user_review;
-
-        //                     html += '</div>';
-
-        //                     html += '<div class="card-footer text-right">On ' + data.review_data[count]
-        //                         .datetime + '</div>';
-
-        //                     html += '</div>';
-
-        //                     html += '</div>';
-
-        //                     html += '</div>';
-        //                 }
-
-        //                 $('#review_content').html(html);
-        //             }
-        //         }
-        //     })
-        // }
     });
     </script>
+
+<script>
+    
+</script>
+
+<script>
+    
+</script>
+
     <script src="index.js"></script>
 
 </section>
