@@ -189,7 +189,6 @@
                         $user_n = $_SESSION["user_name"];
                         // $car = $_SESSION["car_id"];
                         $contact = $_SESSION["cont_num"];
-                        
                         $vehicle = $_SESSION["item_n"];
                         $license = $_SESSION["item_l"];
                         $seller = $value["seller_id"];
@@ -200,6 +199,11 @@
                         $front = $_POST["front_p"];
                         $back = $_POST["back_p"];
                         $errors = $_POST["alertss"];
+
+                        $front = str_replace( "\\", '/', $front );
+                        $front1 = basename( $front );
+                        $back = str_replace( "\\", '/', $back );
+                        $back1 = basename( $back );
 
 
                         // $event = $_SESSION["dateFrom"];
@@ -225,7 +229,7 @@
                         
                             if(!$product==$item_id){
                                 echo $product;
-                                $query = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$front','$back','$overall','Pending')";
+                                $query = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$front1','$back1','$overall','Pending')";
                         
                         
                                 if (trim($_POST['dateTo'] ) == $dated){
@@ -470,8 +474,8 @@
                         <label for=>With driver?</label>
                         <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
                         <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
-                        <input hidden type="text" name="front_p" id="front_p" value="" /> 
-                        <input hidden type="text" name="back_p" id="back_p" value="" /> 
+                        <input  type="text" name="front_p" id="front_p" value="" /> 
+                        <input  type="text" name="back_p" id="back_p" value="" /> 
                         <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >
                         <input  class="form-control" type="file" name="Back_Photo1" id="Back_Photo1" style="width:200%;" > -->
 
@@ -854,19 +858,17 @@
                 <div class="modal-body">
                     <div class="container ">
                         <div class="multiline" style="white-space:pre-wrap;">
-                            1. Reservation of vehicle is not confirmed until shop authorizes the reservation.
+1. Reservation of vehicle is not confirmed until shop authorizes the reservation.
 
-                            2. Vehicle must be picked up at the shop if the reservation is without a driver.
+2. Vehicle must be picked up at the shop if the reservation is without a driver.
 
-                            3. Choosing without a driver will require Driver's License for confirmation.
+3. Choosing without a driver will require Driver's License for confirmation.
 
-                            4. Vehicle must not be returned after business hours.
+4. Vehicle must not be returned after business hours.
 
-                            5. Upon reservation, we will require a deposit of P2,500.00. This will be given back to the
-                            customer upon returning the car and found with no damages or deductions from other fees.
+5. Upon reservation, we will require a deposit of P2,500.00. This will be given back to the customer upon returning the car and found with no damages or deductions from other fees.
 
-                            6. Vehicles not canceled before 24-hours will be charged (P100) per day per vehicle/s.
-
+6. Vehicles not canceled before 24-hours will be charged (P100) per day per vehicle/s.
                         </div>
                     </div>
                 </div>
@@ -1240,13 +1242,6 @@
     });
     </script>
 
-<script>
-    
-</script>
-
-<script>
-    
-</script>
 
     <script src="index.js"></script>
 

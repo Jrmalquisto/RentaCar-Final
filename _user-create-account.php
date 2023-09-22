@@ -136,9 +136,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentaCar</title>
     
-    <!--Bootstrap CDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 
     <!-- Owl-carousel CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
@@ -154,14 +153,22 @@
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
 
+    <!--Jquery CDN-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!--Bootstrap CDN-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
 </head>
 
 <body>
 
-<section class="container-fluid background-radial-gradient overflow-hidden " id = "background"> 
+<section class="container background-radial-gradient overflow-hidden " id = "background"> 
     
         <div class="forms-container">
-        <div class="signupform container-sm p-4">
+        <div class="signupform container p-4" style = "max-width: 600px;">
             <h2 id="createaccount-title" class="font-weight-bold" style="color: #444">Create User Account</h2>
             <p class="text-grey-20 font-weight-light text-left mb-4">Fill up the form with correct values</p>
             
@@ -221,14 +228,21 @@
                         <?php
                             if (isset($_GET['username'])) {
                                 $username = $_GET['username'];
-                                echo '<input type="text" style="border-radius:30px"style="border-radius:30px" name="username" class="form-control" placeholder="Username" value="'.$username.'">';
+                                echo '<input type="text" style="border-radius:30px"style="border-radius:30px" name="username" id="username" class="form-control" placeholder="Username" value="'.$username.'">';
                             }
                             else {
-                                echo '<input type="text" style="border-radius:30px"class="form-control" name="username" placeholder="Username" autocomplete="off"required/>';
+                                echo '<input type="text" style="border-radius:30px"class="form-control" name="username" id="username" placeholder="Username" autocomplete="off"required/>';
                             }
                         ?>
+                        <!-- <input type="text" style="border-radius:30px"class="form-control" name="username" id="username" placeholder="Opo" autocomplete="off"required/> -->
 
                 </div>
+
+                
+                <div class="alert alert-danger d-none" id = "messages" >
+                        
+                </div>
+
                 <!-- Password -->           
                 <div class="input-field mb-3">
                     
@@ -315,9 +329,6 @@
                     ?>
                 </div>
                 
-               
-                
-                
                 
                 <div class="d-grid col-md-12 text-center mt-4">
                     <button id="user-create account" type="submit" class="btn btn-primary mb-3 btn-block" style="background-color: #3b5998; border-radius:30px" name="submit">Create Account</button>
@@ -326,7 +337,74 @@
             </form>
         </div>
     </div>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var alert = document.getElementById("alertss");
+        var messages = document.getElementById("messages");
+
+
+        var username = document.getElementById("username");
+        // var try = document.getElementById("try");
+
+        // Check the initial state when the page loads
+        
+        //Yes and No Radio Button;
+
+        username.addEventListener('change', function (e) {
+            var username1 = document.getElementById("username").value;
+
+            $.ajax({
+                url: 'checkUser.php',
+                type: 'post',
+                data: {username: username1},
+                success:function(data){
+                        // alert.value =  JSON.parse(data);
+                        // messages.removeClass('d-none');
+                        // messages.addClass('d-block');
+                        verify();
+                        messages.innerText = JSON.parse(data);
+                        // uploadText.style.display = "block";
+                        
+                }
+            })
+        
+        });
+
+        function verify() {
+            
+            // $('#alerts').removeClass('d-none');
+            // $('#alerts').addClass('d-block');
+            $('#messages').removeClass('d-none');
+            $('#messages').addClass('d-block');
+            
+    }
+        // try.addEventListener("click", checkUsn());
+
+        
+
+    // function checkUsn(){
+    //         var username1 = document.getElementById("username").value;
+
+    //         $.ajax({
+    //             url: 'checkUser.php',
+    //             type: 'post',
+    //             data: {username: username1},
+    //             success:function(data){
+    //                 if (data != 0){
+    //                     alert.innerText =  JSON.parse(data);
+    //                     messages.value = JSON.parse(data);
+    //                 }
+    //                 else {
+    //                     alert("File upload error"+ data);
+    //                 }
+    //             }
+    //         });
+    // }
+   
+});
+        </script>
 </section>
 </body>
 
