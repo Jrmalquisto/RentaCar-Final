@@ -20,6 +20,7 @@ $adminname = $res['admin_name'];
 $pass = $res['admin_pass']; 
 $img = $res['admin_image'];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -51,24 +52,70 @@ $img = $res['admin_image'];
 
   </head>
   <body>
+
+<form action="" method="post" enctype='multipart/form-data'>
+
+	<div class="mt-6 mb-6">
+
+	<?php
+	if(isset($_POST['update_shop'])){
+		$admin_name=$_POST['adminname'];
+		$user_name=$_POST['username'];  
+
+		$folder='../images/admin/';
+
+		$file = $_FILES['pic_ADMIN']['tmp_name'];
+		$file_name = $_FILES['pic_ADMIN']['name'];
+		$file_name_array = explode(".", $file_name); 
+			$extension = end($file_name_array);
+	
+		$new_image_name ='profile_'.rand() . '.' . $extension;
+		if ($_FILES["pic_ADMIN"]["size"] >10000000) {
+		$error[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
+		}
+
+		if($file != ""){
+			if($extension!= "jpg" && $extension!= "png" && $extension!= "jpeg"
+			&& $extension!= "gif" && $extension!= "PNG" && $extension!= "JPG" && $extension!= "GIF" && $extension!= "JPEG"){
+				$error[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
+			}
+		}
+
+		if(!isset($error)){ 
+			if($file!= ""){
+			  	$stmt = mysqli_query($con,"SELECT admin_image FROM admin WHERE admin_id='$admin_id'");
+			  	$row = mysqli_fetch_array($stmt); 
+			  	$deleteimage=$row['admin_image'];
+				unlink($folder.$deleteimage);
+				move_uploaded_file($file, $folder . $new_image_name); 
+				mysqli_query($con,"UPDATE admin SET admin_image='$new_image_name' WHERE admin_id='$admin_id'");
+			}
+		  
+			 $result = mysqli_query($con,"UPDATE admin SET admin_name='$admin_name', user_name='$user_name' WHERE admin_id='$admin_id'");
+			 
+			 if($result){
+				//$_SESSION['status'] = "Your profile has been updated";
+		 		header("location:/TemplateAdmin/_admin-profile.php?status=Your profile has been updated");
+			 } else {
+			  	$error[]='Something went wrong';
+			 }
   
+	  }
+	}
+	?>
 
-
-<div class="wrapper1">
-     
+<div class="wrapper">
 	  <div class="body-overlay"></div>
 	 
 	 <!-------sidebar--design------------>
 	 
 	 <div id="sidebar">
 	    <div class="sidebar-header">
-		<h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
-                        class="img-fluid"><span>Admin</span></h3>
-		
+		   <h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>" class="img-fluid"><span>Admin</span></h3>
 		</div>
 		<ul class="list-unstyled component m-0">
-		  <li class="active">
-		  <a href="#" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
+		  <li class="dash">
+		  <a href=".dashboardAdmin.php" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
 		  </li>
 		  
 		  <li class="dropdown">
@@ -91,7 +138,7 @@ $img = $res['admin_image'];
    
    
       <!-------page-content start----------->
-   
+	  
       <div id="content">
 	     
 		  <!------top-navbar-start-----------> 
@@ -99,14 +146,14 @@ $img = $res['admin_image'];
 		  <div class="top-navbar">
 		     <div class="xd-topbar">
 			     <div class="row">
-				     <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+				     <div class="col-2 col-md-1 col-lg-4 order-2 order-md-1 align-self-center">
 					    <div class="xp-menubar">
 						    <span class="material-icons text-white">signal_cellular_alt</span>
 						</div>
 					 </div>
 					 
-					 <div class="col-md-5 col-lg-3 order-3 order-md-2">
-					     <!-- <div class="xp-searchbar">
+					 <!-- <div class="col-md-5 col-lg-3 order-3 order-md-2">
+					     <div class="xp-searchbar">
 						     <form>
 							    <div class="input-group">
 								  <input type="search" class="form-control"
@@ -117,15 +164,14 @@ $img = $res['admin_image'];
 								  </div>
 								</div>
 							 </form>
-						 </div> -->
-					 </div>
+						 </div>
+					</div> -->
 					 
 					 
 					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
 					     <div class="xp-profilebar text-right">
 						    <nav class="navbar p-0">
 							   <ul class="nav navbar-nav flex-row ml-auto">
-								
 							   <li class="dropdown nav-item">
 							     <a class="nav-link" href="#" data-toggle="dropdown">
 								  <span class="material-icons">notifications</span>
@@ -140,7 +186,7 @@ $img = $res['admin_image'];
 							   </li>
 							   
 							   <!-- <li class="nav-item">
-							     <a class="nav-link" href="#">
+							   <a class="nav-link" href="/TemplateShop/_company-messages.php">
 								   <span class="material-icons">question_answer</span>
 								 </a>
 							   </li> -->
@@ -148,8 +194,7 @@ $img = $res['admin_image'];
 							   <i class="fas"></i><?php echo "<p>" . $_SESSION['user_name'] . "</p>"; ?>
 							   <li class="dropdown nav-item">
 							     <a class="nav-link" href="#" data-toggle="dropdown">
-								 <img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>">
-								  <!-- <img src="/img/admin.png" style="width:40px; border-radius:50%;"/> -->
+								  <img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>">
 								  <span class="xp-user-live"></span>
 								 </a>
 								  <ul class="dropdown-menu small-menu">
@@ -178,7 +223,8 @@ $img = $res['admin_image'];
 				 </div>
 				 
 				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title">Dashboard</h4>
+				    <h4 class="page-title">Profile</h4>
+				
 					<!--<ol class="breadcrumb">
 					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
 					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
@@ -190,73 +236,95 @@ $img = $res['admin_image'];
 		  </div>
 		  <!------top-navbar-end-----------> 
 
-		  <!------boxes-start-----------> 
-		<div class="boxes">
-			
-		<a href="/TemplateAdmin/_manage-shops2.php">
-		<div class="col-div-6">
-		<div class="box1">
-        <p><?php
-            $con = new mysqli("localhost", "root", "", "rentacar");
-            $query = "SELECT seller_id FROM seller";
-            $result = mysqli_query($con, $query);
-            $row = mysqli_num_rows($result);echo '' .$row. '';
-            ?><br/>
-			<i class="fa fa-shop box-icon px-3" id="boxIcon2"></i>
-			</p>
-            <span>Total Shops Registered</span>
-			
-		</div>
-		</div>
-		</a>
+		<?php if(isset($_GET['status'])) { ?>
+			<div class="alert alert-warning alert-dismissible fade show center-block d-block text-center erralert" role="alert">
+					<strong>Success!</strong> <?php echo $_GET['status']; ?>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="alertclose()"> <span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+		<?php }  ?>
 
-		<a href="/TemplateAdmin/_manage-users2.php">
-		<div class="col-div-6">
-		<div class="box1">
-		<p>
-			<?php
-            $con = new mysqli("localhost", "root", "", "rentacar");
-            $query = "SELECT user_id FROM user";
-            $result = mysqli_query($con, $query);
-            $row = mysqli_num_rows($result);echo '' .$row. '';
-            ?><br/>
-			<i class="fa fa-users box-icon px-3" id="boxIcon1"></i>
-			</p>
-            <span>Total Users Registered</span>
-			
-		</div>
-		</div>
-		</a>
 
-		
+          <div class="col-10 color_right mx-auto">
+				<div class="p-5 py-5">
+				
+					<div class="row">
+					<div class="col-6 d-flex justify-content-between align-items-center mt-3 mb-3">
+						<h4 class="text-left d-flex justify-content-start">Admin Profile</h4>
+					</div>	
 
-		</div>
-	<!------boxes-end-----------> 
+					<div class="col-6 d-flex justify-content-end align-items-center btnchange">
+					<label for="update">
+							<div class="btn text-center passbtn">
+								<input id="update" type="button" value="Change Password" onClick="changepass()"/>
+							</div>
+						</label>
+						</div>
+					</div>
 
-		 <!----footer-design------------->
-		 
-		 <!--<footer class="footer">
-		    <div class="container-fluid">
-			   <div class="footer-in">
-			      <p class="mb-0">© RentaCar 2023 . All Rights Reserved.</p>
-			   </div>
+
+					<div class="row mt-2 border-top">
+					<form action="" method="post" enctype="multipart/form-data">
+						<input type="hidden"  name="admind" value="<?php echo $id;?>">
+
+						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Admin Name</label>
+							<input type="text" class="form-control" autocomplete="off" name="adminname" id="adminname" value="<?php echo $adminname;?>">
+						</div>
+						 
+						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Username</label>
+							<input type="text" class="form-control" autocomplete="off" name="username" id="username" value="<?php echo $username;?>">
+						</div>
+						
+						<!-- <div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Address</label>
+							<input type="text" class="form-control" autocomplete="off" name="address" id="address" value="<?php echo $address;?>">
+						</div>
+
+						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Email</label>
+							<input type="text" class="form-control" autocomplete="off" name="email" id="email" value="<?php echo $email;?>">
+						</div>
+
+						<div class="mt-3 col-md-6 mb-4"><label class="labels" style="font-size: 17px;">Contact Number</label>
+							<input type="text" class="form-control" autocomplete="off" name="contact_num" id="contact_num" value="<?php echo $contact;?>">
+						</div> -->
+
+						<div class="form-group col-6 mt-3">
+							<label for="pic_ADMIN" style="font-size:17px; font-weight:400;">Please upload Shop logo</label><br>
+							<input class="form-control" type="file" name="pic_ADMIN" id="pic_ADMIN" style="width:100%;" >
+							<br>
+							<label>File size: maximum 10 MB</label>
+							<label>File extension: .JPEG, .PNG, .JPG</label>
+        				</div>
+						
+						
+					</div>
+					
+					<div class="border-top d-flex justify-content-start btn1" id="buttonUp">
+						<br>
+						<label for="update_shop">
+							<div class="btn mt-4 col-md-2 text-center profile-button">
+							<button type="submit" name="update_shop" id="update_shop" class="btn btn-success">Update</button>
+							</div>
+						</label>
+					</div>
+				</form>
 			</div>
-		 </footer>-->
+		</div>
+					
+
+<!----edit-modal end--------->   
+
+    </div>
+</div>
+		  
+<!------main-content-end-----------> 
+		  
 		 
 		 
-		 
-		 
+<!----footer-design------------->	 
 	  </div>
    
 </div>
-
-
-
 <!-------complete html----------->
-
-
-
-
 
   
      <!-- Optional JavaScript -->
@@ -280,8 +348,20 @@ $img = $res['admin_image'];
 		  
 	   });
   </script>
-  
-  
+
+<script>
+	function changepass(){
+		window.location.href="_admin-change-pass.php";
+	}
+</script>
+
+<script>
+	function alertclose(){
+		window.location.href="_admin-profile.php";
+	}
+</script>
+
+
 <!-- Include jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -354,7 +434,9 @@ $(document).ready(function () {
 
 </script>
 
+  </form>
 
+  
   </body>
   
   </html>

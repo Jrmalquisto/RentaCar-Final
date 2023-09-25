@@ -43,8 +43,8 @@
     $r1 = mysqli_num_rows($rate1);
     
     if($rating!=0){
-        $total=( $r5 + $r4 + $r3 + $r2 + $r1);
-        $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total)); 
+        $total1=( $r5 + $r4 + $r3 + $r2 + $r1);
+        $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total1)); 
     } else{
         $ave = 0;
     }
@@ -140,11 +140,11 @@
                 $dateFro = strtotime($dF);
                 $dateT= strtotime($dT);
 
-                $price = $_SESSION["item_p"] ?? 0;
-                $datedDiff =  $dateFro - $dateT;
-                $days = floor($datedDiff/(60*60*24));
-                $_SESSION["days_rent"] = $days;
-                $total = ($price * $days)*-1;
+                // $price = $_SESSION["item_p"] ?? 0;
+                // $datedDiff =  $dateFro - $dateT;
+                // $days = floor($datedDiff/(60*60*24));
+                // $_SESSION["days_rent"] = $days;
+                // $total = ($price * $days)*-1;
 
                 
                 
@@ -474,8 +474,8 @@
                         <label for=>With driver?</label>
                         <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
                         <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
-                        <input  type="text" name="front_p" id="front_p" value="" /> 
-                        <input  type="text" name="back_p" id="back_p" value="" /> 
+                        <input hidden type="text" name="front_p" id="front_p" value="" /> 
+                        <input hidden type="text" name="back_p" id="back_p" value="" /> 
                         <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >
                         <input  class="form-control" type="file" name="Back_Photo1" id="Back_Photo1" style="width:200%;" > -->
 
@@ -613,7 +613,7 @@
                 <!-- !size -->
 
             </div>
-            <div class="col-12">
+            <div class="col-12 mt-5">
                 <h6 class="font-rubik font-size-20">Vehicle Description</h6>
                 <hr>
                 <!--<p class="font-rale font-size-16">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat inventore vero numquam error est ipsa, consequuntur temporibus debitis nobis sit, delectus officia ducimus dolorum sed corrupti. Sapiente optio sunt provident, accusantium eligendi eius reiciendis animi? Laboriosam, optio qui? Numquam, quo fuga. Maiores minus, accusantium velit numquam a aliquam vitae vel?</p>

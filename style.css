@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Thambi+2&family=Raleway&family=Rubik&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Thambi+2&family=Raleway&family=Lato&family=Rubik&family=Epilogue&family=Sora&display=swap");
 /*      Sass Template       */
 /*  global classes  */
 button, button:focus {
@@ -51,7 +51,7 @@ body{
 }
 
 .font-rale {
-    font-family: "Raleway", cursive;
+    font-family: "Lato", cursive;
 }
 
 .font-rubik {
