@@ -63,6 +63,8 @@
                 $_SESSION["user_id"]=$user_id;
                 $_SESSION["cont_num"]=$contact;
                 $_SESSION["user_name"]=$user_name;
+                $_SESSION["email"]=$email;
+
                 
                 if($row['user_name'] === $username && $row['pass_word'] === $password){
 

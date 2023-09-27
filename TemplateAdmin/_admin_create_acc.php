@@ -165,6 +165,4 @@
 
 <?php
     echo $error;
-    //include footer.php file
-    //include ('footer.php');
 ?>

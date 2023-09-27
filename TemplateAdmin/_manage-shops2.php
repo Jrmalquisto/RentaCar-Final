@@ -7,6 +7,20 @@ $database = "rentacar";
 
 $con = new mysqli($servername, $user, $password, $database);
 
+$admin_id=$_SESSION["admin_id"];
+
+include ('../connection.php');
+
+$findresult = mysqli_query($con, "SELECT * FROM admin WHERE admin_id= '$admin_id'");
+
+if($res = mysqli_fetch_array($findresult)){
+$id = $res['admin_id'];
+$username = $res['user_name'];
+$adminname = $res['admin_name'];
+$pass = $res['admin_pass']; 
+$img = $res['admin_image'];
+}
+
 if(isset($_POST['update'])){
 	$id = $_POST['seller_id1'];
     $shopname=$_POST['shopname1'];
@@ -76,7 +90,7 @@ if(isset($_POST['update'])){
 		
 		if($result){
 		//$_SESSION['status'] = "Your profile has been updated";
-			header("location:_manage-shops2.php?error");
+			header("location:_manage-shops2.php?");
 		} else {
 			$error[]='Something went wrong';
 		}
@@ -86,212 +100,236 @@ if(isset($_POST['update'])){
 
 ?>
 
+<?php
+if(isset($_POST['removeShop'])){
+    $product = $_POST['seller_id2'];
+
+    $query = "DELETE FROM seller WHERE seller_id='$product'";
+    $query = mysqli_query($con, $query);
+
+    if($query_run){
+        header("location: /TemplateAdmin/_manage-shops2.php");
+    }
+    else {
+        header("location: /TemplateAdmin/_manage-shops2.php");
+    }   
+}?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-        <title>Drivers</title>
-	    <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-	    <!----css3---->
-        <link rel="stylesheet" href="/css/custom.css">
-		
-		
-		<!--google fonts -->
-	    <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>Shops</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="/css/custom.css">
 
 
-	   <!--google material icon-->
-      <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  </head>
-  <body>
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
 
 
-<div class="wrapper">
-     
-	  <div class="body-overlay"></div>
-	 
-	 <!-------sidebar--design------------>
-	 
-	 <div id="sidebar">
-	    <div class="sidebar-header">
-		   <h3><img src="img/temp.webp" class="img-fluid"/><span>RentaCar</span></h3>
-		</div>
-		<ul class="list-unstyled component m-0">
-		  <li class="dash">
-		  <a href=".dashboardAdmin.php" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
-		  </li>
-		  
-		  <li class="active">
-		  <a  href="#">
-		  <i class="material-icons">store</i>Manage Shops
-		  </a>
-		  </li>
 
-		  <li class="user">
-		  <a  href="_manage-users2.php">
-		  <i class="material-icons">person_outline</i>Manage Users
-		  </a>
-		  </li>
+    <div class="wrapper">
 
-		
-		</ul>
-	 </div>
-	 
-   <!-------sidebar--design- close----------->
-   
-   
-   
-      <!-------page-content start----------->
-   
-      <div id="content">
-	     
-		  <!------top-navbar-start-----------> 
-		     
-		  <div class="top-navbar">
-		     <div class="xd-topbar">
-			     <div class="row">
-				     <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
-					    <div class="xp-menubar">
-						    <span class="material-icons text-white">signal_cellular_alt</span>
-						</div>
-					 </div>
-					 
-					 <div class="col-md-5 col-lg-3 order-3 order-md-2">
-					     <div class="xp-searchbar">
-						     <form>
-							    <div class="input-group">
-								  <input type="search" class="form-control"
-								  placeholder="Search">
-								  <div class="input-group-append">
-								     <button class="btn" type="submit" id="button-addon2">Go
-									 </button>
-								  </div>
-								</div>
-							 </form>
-						 </div>
-					 </div>
-					 
-					 
-					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-					     <div class="xp-profilebar text-right">
-						    <nav class="navbar p-0">
-							   <ul class="nav navbar-nav flex-row ml-auto">
-							   <li class="dropdown nav-item active">
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								  <span class="material-icons">notifications</span>
-								  <span class="notification">4</span>
-								 </a>
-								  <ul class="dropdown-menu">
-								     <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-								  </ul>
-							   </li>
-							   
-							   <li class="nav-item">
-							     <a class="nav-link" href="#">
-								   <span class="material-icons">question_answer</span>
-								 </a>
-							   </li>
+        <div class="body-overlay"></div>
 
-							   <i class="fas"></i><?php echo $_SESSION['shopname'] ?>
-							   <li class="dropdown nav-item">
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								  <img src="/img/admin.png" style="width:40px; border-radius:50%;"/>
-								  <span class="xp-user-live"></span>
-								 </a>
-								  <ul class="dropdown-menu small-menu">
-								     <li><a href="#">
-									 <span class="material-icons">person_outline</span>
-									 Profile
-									 </a></li>
-									 <li><a href="#">
-									 <span class="material-icons">settings</span>
-									 Settings
-									 </a></li>
-									 <li><a href="_company-login.php">
-									 <span class="material-icons">logout</span>
-									 Logout
-									 </a></li>
-									 
-								  </ul>
-							   </li>
-							   
-							   
-							   </ul>
-							</nav>
-						 </div>
-					 </div>
-					 
-				 </div>
-				 
-				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title">Shops</h4>
-					<!--<ol class="breadcrumb">
+        <!-------sidebar--design------------>
+
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
+                        class="img-fluid"><span>Admin</span></h3>
+            </div>
+            <ul class="list-unstyled component m-0">
+                <li class="dash">
+                    <a href=".dashboardAdmin.php" class="dashboard"><i class="material-icons">dashboard</i>Dashboard
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="#">
+                        <i class="material-icons">store</i>Manage Shops
+                    </a>
+                </li>
+
+                <li class="user">
+                    <a href="_manage-users2.php">
+                        <i class="material-icons">person_outline</i>Manage Users
+                    </a>
+                </li>
+
+
+            </ul>
+        </div>
+
+        <!-------sidebar--design- close----------->
+
+
+
+        <!-------page-content start----------->
+
+        <div id="content">
+
+            <!------top-navbar-start----------->
+
+            <div class="top-navbar">
+                <div class="xd-topbar">
+                    <div class="row">
+                        <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                            <div class="xp-menubar">
+                                <span class="material-icons text-white">signal_cellular_alt</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                            <!-- <div class="xp-searchbar">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="search" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit" id="button-addon2">Go
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> -->
+                        </div>
+
+
+                        <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                            <div class="xp-profilebar text-right">
+                                <nav class="navbar p-0">
+                                    <ul class="nav navbar-nav flex-row ml-auto">
+                                        <li class="dropdown nav-item">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <span class="material-icons">notifications</span>
+                                                <span class="notification">0</span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-notif">
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <!-- <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <span class="material-icons">question_answer</span>
+                                            </a>
+                                        </li> -->
+
+                                        <i class="fas"></i><?php echo "<p>" . $_SESSION['user_name'] . "</p>"; ?>
+                                        <li class="dropdown nav-item">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <img style="width:40px; height:auto;"
+                                                    src="../images/admin/<?php echo $res['admin_image']; ?>">
+                                                <span class="xp-user-live"></span>
+                                            </a>
+                                            <ul class="dropdown-menu small-menu">
+                                                <li><a href="_admin-profile.php">
+                                                        <span class="material-icons">person_outline</span>
+                                                        Profile
+                                                    </a></li>
+                                                <li><a href="#">
+                                                        <span class="material-icons">settings</span>
+                                                        Settings
+                                                    </a></li>
+                                                <li><a href="_admin-login.php">
+                                                        <span class="material-icons">logout</span>
+                                                        Logout
+                                                    </a></li>
+
+                                            </ul>
+                                        </li>
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="xp-breadcrumbbar text-center">
+                        <h4 class="page-title">Shops</h4>
+                        <!--<ol class="breadcrumb">
 					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
 					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
 					</ol>-->
-				 </div>
-				 
-				 
-			 </div>
-		  </div>
-		  <!------top-navbar-end-----------> 
+                    </div>
 
-		  
 
-		   <!------main-content-start-----------> 
-		      <div class="main-content">
-			     <div class="row">
-				    <div class="col-md-12">
-					   <div class="table-wrapper">
-					     
-					   <div class="table-title">
-					     <div class="row">
-						     <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-							    <h2 class="ml-lg-2">Manage  Shops</h2>
-							 </div>
-					     </div>
-					   </div>
-					   
-					<table class="table table-striped table-hover">
-					    <thead>
-						    <tr>
-							<!--<th><span class="custom-checkbox">
+                </div>
+            </div>
+            <!------top-navbar-end----------->
+
+
+
+            <!------main-content-start----------->
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-wrapper">
+
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                        <h2 class="ml-lg-2">Manage Shops</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table table-striped table-hover" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <!--<th><span class="custom-checkbox">
 							<input type="checkbox" id="selectAll">
 							<label for="selectAll"></label></th>-->
-							<th scope="col">ID</th></th>
-                            <th scope="col">Shop Name</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Password</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Contact Number</th>
-                            <th scope="col">Verified</th>
-							<th scope="col">Register Date</th>
-							<th scope="col">Action</th>
-							</tr>
-						</thead>
-						  
-						  <tbody>
-						      <tr>
-							 <!--<th><span class="custom-checkbox">
+                                        <th scope="col">ID</th>
+                                        </th>
+                                        <th scope="col">Shop Name</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Contact Number</th>
+                                        <th scope="col">Verified</th>
+                                        <th scope="col">Register Date</th>
+                                        <th scope="col">Shop Logo</th>
+                                        <th scope="col">DTI Permit</th>
+                                        <th scope="col">Business Permit</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <!--<th><span class="custom-checkbox">
 							 <input type="checkbox" id="checkbox1" name="option[]" value="1">
 							 <label for="checkbox1"></label></th>-->
-							 
-                             <?php
+
+                                    <?php
                             $servername = "localhost";
                             $user = "root";
                             $password = "";
@@ -320,56 +358,69 @@ if(isset($_POST['update'])){
                                 $contact=$row["contact_num"];
 								$verified=$row["verified"];
 								$regdate=$row["register_date"];
+								$logo=$row["shop_logo"];
+                                $dtipic=$row["dti_pic"];
+								$bpermit=$row["bp_pic"];
+								
                             ?>
 
-                            <tr>     
-                                <td><?php echo $id?></td>
-                                <td><?php echo $shopname?></td>
-                                <td><?php echo $username?></td>
-                                <td class="content_td"><?php echo $password?></td>
-								<td><?php echo $address?></td>
-								<td><?php echo $email?></td>
-                                <td><?php echo $contact?></td>
-								<td><?php echo $verified?></td>
-								<td><?php echo $regdate?></td>
-                                <td>
+                                    <tr>
+                                        <td><?php echo $id?></td>
+                                        <td><?php echo $shopname?></td>
+                                        <td><?php echo $username?></td>
+                                        <td class="content_td"><?php echo $password?></td>
+                                        <td><?php echo $address?></td>
+                                        <td><?php echo $email?></td>
+                                        <td><?php echo $contact?></td>
+                                        <td><?php echo $verified?></td>
+                                        <td><?php echo $regdate?></td>
+                                        <?php echo "<td><img height='75' width='75' src='/images/shop/{$row['shop_logo']}' onclick='imageClicked(\"/images/shop/{$row['shop_logo']}\")'></td>";?>
+                                        <?php echo "<td><img height='75' width='75' src='/images/dti_pic/{$row['dti_pic']}' onclick='imageClicked(\"/images/dti_pic/{$row['dti_pic']}\")'></td>";?>
+                                        <?php echo "<td><img height='75' width='75' src='/images/bp_pic/{$row['bp_pic']}' onclick='imageClicked(\"/images/bp_pic/{$row['bp_pic']}\")'></td>";?>
+                                        <td>
 
-								<div class="row">
-								<form action="_manage-shops2.php" class="d-inline" >
-                                	<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" >
-										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-									</button>
-                                </form>
+                                            <div class="row">
+                                                <form action="_manage-shops2.php" class="d-inline">
+                                                    <button type="button" name="conf_button" id="conf_button"
+                                                        class="btn btn-success conf_button mr-2" data-bs-toggle="modal"
+                                                        data-bs-target="#editEmployeeModal">
+                                                        <i class="material-icons" data-toggle="tooltip"
+                                                            title="Edit">&#xE254;</i>
+                                                    </button>
+                                                </form>
 
-								<form action="_manage-shops2.php" class="d-inline">
-                                    <button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal">
-									<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
-									</button>
-                                </form>
+                                                <form action="_manage-shops2.php" class="d-inline">
+                                                    <button type="button" name="del_button" id="del_button"
+                                                        class="btn btn-danger del_button btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteEmployeeModal">
+                                                        <i class="material-icons" data-toggle="tooltip"
+                                                            title="Edit">&#xE872;</i>
+                                                    </button>
+                                                </form>
 
-								</div>
-								<!-- <form action="_manage-drivers2.php" class="d-inline">
+                                       
+                                            <!-- <form action="_manage-drivers2.php" class="d-inline">
 									<a href="#editEmployeeModal" class="edit" type="submit" name="updateDriver" value="<?=$row['driver_id'];?>" data-toggle="modal">
 									<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i> -->
 
-								<!-- <form action="_update-driver2.php" class="d-inline">
+                                            <!-- <form action="_update-driver2.php" class="d-inline">
                                     <button type="submit" name="updateDriver" value="<?=$row['driver_id'];?>" class="btn btn-primary btn-sm">
 									<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
 									</button>
                                 </form> -->
 
-								<!-- <form action="insert.php" method="POST" class="d-inline">
+                                            <!-- <form action="insert.php" method="POST" class="d-inline">
                                     <button type="submit" name="removeDriver" value="<?=$row['driver_id'];?>" class="btn btn-danger btn-sm" onclick='return checkDelete()'>
 									<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
 									</button>
                                 </form> -->
-                                </td>
-                            </tr>
-                        <?php
+                                        </td>
+                                    </tr>
+                                    <?php
                         ;}
                                
                         ?>
-							 <!--<th>
+                                    <!--<th>
 							    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
 							   <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
 							   </a>
@@ -378,254 +429,367 @@ if(isset($_POST['update'])){
 							   </a>
 							 </th>
 							 </tr>-->
-							 
-							 
-						  </tbody>
-						  
-					      
-					   </table>
-					   
-					   <div class="clearfix">
-					     <div class="hint-text">showing <b>3</b> out of <b>3</b></div>
-					     <ul class="pagination">
-						    <li class="page-item disabled"><a href="#">Previous</a></li>
-							<li class="page-item "><a href="#"class="page-link">1</a></li>
-							<li class="page-item "><a href="#"class="page-link">2</a></li>
-							<li class="page-item active"><a href="#"class="page-link">3</a></li>
-							<li class="page-item "><a href="#"class="page-link">4</a></li>
-							<li class="page-item "><a href="#"class="page-link">5</a></li>
-							<li class="page-item "><a href="#" class="page-link">Next</a></li>
-						 </ul>
-					   </div>  
-					</div>
-				</div>
-					   
-				   <!----edit-modal start--------->
 
 
-<div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Driver Information</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-      <div class="modal-body">
+                    <!----edit-modal start--------->
 
-		<form method="POST" enctype="multipart/form-data">
-			<input type="hidden" id="seller_id1" name="seller_id1"  />
 
-			<div class="form-group">
-				<label>Name</label>
-				<input type="text" class="form-control" autocomplete="off" name="shopname1" id="shopname1" <?php echo $shopname; ?>">
-			</div>
-			
-			<div class="form-group">
-				<label>Username</label>
-				<input type="text" class="form-control" autocomplete="off" name="username1" id="username1" <?php echo $username; ?>">
-			</div>
+                    <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Update Shop</h5>
+                                    <button type="button" class="close mr-3 mt-2" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
-			<div class="form-group">
-				<label>Password</label>
-				<input type="text" class="form-control" autocomplete="off" name="password1" id="password1" <?php echo $password; ?>">
-			</div>
-			
-			<div class="form-group">
-				<label>Address</label>
-				<input type="text" class="form-control" autocomplete="off" name="address1" id="address1" <?php echo $address; ?>">
-			</div>
+                                <div class="modal-body">
 
-			<div class="form-group">
-				<label>Email</label>
-				<input type="text" class="form-control" autocomplete="off" name="email1" id="email1" <?php echo $email; ?>">
-			</div>
+                                    <form method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" id="seller_id1" name="seller_id1" />
 
-			<div class="form-group">
-				<label>Contact Number</label>
-				<input type="text" class="form-control" autocomplete="off" name="contact1" id="contact1" <?php echo $contact; ?>">
-			</div>
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="shopname1"
+                                                id="shopname1" <?php echo $shopname; ?>" readonly>
+                                        </div>
 
-			<div class="form-group">
-				<label>Verified</label>
-				<input type="text" class="form-control" autocomplete="off" name="verified1" id="verified1" <?php echo $verified; ?>">
-			</div>
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="username1"
+                                                id="username1" <?php echo $username; ?>" readonly>
+                                        </div>
 
-			<div class="form-group">
-				<label>Register Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="regdate1" id="regdate1" <?php echo $regdate; ?>" readonly>
-			</div>
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="password1"
+                                                id="password1" <?php echo $password; ?>" readonly>
+                                        </div>
 
-			<div class="row">
-				<div class="form-group mb-5 border-bottom-0 col-6 mt-5">
-					<label for="pic_ID" style="font-size:20px; font-weight:bold;">Upload Picture of Driver's License</label><br>
-					<input type="file" class="form-control-file mt-3" id="pic_ID" name="pic_ID">
-				</div>
-						
-						
-				<div class="form-group mb-5 border-bottom-0 col-6 mt-5">
-					<label for="pic_PROFILE" style="font-size:20px; font-weight:bold;">Upload Picture of Driver</label><br>
-					<input type="file" class="form-control-file mt-3" id="pic_PROFILE" name="pic_PROFILE">
-				</div>
-			</div>
-		</div>
-		
-			<div class="modal-footer">
-				<button type="submit" name="update"  id="update" class="btn btn-success">Save</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" href="_manage-drivers2.php">Cancel</button>			
-			</div>
-	  	</form>
-    </div>
-  </div>
-</div>
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="address1"
+                                                id="address1" <?php echo $address; ?>" readonly>
+                                        </div>
 
-					   <!----edit-modal end--------->	   
-					   
-					   
-					 <!----delete-modal start--------->
-<div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="email1"
+                                                id="email1" <?php echo $email; ?>" readonly>
+                                        </div>
 
-	<form action="delete-functions.php" method="POST" class="d-inline">
-		
-    	<div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Contact Number</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="contact1"
+                                                id="contact1" <?php echo $contact; ?>" readonly>
+                                        </div>
 
-			<input type="hidden" id="driver_id2" name="driver_id2"/>
+                                        <!-- <div class="form-group">
+                                            <label>Verified</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="verified1"
+                                                id="verified1" <?php echo $verified; ?>" readonly>
+                                        </div> -->
+   
+                                        <div class="form-group">
+                                            <label for="verified1">Veirified</label>	
+                                            <br>
+                                            <select id="verified1" name="verified1">
+                                                <?php
+                                                // Generate the options dynamically
+                                                $options = [1 => 'YES', 0 => 'NO'];
 
-        	<p>Are you sure you want to delete this Record</p>
-			<p class="text-warning"><medium>this action Cannot be Undone</medium></p>
-    	</div>
+                                                foreach ($options as $value => $label) {
+                                                    echo "<option value='$value'>$label</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
 
-    	<div class="modal-footer">
-	  		<button type="submit" name="removeDriver" class="btn btn-success">Delete</button>
-        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-		</div>
+                                        <div class="form-group">
+                                            <label>Register Date</label>
+                                            <input type="text" class="form-control" autocomplete="off" name="regdate1"
+                                                id="regdate1" <?php echo $regdate; ?>" readonly>
+                                        </div>
+                                </div>
 
-	</form>
+                                <div class="modal-footer">
+                                    <button type="submit" name="update" id="update"
+                                        class="btn btn-success">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        href="_manage-drivers2.php">Cancel</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-    </div>
-  </div>
-</div>
+                    <!----edit-modal end--------->
 
-					   <!----edit-modal end--------->   
-					   
-					
-					
-				 
-			     </div>
-			  </div>
-		  
-		    <!------main-content-end-----------> 
-		  
-		 
-		 
-		 <!----footer-design------------->
-		 
-		 <!--<footer class="footer">
+
+                    <!----delete-modal start--------->
+                    <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete Employees</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <form method="POST" class="d-inline">
+
+                                    <div class="modal-body">
+
+                                        <input type="text" id="seller_id2" name="seller_id2" />
+
+                                        <p>Are you sure you want to delete this Record</p>
+                                        <p class="text-danger">
+                                            <medium>this action Cannot be Undone</medium>
+                                        </p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" name="removeShop"
+                                            class="btn btn-success">Delete</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!----edit-modal end--------->
+                    <div id="myModal" class="modal">
+                        <div class="modal-content modals">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- <p id="modalContent"></p> -->
+                            <img id="modalImage" src="" alt="Image">
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            <!------main-content-end----------->
+
+
+
+            <!----footer-design------------->
+
+            <!--<footer class="footer">
 		    <div class="container-fluid">
 			   <div class="footer-in">
 			      <p class="mb-0">© RentaCar 2023 . All Rights Reserved.</p>
 			   </div>
 			</div>
 		 </footer>-->
-		 
-		 
-		 
-		 
-	  </div>
-   
-</div>
 
 
 
-<!-------complete html----------->
 
-     <!-- Optional JavaScript -->
+        </div>
+
+    </div>
+
+
+
+    <!-------complete html----------->
+
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <script src="/js/jquery-3.3.1.slim.min.js"></script>
-   <script src="/js/popper.min.js"></script>
-   <script src="/js/bootstrap.min.js"></script>
-   <script src="/js/jquery-3.3.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-	</script>
-  
-
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
 
 <script>
-		$(document).ready(function(){
-
-			$('.del_button').click(function(e){
-					
-				$('#deleteEmployeeModal').modal('show');
-
-					$tr=$(this).closest('tr');
-
-					var data = $tr.children("td").map(function(){
-						return $(this).text();
-					}).get();
-
-					console.log(data);
-
-					$('#driver_id2').val(data[0]);
-				
-			});
-		});
+        $(document).ready(function(){
+            $.noConflict();
+			$('#myTable').dataTable();
+        });
 </script>
-  
-  <script type="text/javascript">
-        	$(document).ready(function(){
-			$(".xp-menubar").on('click',function(){
-				$("#sidebar").toggleClass('active');
-				$("#content").toggleClass('active');
-			});
-			
-			$('.xp-menubar,.body-overlay').on('click',function(){
-				$("#sidebar,.body-overlay").toggleClass('show-nav');
-			});
 
-			$('.conf_button').click(function(e){
-					// $('#editEmployeeModal').modal('show');
 
-					$tr=$(this).closest('tr');
+    <script>
+    $(document).ready(function() {
 
-					var data = $tr.children("td").map(function(){
-						return $(this).text();
-					}).get();
+        $('.del_button').click(function(e) {
 
-					console.log(data);
+            $('#deleteEmployeeModal').modal('show');
 
-					$('#seller_id1').val(data[0]);
-					$('#shopname1').val(data[1]);
-					$('#username1').val(data[2]);
-					$('#password1').val(data[3]);
-					$('#address1').val(data[4]);
-					$('#email1').val(data[5]);
-					$('#contact1').val(data[6]);
-					$('#verified1').val(data[7]);
-					$('#regdate1').val(data[8]);
-				
-			});
-		});
-  </script>
-  
-  <script>
-        function checkDelete(){
-            return confirm('Are you sure you want to delete this record?');
+            $tr = $(this).closest('tr');
+
+            var data = $tr.children("td").map(function() {
+                return $(this).text();
+            }).get();
+
+            console.log(data);
+
+            $('#seller_id2').val(data[0]);
+
+        });
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(".xp-menubar").on('click', function() {
+            $("#sidebar").toggleClass('active');
+            $("#content").toggleClass('active');
+        });
+
+        $('.xp-menubar,.body-overlay').on('click', function() {
+            $("#sidebar,.body-overlay").toggleClass('show-nav');
+        });
+
+        $('.conf_button').click(function(e) {
+            // $('#editEmployeeModal').modal('show');
+
+            $tr = $(this).closest('tr');
+
+            var data = $tr.children("td").map(function() {
+                return $(this).text();
+            }).get();
+
+            console.log(data);
+
+            $('#seller_id1').val(data[0]);
+            $('#shopname1').val(data[1]);
+            $('#username1').val(data[2]);
+            $('#password1').val(data[3]);
+            $('#address1').val(data[4]);
+            $('#email1').val(data[5]);
+            $('#contact1').val(data[6]);
+            $('#verified1').val(data[7]);
+            $('#regdate1').val(data[8]);
+
+        });
+    });
+    </script>
+
+    <script>
+    function checkDelete() {
+        return confirm('Are you sure you want to delete this record?');
+    }
+    </script>
+
+    <script>
+    function imageClicked(imageUrl) {
+        var modal = document.getElementById("myModal");
+        // var modalContent = document.getElementById("modalContent");
+        var modalImage = document.getElementById("modalImage");
+
+        modalImage.src = imageUrl;
+
+
+        modalImage.style.width = "500px";
+        modalImage.style.height = "500px";
+        // Display the modal
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        // Get a reference to the modal
+        var modal = document.getElementById("myModal");
+
+        // Close the modal by hiding it
+        modal.style.display = "none";
+
+        modalImage.src = "";
+        modalImage.style.width = "auto";
+        modalImage.style.height = "auto";
+    }
+    </script>
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Function to fetch and display notifications
+function fetchNotifications() {
+    $.ajax({
+        url: 'fetch_notifications.php', // Create a new PHP file to handle fetching notifications
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var notificationDropdown = $('.dropdown-notif'); // Replace with the appropriate selector for your dropdown
+
+            // Clear existing notifications
+            notificationDropdown.empty();
+
+            // Loop through the fetched notifications and add them to the dropdown
+			if (data.length === 0) {
+                var noNotificationsItem = '<li><a href="#">No notifications</a></li>';
+                notificationDropdown.append(noNotificationsItem);
+            } else {
+            $.each(data, function (index, notification) {
+                var notificationItem = '<li><a href="#" class="notification-link" data-notification-id="' + notification.notification_id + '" data-account-type="' +notification.account_type + '">' + notification.message + '</a></li>';
+                notificationDropdown.append(notificationItem);
+            });
+		}
+
+		$('.notification').text(data.length);
+
+			$('.notification-link').click(function (event) {
+                    event.preventDefault();
+                    var notificationId = $(this).data('notification-id');
+                    var accountType = $(this).data('account-type');
+
+                    // Determine the URL to redirect to based on the account type
+                    var redirectUrl = accountType === 'customer' ? '_manage-users2.php' : '_manage-shops2.php';
+
+                    // Redirect to the appropriate page
+                    window.location.href = redirectUrl;
+
+                // Send an AJAX request to mark the notification as read
+                $.ajax({
+                        url: 'delete_notification.php',
+                        type: 'POST',
+                        data: { notification_id: notificationId },
+                        success: function (response) {
+                            if (response === 'success') {
+                                console.log('Notification deleted successfully.');
+                            } else {
+                                console.error('Error deleting notification.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('AJAX request failed:', error);
+                        }
+                });
+            });
         }
-	</script>
+    });
+}
 
-  </body>
-  
-  </html>
+// Call the fetchNotifications function when the page loads
+$(document).ready(function () {
+    fetchNotifications();
+
+    // Set an interval to periodically fetch notifications (e.g., every 5 seconds)
+    setInterval(fetchNotifications, 5000);
+});
 
 
+</script>
+
+
+</body>
+
+</html>

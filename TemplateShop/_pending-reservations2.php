@@ -14,9 +14,17 @@ include ('../connection.php');
 $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id'");
 
 if($res = mysqli_fetch_array($findresult)){
-$image = $res['shop_logo'];
+	$image = $res['shop_logo'];
+	$verified = $res['verified'];
+
 }
 
+$sql1 = mysqli_query($con, "SELECT * FROM reservation WHERE seller_id = $com_id AND status = 'Pending'");
+
+if($res1 = mysqli_fetch_array($sql1)){
+	$userid = $res1["user_id"];
+	$vehicle = $res1["brand"];
+}
 
 if(isset($_POST['update_res'])){
 	$id = $_POST['id1'];
@@ -26,6 +34,8 @@ if(isset($_POST['update_res'])){
 	$query =  mysqli_query($con,"UPDATE product SET status=1 WHERE item_id='$item_id'");
 
 	if($result){
+		$notificationMessage = "Your reservation for " . "<b>" . $vehicle . "</b>" . " has been approved";
+		$insertNotification = mysqli_query($con, "INSERT INTO reservation_notification (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$com_id', '$userid', 'customer')");
 		//$_SESSION['status'] = "Your profile has been updated";
 		header("location:/TemplateShop/_pending-reservations2.php");
 	} else {
@@ -39,6 +49,23 @@ if(isset($_POST['update_res'])){
 	}
 		
 
+}
+?>
+
+<?php
+	if(isset($_POST['removePending'])){
+    	$id = $_POST['id2'];
+
+    	$query = "DELETE FROM reservation WHERE id='$id' AND status='Pending' ";
+    	$query_run = mysqli_query($con, $query);
+
+    if($query_run){
+
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
+    else {
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
 }
 ?>
 
@@ -69,8 +96,9 @@ if(isset($_POST['update_res'])){
 
 
 	   <!--google material icon-->
-      <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
-
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   <script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
   </head>
   <body>
   
@@ -82,56 +110,10 @@ if(isset($_POST['update_res'])){
 	 
 	 <!-------sidebar--design------------>
 	 
-	 <div id="sidebar">
-	    <div class="sidebar-header">
-		   <h3><img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>"><span>RentaCar</span></h3>
-		</div>
-		<ul class="list-unstyled component m-0">
-		  <li class="dash">
-		  <a href=".dashboardCompany.php" class="dashboard"><i class="material-icons">dashboard</i>Dashboard </a>
-		  </li>
-
-          <li class="active">
-		  <a  href="#">
-		  <i class="material-icons">summarize</i>Pending Reservations
-		  </a>
-		  </li>
-		  
-		  <li class="cars">
-		  <a  href="_manage-cars2.php">
-		  <i class="material-icons">directions_car</i>Car Management
-		  </a>
-		  </li>
-
-		  <li class="reserve">
-		  <a  href="_manage-reservations2.php">
-		  <i class="material-icons">book_online</i>Car Reservation
-		  </a>
-		  </li>
-
-		  <li class="drivers">
-		  <a  href="_manage-to-be-returned2.php">
-		  <i class="material-icons">fact_check</i>Cars to be Returned
-		  </a>
-		  </li>
-
-		  <li class="reserve">
-		  <a  href="_manage-drivers2.php">
-		  <i class="material-icons">person</i>Drivers
-		  </a>
-		  </li>
-
-		  <br>
-
-          <li class="reserve">
-		  <a  href="_manage-sales2.php">
-		  <i class="material-icons">summarize</i>Sales Report
-		  </a>
-		  </li>
-		  
-		
-		</ul>
-	 </div>
+	 <?php 
+	 	include ('../TemplateShop/_company-sidebar.php');
+	 ?>
+	
 	 
    <!-------sidebar--design- close----------->
    
@@ -139,100 +121,17 @@ if(isset($_POST['update_res'])){
    
       <!-------page-content start----------->
    
-      <div id="content">
+ 
 	     
 		  <!------top-navbar-start-----------> 
 		     
-		  <div class="top-navbar">
-		     <div class="xd-topbar">
-			     <div class="row">
-				     <div class="col-2 col-md-1 col-lg-4 order-2 order-md-1 align-self-center">
-					    <div class="xp-menubar">
-						    <span class="material-icons text-white">signal_cellular_alt</span>
-						</div>
-					 </div>
-					 
-					 <!-- <div class="col-md-5 col-lg-3 order-3 order-md-2">
-					     <div class="xp-searchbar">
-						     <form>
-							    <div class="input-group">
-								  <input type="search" class="form-control"
-								  placeholder="Search">
-								  <div class="input-group-append">
-								     <button class="btn" type="submit" id="button-addon2">Go
-									 </button>
-								  </div>
-								</div>
-							 </form>
-						 </div>
-					 </div> -->
-					 
-					 
-					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-					     <div class="xp-profilebar text-right">
-						    <nav class="navbar p-0">
-							   <ul class="nav navbar-nav flex-row ml-auto">
-							   <li class="dropdown nav-item">
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								  <span class="material-icons">notifications</span>
-								  <span class="notification">4</span>
-								 </a>
-								  <ul class="dropdown-menu">
-								     <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-									 <li><a href="#">You Have 4 New Messages</a></li>
-								  </ul>
-							   </li>
-							   
-							   <li class="nav-item">
-							   <a class="nav-link" href="/TemplateShop/_company-messages.php">
-								   <span class="material-icons">question_answer</span>
-								 </a>
-							   </li>
+		<?php 
+			include ('../TemplateShop/_company-header.php');
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
 
-							   <i class="fas ml-3 me-2"></i><?php echo "<p>" . $_SESSION['shopname'] . "</p>"; ?>
-							   <li class="dropdown nav-item">
-							     <a class="nav-link" href="#" data-toggle="dropdown">
-								 <img style="width:40px; height:auto;"  src="../images/shop/<?php echo $res['shop_logo']; ?>">
-								  <span class="xp-user-live"></span>
-								 </a>
-								  <ul class="dropdown-menu small-menu">
-								     <li><a href="_company-profile.php">
-									 <span class="material-icons">person_outline</span>
-									 Profile
-									 </a></li>
-									 <li><a href="#">
-									 <span class="material-icons">settings</span>
-									 Settings
-									 </a></li>
-									 <li><a href="_company-login.php">
-									 <span class="material-icons">logout</span>
-									 Logout
-									 </a></li>
-									 
-								  </ul>
-							   </li>
-							   
-							   
-							   </ul>
-							</nav>
-						 </div>
-					 </div>
-					 
-				 </div>
-				 
-				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title">Reservations</h4>
-					<!--<ol class="breadcrumb">
-					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
-					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
-					</ol>-->
-				 </div>
-				 
-				 
-			 </div>
-		  </div>
+			} else {
+		?>
 		  <!------top-navbar-end-----------> 
 
 		  
@@ -269,6 +168,8 @@ if(isset($_POST['update_res'])){
 							<label for="selectAll"></label></th>-->
 							<th scope="col" width="50">#</th>
 							<th scope="col">Item ID</th>
+							<th scope="col">Front Image of ID</th>
+							<th scope="col">Back Image of ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Contact Number</th>
                             <th scope="col">Vehicle</th>
@@ -320,12 +221,16 @@ if(isset($_POST['update_res'])){
                                 $price = $row["overall_price"];
 								$driver = $row["driver_stat"];
                                 $status = $row["status"];
+								$front = $row["front_id"];
+								$back = $row["back_id"];
                             ?>
 
                             <tr>
                                     
                                 <td><?php echo $id?></td>
 								<td><?php echo $item_id?></td>
+								<td><img height="75" width="105" <?php echo '<img src="/images/driver_license/'.$front.'" ' ?>> </td>
+								<td><img height="75" width="105" <?php echo '<img src="/images/driver_license/'.$back.'" ' ?>> </td>
                                 <td><?php echo $name?></td>
                                 <td><?php echo $number?></td>
                                 <td><?php echo $vehicle?></td>
@@ -344,7 +249,7 @@ if(isset($_POST['update_res'])){
 										</button>
 									</form>
 
-									<form action="_manage-reservations2.php" class="d-inline">
+									<form action="_pending-reservations2.php" class="d-inline">
 										<button type="button" name="del_button" id="del_button" class="btn btn-danger del_button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteReservationModal">
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE872;</i>
 										</button>
@@ -364,124 +269,17 @@ if(isset($_POST['update_res'])){
 </div>
 					
 
-									   <!----add-modal start--------->
-<div class="modal fade" tabindex="-1" id="addEmployeeModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Employees</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="form-group">
-		    <label>Name</label>
-			<input type="text" class="form-control" required>
-		</div>
-		<div class="form-group">
-		    <label>Email</label>
-			<input type="emil" class="form-control" required>
-		</div>
-		<div class="form-group">
-		    <label>Address</label>
-			<textarea class="form-control" required></textarea>
-		</div>
-		<div class="form-group">
-		    <label>Phone</label>
-			<input type="text" class="form-control" required>
-		</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-					   <!----edit-modal end--------->
-					   
-					   
-					   
-					   
-					   
-				   <!----edit-modal start--------->
-<!-- <div class="modal fade" tabindex="-1" id="editReservationModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Car</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      	<div class="modal-body">
-
-			<form method="POST" enctype="multipart/form-data">
-				<input type="hidden" id="id1" name="id1"  />
-				<input type="hidden" id="item_id1" name="item_id1"  />
-
-			<div class="form-group">
-				<label>Name</label>
-				<input type="text" class="form-control" autocomplete="off" name="name1" id="name1" <?php echo $name; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Contact Number</label>
-				<input type="text" class="form-control" autocomplete="off" name="number1" id="number1" <?php echo $number; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Vehicle</label>
-				<input type="text" class="form-control" autocomplete="off" name="vehicle1" id="vehicle1" <?php echo $vehicle; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Pick-up Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="pickup1" id="pickup1" <?php echo $pickup; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Return Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="return1" id="return1" <?php echo $return; ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Total Amount</label>
-				<input type="text" class="form-control" autocomplete="off" name="price1" id="price1" <?php echo $price; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Status</label>
-				<select name="reserve1" id="reserve1">
-					<option value="Pending">Pending</option>
-					<option value="Reserved">Reserve</option>
-					
-				</select>
-      		</div>
-
-      <div class="modal-footer">
-	  	<button type="submit" name="update_res" id="update_res" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 					   <!----edit-modal end--------->	   
 
-<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog">
 
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 
 	<div class="modal-content">
 		<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -493,8 +291,8 @@ if(isset($_POST['update_res'])){
 					<h5>Confirm Reservation</h5>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" name="update_res" id="update_res" class="btn btn-danger" >Reserve</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" name="update_res" id="update_res" class="btn btn-danger">Reserve</button>
 				</div>
 			</form>
 	</div>
@@ -507,19 +305,29 @@ if(isset($_POST['update_res'])){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete Employees</h5>
+        <h5 class="modal-title">Delete Reservation</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete this Record</p>
-		<p class="text-warning"><small>this action Cannot be Undone,</small></p>
+
+	<form method="POST" class="d-inline">
+
+      	<div class="modal-body">
+
+	  		<input type="hidden" id="id2" name="id2"/>
+
+			<p>Are you sure you want to delete this Record</p>
+			<p class="text-warning"><small>this action Cannot be Undone,</small></p>
       </div>
+
       <div class="modal-footer">
+	  	<button type="submit" name="removePending" id="removePending" class="btn btn-success">Delete</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success">Delete</button>
       </div>
+
+	  </form>
+
     </div>
   </div>
 </div>
@@ -548,17 +356,42 @@ if(isset($_POST['update_res'])){
 
 <!-------complete html----------->
   
+<?php 
+			}
+	include ('../TemplateShop/_company-footer.php');
+?>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <script src="/js/jquery-3.3.1.slim.min.js"></script>
+   <!-- <script src="/js/jquery-3.3.1.slim.min.js"></script>
    <script src="/js/popper.min.js"></script>
    <script src="/js/bootstrap.min.js"></script>
    <script src="/js/jquery-3.3.1.min.js"></script>
-   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 	</script>
-  
+   -->
+
+  <script>
+		$(document).ready(function(){
+
+			$('.del_button').click(function(e){
+					
+				$('#deleteReservationModal').modal('show');
+
+					$tr=$(this).closest('tr');
+
+					var data = $tr.children("td").map(function(){
+						return $(this).text();
+					}).get();
+
+					console.log(data);
+
+					$('#id2').val(data[0]);
+				
+			});
+		});
+</script>
   
   <script type="text/javascript">
        $(document).ready(function(){
@@ -573,6 +406,7 @@ if(isset($_POST['update_res'])){
 
 		  $('.conf_button').click(function(e){
 					// $('#editEmployeeModal').modal('show');
+					$('#confirm_modal').modal('show');
 
 					$tr=$(this).closest('tr');
 
@@ -609,6 +443,3 @@ if(isset($_POST['update_res'])){
         });
 </script>
 
-  </body>
-  
-  </html>

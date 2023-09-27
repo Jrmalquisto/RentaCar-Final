@@ -1,18 +1,7 @@
 <?php
-    ob_start();
-    
-    include ('header.php');
-?>
+    include ('header2.php');
 
-<!------------------------------------------------------------------------------------------------------------>
-
-<?php
-   include ('Template/_user-reservations.php');
-
-?>
-
-<!------------------------------------------------------------------------------------------------------------>
-
-<?php
+    include ('Template/user-reservations2.php');
+ 
     include ('footer.php');
 ?>

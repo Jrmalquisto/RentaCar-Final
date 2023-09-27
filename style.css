@@ -234,14 +234,6 @@ input{
 #top-products .owl-carousel .owl-nav button.owl-next span {
     margin-right: -4rem;
 }
-#top-products .shop-container .grid-item {
-    margin-right: 1.2rem;
-    margin-left: 20px;
-    margin-top: 1rem;
-    border-radius: 20px;
-    box-shadow: 1px 1px 5px #333333;
-    background-color: white;
-}
 
 #top-products .container .font-rubik{
     color: #000000;
@@ -274,11 +266,15 @@ input{
     background-color: white;
     margin-bottom: 30px;
 }
+
 #top-products .shop-container .grid-item {
     /* margin-right: 1.2rem; */
-    /* width:100%; */
+    width:200px;
+    /* margin-right: 1.2rem; */
+    height: 210px;
+    margin-left: 20px;
     margin-top: 1rem;
-    border-radius: 20px;
+    border-radius: 5px;
     box-shadow: 1px 1px 5px #333333;
     background-color: white;
     margin-bottom: 30px;
@@ -287,7 +283,6 @@ input{
 #special-offers{
     background-repeat: no-repeat;
     background-size: cover;
-    
     min-height:80vh;
     
 }
@@ -295,6 +290,7 @@ input{
 #top-offers{
     background-repeat: no-repeat;
     background-size: cover;
+    min-height:80vh;
 }
 
 .margin-top-20{
@@ -329,7 +325,7 @@ form{
 }
 span{
     font-size: 20px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
 }
 #special-offers .btn{
     font-size: 18px;
@@ -577,29 +573,40 @@ span{
     border-radius: 10px;
     overflow: hidden;
   }
+
+  .signupform1{
+    position: absolute;
+    background-color:#fff;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    
+    width: 50%;
+    transition: 1s 0.7s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr;
+    z-index: 5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
 .form-container form .btn:hover{
     background: #6B6B6B;
 }
 
 /*   For Navbar */
 .navbar{
-    font-family: "Poppins", sans-serif;
-    font-weight: bold;
-    /* border-bottom: 1px solid #ccc; */
-    box-shadow: 0px 8px 8px -6px rgba(0, 0, 0, 0.836);
-    
+    background-color: #2A2A2A;
 }
-nav{
-    background-color: #252525;
-    transition: background-color 0.5s ease;
-    opacity: 1;
-    /* background-color: transparent; */
-    transition: transform .2s cubic-bezier(0.64,0.04,0.26,0.87),
-    opacity .5s cubic-bezier(0.64,0.04,0.26,0.87);
- 
-    
-   
+
+.sidebar{
+    background-color: #2A2A2A;
 }
+
+
+.navbar .nav-item{
+    padding: 0px;
+}
+
 nav.active{
     /* background-color: var(--dark);
     box-shadow: none; */
@@ -825,83 +832,21 @@ height: 180px;
     margin-left: -100px;
 }
 /* Footer */
-
+/* 
 .footer{
-    height: 35vh;
-}
+    width: 100%;
+ } */
 footer{
     background-color: #353535;
-    padding: 35px 0;
-    height: 50vh;
-    margin-top:auto;
+    color: #ffffff;
+    /* padding: 35px 0;
+    margin-top:auto; */
 }
-.footer .row{
-	display: flex;
-	flex-wrap: wrap;
-    justify-content: center;
-}
-.footer ul{
-	list-style: none;
+footer .col ul li a{
+    color: #ffffff;
+
 }
 
-.footer-col{
-   width: 25%;
-   padding: 0 5px;
-}
-.footer-col h4{
-	font-size: 18px;
-	color: #ffffff;
-	text-transform: capitalize;
-	margin-bottom: 35px;
-	font-weight: 500;
-	position: relative;
-}
-.footer-col h4::before{
-	content: '';
-	position: absolute;
-	left:0;
-	bottom: -10px;
-	background-color: #e91e63;
-	height: 2px;
-	box-sizing: border-box;
-	width: 50px;
-}
-.footer-col ul li:not(:last-child){
-	margin-bottom: 10px;
-}
-.footer-col ul li a{
-	font-size: 16px;
-	text-transform: capitalize;
-	color: #ffffff;
-	text-decoration: none;
-	font-weight: 300;
-	color: #bbbbbb;
-	display: block;
-	transition: all 0.3s ease;
-}
-.footer-col ul li a:hover{
-	color: #ffffff;
-	padding-left: 8px;
-}
-.footer-col .social-links a{
-	display: inline-block;
-	height: 40px;
-	width: 40px;
-	background-color: rgba(255,255,255,0.2);
-	margin:0 10px 10px 0;
-	text-align: center;
-	line-height: 40px;
-	border-radius: 50%;
-	color: #ffffff;
-	transition: all 0.5s ease;
-}
-.footer-col .social-links a:hover{
-	color: #24262b;
-	background-color: #ffffff;
-}
-#footer{
-    border-top: 1px solid #ccc;
-}
 
 /* Company */
 :root {
@@ -996,6 +941,215 @@ footer{
     min-height:100vh;
 }
 
+.container-fluid .row .col-md-4{
+    background-color:#008B3F;
+    padding: 15px 40px 15px 40px;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Display 5 items per row initially */
+    gap: 15px; /* Adjust the gap between items as needed */
+    justify-content: start;
+}
+
+.grid-item {
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #333333;
+        width: 230px;
+        height: 230px;
+        justify-items: center; /* Center items vertically within grid cells */
+        /* Add your styling for grid items here */
+    }
+
+
+
+.navbar .navbar-nav .image{
+    display: none;
+}
+
+.search-bar .search-field{
+    width: 250px;
+}
+
+#special-offers img{
+    width:150px; 
+    height:auto;
+}
+
+#top-products img{
+    width:150px; 
+    height:auto;
+}
+
+.search-bar .search{
+    display: flex;
+    justify-content: end;
+}
+
+.shop-name-banner{
+    background-color: #a1a1a1;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.shop-name-banner h4{
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 30px;
+    width:100%;
+    text-align: center;
+}
+
+.navbar .notification-bell > a > span{
+    color:#fff;
+}
+
+.navbar .notification{
+    position:absolute;
+    top:-6px;
+    right:0px;
+    display:block;
+    font-size:9px;
+    border:0;
+    background-color:#2bcd72;
+    min-width:15px;
+    text-align:center;
+    padding:1px 5px;
+    height:15px;
+    border-radius:2px;
+    line-height:14px;
+}
+
+.navbar .drop-notification .dropdown-notif{
+    padding: 10px;
+    width: 200px;
+}
+
+.navbar .drop-notification .dropdown-menu a{
+    text-decoration: none;
+    color: #191919;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Poppins',sans-serif;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    #top-products .shop-container .grid-item {
+        /* margin-right: 1.2rem; */
+        width:120px;
+        /* margin-right: 1.2rem; */
+        height: 160px;
+        
+    }
+
+    #top-products{
+        margin-top: -30px;
+    }
+
+    .grid-container {
+        margin-top: -50px;
+        grid-template-columns: repeat(3, 1fr); /* Display 2 items per row on smaller screens */
+    }
+
+    .grid-item{
+        width: calc(33.33% - 10px); /* 33.33% of the container width with gap adjustment */
+        padding-bottom: calc(33.33% - 10px); /* 33.33% of the container width with gap adjustment */
+        box-sizing: border-box;
+        height: 180px;
+    }
+
+
+    .search-bar{
+        margin-top: -30px;
+    }
+    
+
+    .search-bar h4{
+        font-size: 25px;
+    }
+
+    .search-bar .search{
+        margin-top: -10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-bar .search-field{
+        width: 300px;
+    }
+
+    #special-offers img{
+        width: 100px;
+        height:auto;
+    }
+
+    #top-products img{
+        width: 100px;
+        height:auto;
+    }
+
+    #special-offers .center-text{
+        text-align: center;
+    }
+
+    #top-products .center-text{
+        text-align: center;
+    }
+
+    #special-offers .car-name{
+        font-size: 11px;
+    }
+
+    #top-products .car-name{
+        font-size: 11px;
+    }
+
+    #special-offers .item-text{
+        font-size: 12px;
+    }
+
+    #top-products .item-text{
+        font-size: 12px;
+    }
+
+    #special-offers .badge{
+        font-size: 9px;
+    }
+
+    #top-products.badge{
+        font-size: 9px;
+    }
+}
+
+@media(max-width: 991px){
+    .navbar .navbar-nav a{
+        padding: 4px;
+    }
+
+    .navbar .navbar-nav .image{
+        display: block;
+        margin-bottom: 20px;
+        margin-top: -20px;
+    }
+    .navbar .navbar-nav{
+        margin-bottom: 40px;
+    }
+    
+    .sidebar{
+        background-color: #2A2A2A;
+    }
+    .dropdown-menu.dropdown-menu-end {
+        left: auto;
+        right: 0;
+    }
+}
+
 
 /*------------------------------------RESIZING------------------------------------*/
 
@@ -1029,9 +1183,6 @@ height: 100%;
     margin-left: -10px;
 }
 
-#special-offers .grid{
-    margin-left: 10px;
-}
 
 #special-offers .grid h5{
     font-size: 15px;
@@ -1053,6 +1204,10 @@ height: 100%;
     width:200px;
 }
 .signupform{
+    width:80%;
+}
+
+.signupform1{
     width:80%;
 }
 
@@ -1100,6 +1255,12 @@ height: 100%;
     
   
     .signupform{
+        width:70%;
+        height:100%;
+        padding:0px;
+    }
+
+    .signupform1{
         width:70%;
         height:100%;
         padding:0px;
