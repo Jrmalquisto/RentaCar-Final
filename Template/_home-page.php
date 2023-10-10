@@ -87,7 +87,7 @@ if(!isset($_SESSION["dateFrom"]) && !isset($_SESSION["dateTo"])){
                         <!-- <input type="submit" name="" id="" class="btn" value="" placeholder="Continue"> -->
                         <div class="container">
                            <div class="d-flex justify-content-end text-center pe-2">
-                                <button id="" type="submit" class="btn btn-primary "  name="submit">Continue</button>
+                                <button id="" type="submit" class="btn btn-primary "  name="submit" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tooltip on left">Continue</button>
 
                            </div>
                                

@@ -343,6 +343,8 @@ max-width: 100%;
 	gap: 1rem;
   }
 
+  
+
   .box{
 	margin-top: 10px;
 	height: 100px;
@@ -352,6 +354,13 @@ max-width: 100%;
 	border-radius: 5px;
 	float: left;
 }
+.box{
+	transition: all 0.3s ease 0s;
+}
+.box:hover{
+	background-color: #009E60;
+	transition-delay:0.1s;
+  }
 
 .box1{
 	width: 350px;
@@ -566,6 +575,7 @@ max-width: 100%;
 		   padding:30px 30px 0px 30px;
 			margin-top: 100px;
 			margin-bottom: 15px;
+			height:100vh;
 	   }
 
 	   .main-content1{
@@ -1110,7 +1120,7 @@ background-color:rgba(0,0,0,0.09);
 		   #sidebar.show-nav, .body-overlay.show-nav{
 			   transform:translatex(0%);
 			   opacity:1;
-			   display:block;
+			   /* display:block; */
 			   visibility:visible;
 			   z-index:15;
 		   }

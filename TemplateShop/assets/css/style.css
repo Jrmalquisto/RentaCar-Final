@@ -96,6 +96,7 @@ span.convomess{
     scrollbar-color: #E6873C #EEAF7D;
     scrollbar-width: thin;
     padding-right: 4px;
+    text-transform: none;
 }
 
 .wrapper{

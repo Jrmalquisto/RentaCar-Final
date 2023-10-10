@@ -10,10 +10,10 @@ include ('_user_message-commands.php');
 	die;
 }
 
-$com_id=$_SESSION["user_id"];
+$com_id = $_SESSION["user_id"];
 $seller_id = $_GET['seller_id'];
 
-$email=$_SESSION["email"];
+$email = $_SESSION["email"];
 $u_email = $_GET['email'];
 
 
@@ -67,7 +67,7 @@ $messages = mysqli_query($con, $messages_query);
       <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
 
       <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
+      <!-- <link rel="stylesheet" href="../css/bootstrap.min.css"> -->
 	    <!----css3---->
         <!-- <link rel="stylesheet" href="../css/custom.css"> -->
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -183,7 +183,7 @@ $messages = mysqli_query($con, $messages_query);
 		  <!------top-navbar-end-----------> 
 
 		   <!------main-content-start-----------> 
-           <div class="container-fluid py-4 main-container">
+<div class="container-fluid py-4 main-container">
     <div class=" mb-6">
         <div class="row">
             <div class="row col-14 border-right pr-0">
@@ -221,6 +221,9 @@ $messages = mysqli_query($con, $messages_query);
                                 <div class="textarea-container">
 								<input  id="cust_email" type="hidden" name="cust_email" value="<?= $email ?>">
 								<input  id="seller_email" type="hidden" name="seller_email" value="<?= $u_email ?>">
+								<input  id="cust_id" type="hidden" name="cust_id" value="<?= $com_id ?>">
+								<input  id="seller_id" type="hidden" name="seller_id" value="<?= $seller_id ?>">
+
                                 <textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
 								<!-- SEND REPLY //index.js/ -->
@@ -281,14 +284,7 @@ $messages = mysqli_query($con, $messages_query);
 
   <script type="text/javascript">
        $(document).ready(function(){
-		// setTimeout(function(){
-		// 	// $('#convo').show(); // to show div after 5 sec of page load
-
-		// 	// To reshow on every one minute
-		// 	setInterval(function() {
-		// 				$('#convo').show();
-		// 			}, 5000);
-		// }, 2000);
+		
 		var divElement = document.getElementById("messages");
 		
 

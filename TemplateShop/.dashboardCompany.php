@@ -54,7 +54,7 @@ $image = $res['shop_logo'];
 
 <div class="wrapper">
 
-<form action="" method="post" enctype='multipart/form-data'/>
+<form action="" method="post" enctype='multipart/form-data'>
 
 	  <div class="body-overlay"></div>
 	 

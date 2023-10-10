@@ -1,6 +1,5 @@
 <?php
 
-// include ('../header.php');
 $servername = "localhost";
 $user = "root";
 $password = "";
@@ -11,18 +10,22 @@ $con = new mysqli($servername, $user, $password, $database);
    
 
 $com_id = $_SESSION["user_id"];
+$email = $_SESSION["email"];
 
-  function dd($data) {
-	echo "<pre>";
-	print_r(var_dump($data));
-	die;
-}
+$u_email = $_GET['email'];
+$seller_id = $_GET["seller_id"];
+
+//   function dd($data) {
+// 	echo "<pre>";
+// 	print_r(var_dump($data));
+// 	die;
+// }
 
 $result = mysqli_query($con, "SELECT * FROM user WHERE user_id = '$com_id'");
 if ($res = mysqli_fetch_array($result)) {
 	
 	$username = $res['user_name']  ?? '';
-    
+    $email = $res['email'] ?? '';
 }
 
 // $users = mysqli_query($con, "SELECT user.user_id FROM user 
@@ -32,29 +35,47 @@ if ($res = mysqli_fetch_array($result)) {
 // 								ORDER BY to_id DESC");
 
 //Get data from recepients 
-$users = mysqli_query($con, "SELECT  * FROM messages 
-                                INNER JOIN user ON user.user_id = messages.to_id
-                                WHERE to_id='$com_id' 
+// $seller_mess = mysqli_query($con, "SELECT  * FROM messages 
+//                                 INNER JOIN seller ON seller.email = messages.from_email
+//                                 WHERE from_email='$email' 
 
-                                ORDER BY to_id DESC");
+//                                 ORDER BY to_email DESC");
+
+// if ($res1 = mysqli_fetch_array($seller_mess)) {
+	
+// 	$username = $res1['user_name']  ?? '';
+//     $shop_email = $res1['email'] ?? '';
+// }
 // $get = mysql_fetch_array($users);
-while ($res1 = mysqli_fetch_array($users)) {
-	$shop_id[] = $res1['from_id'] ?? '';
-}
 
-$i = 0;
+// while ($res1 = mysqli_fetch_array($users)) {
+// 	$shop_id[] = $res1['from_id'] ?? '';
+// }
+// $users = mysqli_query($con, "SELECT  * FROM messages 
+//                                 INNER JOIN user ON user.email = messages.to_email
+//                                 WHERE to_email='$email' 
 
-// Get Unique Array
-$a = array_unique($shop_id);
+//                                 ORDER BY to_email DESC");
+// // $get = mysql_fetch_array($users);
+// while ($res1 = mysqli_fetch_array($users)) {
+// 	$shop_id[] = $res1['from_id'] ?? '';
+// }
 
-// $b = $a;
+// $i = 0;
+
+// // Get Unique Array
+// $a = array_unique($shop_id);
+
+// // $b = $a;
 
 
 
-while ($i < count($a)) {
-	$b[$i] = array_values($a)[$i];
-    $i++;
-}
+// while ($i < count($a)) {
+// 	$b[$i] = array_values($a)[$i];
+//     $i++;
+// }
+
+
 
 
 // $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$a'");
@@ -126,8 +147,12 @@ $image= $res['pic_ID'];
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!----css3---->
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="stylesheet" href="style1.css">
+    <!-- <link rel="stylesheet" href="/css/custom.css"> -->
+    <!-- <link rel="stylesheet" href="../TemplateShop/assets/css/style.css"> -->
+
+
 
 
     <!--google fonts -->
@@ -143,57 +168,50 @@ $image= $res['pic_ID'];
 
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-
+    <style>
+         .meta .name {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+         .meta .preview {
+            margin: 5px 0 0 0;
+            padding: 0 0 1px;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -moz-transition: 1s all ease;
+            -o-transition: 1s all ease;
+            -webkit-transition: 1s all ease;
+            transition: 1s all ease;
+        }
+    </style>
 </head>
 
 <body>
 
 
-
+<!-- <div class="body-overlay"></div> -->
     <div class="wrapper">
-        <div class="row">
+        <!-- <div class="row"> -->
 
             <!-------sidebar--design- close----------->
-            <div class="col-3 color_left">
-
-                <div class="d-flex flex-column align-items-center text-center p-3 py-1">
-                    <?php if($image==NULL){
-							echo '<img src="assets/user_profile/profile.png" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
-						} else { 
-							echo '<img src="images/'.$image.'" style="height:150px; width: 150px;" class="rounded-circle mt-5">';
-						}
-						?>
-                    <div class="row mt-1"></div>
-                    <div class="row mt-2"></div>
-                    <span class="font-weight-bold"><?php echo $fullname;?></span><span
-                        class=><?php echo $email;?></span><span> </span>
-                </div>
-                <nav class="side-nav navbar">
-                    <ul style="list-style: none;">
-                        <li><a href="index.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-house"></i>
-                                <span>Home</span></a></li>
-                        <li><a href="profile.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i>
-                                <span>Profile</span></a></li>
-                        <li><a href="userreservation.php" class="nav-link scrollto ml-4"><i
-                                    class="fa-solid fa-calendar-check"></i> <span>My Reservation</span></a></li>
-                        <li><a href="in_use.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-key"></i> <span
-                                    style="padding-left:5px">My Rented Cars</span></a></li>
-                        <li><a href="password.php" class="nav-link scrollto ml-4"><i class="fa-solid fa-user"></i>
-                                <span>Change Password</span></a></li>
-                    </ul>
-                </nav>
+            <div class=" color_left " id="color_left">
+                <?php include ('Template/_user-side-contact.php'); ?>
             </div>
 
-            <div class="row col-9 color_right">
-                <div class="p-5 py-5">
+            <div class="color_right" id="color_right">
+                <!-- <div class="p-5 py-5">
                 <div class="d-flex justify-content-between align-items-center mt-3">
 							<h4 class="text-right">Messages</h4>
 						</div>
-                    <div id="content">
+                    <div id="content"> -->
 
 
                         <!------main-content-start----------->
-                        <div class="main-content">
+                        <!-- <div class="main-content">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-wrapper">
@@ -213,83 +231,116 @@ $image= $res['pic_ID'];
                                                     </a>
                                                 </div>
                                             </div>
+                                        </div> -->
+                        <div class="container-fluid py-4 main-container">
+                            <div class=" mb-6">
+                               
+
+                                <div class="row">
+                                    <div class="row col-14 border-right pr-0">
+                                        
+                                        <div class="xp-menubar ps-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                                            </svg>
                                         </div>
 
-                                        <!-- <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-
-                            <th width="100">Recipient</th>
-                            <th width="100">Subject</th>
-                            <th width="100">Message</th>
-                            <th width="100">Date</th>
-
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-        <?php foreach ($convos as $row) { ?>
-        <tr>
-        <?php if ($row['to_id'] == $com_id) { ?>
-
-          <td>
-          <div class="d-flex px-2 py-1">
-              <div>
-                
-              </div>
-              <div class="d-flex flex-column justify-content-center">
-                <h6 class="mb-0 text-sm"><a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['email'] ?></a> </h6>
-              </div>
-            </div>            
-          </td>
-          
-          <?php } else { ?>
-
-          <td>
-            <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $email ?></a> </p>
-          </td>
-
-          <?php } ?>
-          <td>
-          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['subject'] ?></a>  </p>
-          </td>
-
-          <td>
-          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['messages'][count($row['messages']) - 1]['message'] ?></a>  </p>
-          </td>
-        
-          <td>
-          <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['convo_added'] ?></a>  </p>
-          </td>
-          
-        <?php } ?>
-        
-      </tbody>
-                </table> -->
+                                        <!-- //If statement if no display -->
 
                                         <?php 
-                
-                $i = 0;
-                
-                foreach ($a as $rows) { 
-                    
-                    $seller = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$b[$i]'");
-                    foreach ($seller as $rows1){
-                ?>
+                                        
+                                        if ($u_email == 0 && $seller_id == 0){
 
-                                        <p class="text-s font-weight-bold mb-0"> <a
-                                                href="/Template/_user-message.php?seller_id=<?= $rows1['seller_id'] ?>&email=<?=$rows1['email']?>"
-                                                style="color:#333;text-decoration: none;"><?php echo $rows1['shopname'] ?>
-                                        </p>
+                                        ?>
+                                         <div class="cover-container p-5 d-flex flex-column">
 
-                                        <!-- <p class="text-s font-weight-bold mb-0"> <?php echo $rows."\n" ?> </p> -->
-                                        <!-- <p class="text-s font-weight-bold mb-0"> <?php echo var_dump($b)."\n" ?> </p> -->
+                                            <div class="container justify-content-between align-items-center">
+                                                    <p class="text-muted " style=" color:black; font-family:'Poppins',sans-serif; text-align:center;">Select chat to start messaging</p>
+                                                    <!-- <small style="font-size:18px; color:white; font-family:'Poppins',sans-serif;">You have no messages</small> -->
+                                            </div>
+                                        </div>
 
                                         <?php 
-                    }
-                    $i++;
-                } ?>
+                                        } else {
+
+                                        ?>
+                                        <!-- //Here starts the display of messages -->
+                                        <div class="p-5 pb-0">
+
+                                        
+                                            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                                                    <!-- <h4 style="font-size:30px; color:white; font-family:'Poppins',sans-serif;">Subject: <?= $convo['subject'] ?></h4>
+                                                    <small style="font-size:18px; color:white; font-family:'Poppins',sans-serif;">Conversation with <?= $convo['email'] ?></small> -->
+                                            </div>
+                                            
+                                            <div class="mt-2 pt-3 border-top">
+
+                                             
+                                                <div class="messages" id="messages">
+                                                    
+                                                </div>
+
+                                                <div class="mt-3">
+                                                <div class="statusMsg"id="statusMsg"></div>
+                                                    <form action="" id="form12" method="POST" enctype="multipart/form-data">
+                                                        <div class="textarea-container">
+                                                        <input hidden id="cust_email" type="text" name="cust_email" value="<?= $email ?>">
+                                                        <input hidden id="seller_email" type="text" name="seller_email" value="<?= $u_email ?>">
+                                                        <input hidden id="cust_id" type="text" name="cust_id" value="<?= $com_id ?>">
+                                                        <input hidden id="seller_id" type="text" name="seller_id" value="<?= $seller_id ?>">
+                                                        <div class="submit-field">
+                                                            
+                                                            <div class="d-flex flex-row  ">
+                                                               
+                                                                
+                                                                <div class="w-100" style="position:relative;">
+                                                                    <label for="fimage" class="attach">    
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-paperclip" style="cursor: pointer;" viewBox="0 0 16 16">
+                                                                            <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                                                                        </svg>
+                                                                    </label>
+
+                                                                    
+
+                                                                    <textarea textarea id="mytext" class="form-control mt-2" rows="1" name="mytext"  placeholder="Enter reply.." ></textarea>
+                                                                    <input  type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none; visibility: none;">
+
+                                                                </div>
+
+                                                           
+                                                                <div class="flex-shrink-1">
+                                                                    <button type="button" value="Send Reply" class="btn button-update" id="send3"  >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-send" viewBox="0 0 16 16">
+                                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
+                                                        <!-- SEND REPLY //index.js/ -->
+                                                        <label for="fimage"><i class="bi bi-paperclip"></i></label>
+                                                        
+                                                        <!-- <iconify-icon icon="entypo:attachment" class="attachment-icon"></iconify-icon> -->
+                                                        <input type="file" id="fimage" name="attachment" id="attachment" class="btn mt-2" accept="image/*,video/*" style="display:none;">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    <?php 
+                                     }
+                                    ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -297,8 +348,8 @@ $image= $res['pic_ID'];
 
                     </div>
 
-                </div>
-    </div>
+                <!-- </div> -->
+            </div>
 
 
                 <!-------page-content start----------->
@@ -306,7 +357,7 @@ $image= $res['pic_ID'];
 
                 <!------main-content-end----------->
 
-                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageLabel"
+                <!-- <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -350,7 +401,7 @@ $image= $res['pic_ID'];
                         </div>
                     </div>
                 </div>
-                </div>
+                </div> -->
 
 
                 <!----footer-design------------->
@@ -364,7 +415,7 @@ $image= $res['pic_ID'];
 	  </div> 
 </div>
 
-<!-------complete html----------->
+-----complete html----------->
 
 
 
@@ -377,6 +428,7 @@ $image= $res['pic_ID'];
                 <script src="/js/popper.min.js"></script>
                 <script src="/js/bootstrap.min.js"></script>
                 <script src="/js/jquery-3.3.1.min.js"></script>
+                <!-- <script src="../index.js"></script> -->
 
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -384,23 +436,120 @@ $image= $res['pic_ID'];
                 </script>
                 <script type="text/javascript">
                 $(document).ready(function() {
-                    $(".xp-menubar").on('click', function() {
-                        $("#sidebar").toggleClass('active');
-                        $("#content").toggleClass('active');
+                    
+
+                    
+                    if (window.matchMedia("(min-width: 601px)").matches) {
+
+                        $(".xp-menubar").on('click', function() {
+                            $("#color_left").toggleClass('active');
+                            $("#color_right").toggleClass('active');
+                        });                    
+                    } else {
+                        // $('#color_left').addClass('d-none');
+                        // document.getElementById("color_right").style.width = "100%";
+                        $('.xp-menubar').on('click', function() {
+                            $("#color_left,.body-overlay").toggleClass('show-nav');
+                            // $("#color_right").toggleClass('active');
+                            // document.getElementById("color_right").style.width = "calc(100% - 260px)";
+
+                            // $('#color_left').removeClass('d-none');
+                        }); 
+
+                                     
+                     }
+                    
+                var divElement = document.getElementById("messages");
+
+                divElement.onmouseover = ()=>{
+                    divElement.classList.add("active");
+                }
+                divElement.onmouseout = ()=>{
+                    divElement.classList.remove("active");;
+                }
+                divElement.touchmove = ()=>{
+                    divElement.classList.add("active");;
+                }
+                function fetchMessages() {
+        
+                    if(!divElement.classList.contains("active")){
+                        scrollDiv();
+                    }
+                    var cust_email = document.getElementById("cust_email");
+                    var seller_email = document.getElementById("seller_email");
+                    $.ajax({
+                        url: "../Template/chat_user.php",
+                        method: "POST",
+                        
+                        data: { action: "fetch",
+                            email:$(cust_email).val(),
+                            to_email:$(seller_email).val(),
+
+                        },
+                        success: function(data) {
+                            $("#messages").html(data);
+                        }
                     });
+                }
 
-                    $('.xp-menubar,.body-overlay').on('click', function() {
-                        $("#sidebar,.body-overlay").toggleClass('show-nav');
+                setInterval(fetchMessages, 500);
+                fetchMessages();
+                
+                // setInterval(function(){
+                //         $("#color_left").load(" #color_left > *");
+                // }, 3000);
+
+                var input = document.getElementById("mytext");
+
+                input.addEventListener("keypress", function(event) {
+                    // $("#form12").on("submit",(function(e) {   
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                        
+                    var messages = document.getElementById("mytext");
+                    // var message = messages.value;        
+                    var cust_email = document.getElementById("cust_email");
+                    var cust_id = document.getElementById("cust_id");
+
+                    var seller_email = document.getElementById("seller_email");
+                    var seller_id = document.getElementById("seller_id");
+
+                    // var attachment = document.getElementById("attachment");
+                    
+                    $.ajax({
+                        type:'POST',
+                        url:'../send_data_user.php',
+                        data:{
+                            messages:$(messages).val(),
+                            email:$(cust_email).val(),
+                            to_email:$(seller_email).val(),
+                            cust_id:$(cust_id).val(),
+                            seller_id:$(seller_id).val(),
+                            // attachment:$(attachment).val(),
+                        },beforeSend:function(){
+                                $("#loading").show();
+                                // $("#send1").hide();
+                        },
+                        success: function(data){
+                            $(messages).val("");
+                            // $('#title').html(data);
+                            // $("#convo").load(location.href + " #convo");
+                            $("#loading").hide();
+                            $("#send1").show(); 
+                            $(".side-nav").load(window.location.href + " .side-nav" );
+
+                        },
                     });
-
-
+                    }
+                });
+                
+                function scrollDiv(){
+                    divElement.scrollTop = divElement.scrollHeight;
+                }
                 });
                 </script>
                 <script>
-                $(document).ready(function() {
-                    var convo_div = document.getElementById("convo");
-                    convo_div.scrollTop = convo_div.scrollHeight;
-                });
+                
                 </script>
 </body>
 

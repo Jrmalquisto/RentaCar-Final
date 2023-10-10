@@ -31,6 +31,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> -->
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <!-- Owl-carousel CDN -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
         integrity="sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=" crossorigin="anonymous" />
     <link rel="stylesheet"
@@ -105,7 +106,7 @@
                 <li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="../messages.php">
+                    <a class="nav-link" href="../messages.php?seller_id=0&email=0">
                         <i class="btn btn-dark border fa-regular fa-message"></i>
                     </a>
                 </li>

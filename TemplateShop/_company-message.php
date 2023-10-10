@@ -172,6 +172,9 @@ $messages = mysqli_query($con, $messages_query);
                                 <div class="textarea-container">
 								<input  id="seller_email1" type="hidden" name="seller_email1" value="<?= $email ?>">
 								<input  id="cust_email1" type="hidden" name="cust_email1" value="<?= $u_email ?>">
+                                <input  id="seller_id1" type="hidden" name="seller_id1" value="<?= $com_id ?>">
+								<input  id="cust_id1" type="hidden" name="cust_id1" value="<?= $user_id ?>">
+
                                 <textarea id="mytext1" class="form-control mt-2" rows="1" name="mytext1"  placeholder="Enter reply.."></textarea>
                                 <!-- <input type="submit" value="Send Reply" class="btn button-update" name="send1" id="send1" > -->
                                 <button type="button" value="Send Reply" class="btn button-update" id="send2" >Send</button>

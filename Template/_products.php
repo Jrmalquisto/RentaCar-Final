@@ -13,6 +13,9 @@
         $fullname = $res['fullname'];
         $email = $res['email'];
         $verified = $res['verified'];
+        $l_front = $res['license_front'];
+        $l_back = $res['license_back'];
+
     }
     
     $findresult2 = mysqli_query($con, "SELECT * FROM product WHERE item_id= '$item_id'");
@@ -23,6 +26,7 @@
         $item_name = $res['item_name'];
         $item_image = $res['item_image'];   
     }
+
     
     $get_rating = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id'");
     $rating = mysqli_num_rows($get_rating);
@@ -140,15 +144,23 @@
                 $dateFro = strtotime($dF);
                 $dateT= strtotime($dT);
 
-                // $price = $_SESSION["item_p"] ?? 0;
-                // $datedDiff =  $dateFro - $dateT;
-                // $days = floor($datedDiff/(60*60*24));
-                // $_SESSION["days_rent"] = $days;
-                // $total = ($price * $days)*-1;
+
+                $price = $_SESSION["item_p"] ?? 0;
+                $datedDiff =  $dateFro - $dateT;
+                $days = floor($datedDiff/(60*60*24));
+                $_SESSION["days_rent"] = $days;
+
+                if ($days == 0){
+                    $total = ($price * $days);
+
+                } else {
+                    $total = ($price * $days)*-1;
+                }
+                
 
                 
                 
-                
+                $u_email = $value['email'];
                 
 
                 // request method post
@@ -157,7 +169,13 @@
                         // call method addToCart
                         $Cart->addToCart($userid, $_POST['item_id']);
                     }
+                    if (isset($_POST['chat_m'])){
+                        // call method addToCart
+                        header('Location: ../messages.php?seller_id='.$seller_id.'&email='.$value['email'].'');
+                        // header('Location: Template/_user-messages.php');
 
+                        exit();                    
+                    }
                     // if (isset($_POST['refresh'])){
                         
                     //     $dF = date('Y-m-d H:m', strtotime($_POST['dateFrom']));
@@ -196,6 +214,8 @@
                         $events = $_POST["dateTo"];
                         $overall = $_POST["overall"];
                         $driver_stat = $_POST["driver_stat"];
+                        $driver_status = $_POST["driver_status"];
+                        
                         $front = $_POST["front_p"];
                         $back = $_POST["back_p"];
                         $errors = $_POST["alertss"];
@@ -204,6 +224,8 @@
                         $front1 = basename( $front );
                         $back = str_replace( "\\", '/', $back );
                         $back1 = basename( $back );
+                        $front1 = 'Front_' . $front1 ;
+                        $back1 = 'Back_' . $back1 ;
 
 
                         // $event = $_SESSION["dateFrom"];
@@ -214,21 +236,18 @@
                         // $total = $price * $_SESSION["days_rent"];
                         
                         // $overall = $total;
-
-                       
-                        $sql = "SELECT * from reservation where item_id = $item_id AND status ='Pending' AND user_id = $user_id";
-                        $sql1 = "SELECT verified from user where user_id = $user_id";
+                        $sql = "SELECT * from reservation where item_id = $item_id AND status ='Pending' AND user_id = $userid";
                         $result =$con->query($sql);
-                        $result1 =$con->query($sql1);
+                        // $row = $result->fetch_assoc();
+                        if($row = mysqli_fetch_array($result)){
+                            $product = $row["item_id"];
+                        }
                         
                        
-                        $row = $result->fetch_assoc();
-                        $row1 = $result1->fetch_assoc();
-                        $product = $row["item_id"];
-                        $verify =  $row1["verified"];
                         
-                            if(!$product==$item_id){
-                                echo $product;
+                        
+                            if($product!=$item_id){
+                                // echo $product;
                                 $query = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$front1','$back1','$overall','Pending')";
                         
                         
@@ -245,10 +264,13 @@
                                 } else if(empty($_POST["driver_stat"])){
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Please pick your driver status.');
                                     exit();
-                                } else if(empty($_POST["front_p"]) && empty($_POST["back_p"])){
-                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                } 
+                                
+                                else if ($errors == "No file was uploaded."){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=No file was uploaded.');
                                     exit();
-                                } else if ($errors == "Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
+                                }
+                                 else if ($errors == "Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed.');
                                     exit();
                                     
@@ -260,24 +282,83 @@
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Sorry, your image is too large. Upload less than 10 MB in size.');
                                     exit();
                                 
-                                }else {
+                                } else {
+                                    if ($verified==0) {
+                                        if (empty($_POST["front_p"]) && empty($_POST["back_p"])){
+                                            header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                            exit();
+                                        } else {
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                        // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            $query_run = mysqli_query($con, $query);
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                            $_SESSION['state'] = $stateRefresh;
+                                        
+                                        }
+                                    
+                                    }
+                                    if ($verified==1){
+                                        if  ($driver_status=="No"){
+                                            if(empty($_POST["front_p"]) && empty($_POST["back_p"])){
+                                                header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                                exit();
+                                            } else {
+                                                $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                            // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                                $query_run1 = mysqli_query($con, $queryupdate);
+                    
+                                                $query_run = mysqli_query($con, $query);
+                                                header("location: userreservation.php");
+                                                $stateRefresh = 0;
+                                                
+                                            
+                                            }
+                                        } else if ($driver_status=="Yes") {
+                                            $query2 = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$l_front','$l_back','$overall','Pending')";
+
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                            // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            // $query_run = mysqli_query($con, $query);
+                                            $query_run2 = mysqli_query($con, $query2);
+
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                                
+                                        }else {
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                        // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            $query_run = mysqli_query($con, $query);
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                        
+                                        }
+                                    }
+                                }
+                                //  else {
         
-                                    $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
-                                    // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
-                                    $query_run1 = mysqli_query($con, $queryupdate);
+                                //     $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                //     // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                //     $query_run1 = mysqli_query($con, $queryupdate);
         
-                                    $query_run = mysqli_query($con, $query);
-                                    header("location: userreservation.php");
-                                    $stateRefresh = 0;
-                                    $_SESSION['state'] = $stateRefresh;
+                                //     $query_run = mysqli_query($con, $query);
+                                //     header("location: userreservation.php");
+                                //     $stateRefresh = 0;
+                                //     $_SESSION['state'] = $stateRefresh;
                                 
-                                    // if($query){
-                                    //     header("location: in_use.php");
-                                    // }
-                                    // else {
-                                    //     header("location: in_use.php");
-                                    // }
-                                } 
+                                //     // if($query){
+                                //     //     header("location: in_use.php");
+                                //     // }
+                                //     // else {
+                                //     //     header("location: in_use.php");
+                                //     // }
+                                // } 
 
                             } else {
                                     // echo "<script>alert(\"You cannot reserve this Item\");";
@@ -291,83 +372,7 @@
     
 ?>
 
-<!-- <?php
-    if(isset($_POST['uploadLicense'])){
-    $folder='../images/shop/';
 
-    $file = $_FILES['Front_Photo']['tmp_name'];
-    $file_name = $_FILES['Front_Photo']['name'];
-    $file_name_array = explode(".", $file_name); 
-        $extension = end($file_name_array);
-
-        $new_image_name ='Front_'.rand() . '.' . $extension;
-            if ($_FILES["Front_Photo"]["size"] >10000000) {
-            $error[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-            }
-
-            if($file != ""){
-                if($extension!= "jpg" && $extension!= "png" && $extension!= "jpeg"
-                && $extension!= "gif" && $extension!= "PNG" && $extension!= "JPG" && $extension!= "GIF" && $extension!= "JPEG"){
-                    $error[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-                }
-            }
-
-    $file1 = $_FILES['Back_Photo']['tmp_name'];
-    $file_name1 = $_FILES['Back_Photo']['name'];
-    $file_name_array1 = explode(".", $file_name1); 
-        $extension1 = end($file_name_array1);
-
-        $new_image_name1 ='Back_'.rand() . '.' . $extension1;
-            if ($_FILES["Back_Photo"]["size"] >10000000) {
-            $error1[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-            }
-
-            if($file1 != ""){
-                if($extension1!= "jpg" && $extension1!= "png" && $extension1!= "jpeg"
-                && $extension1!= "gif" && $extension1!= "PNG" && $extension1!= "JPG" && $extension1!= "GIF" && $extension1!= "JPEG"){
-                    $error1[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-                }
-            }
-
-            if(!isset($error)){ 
-                if($file!= ""){
-                    $stmt = mysqli_query($con,"SELECT license_front FROM user WHERE user_id='$userid'");
-                    $row = mysqli_fetch_array($stmt); 
-                    $deleteimage=$row['license_front'];
-                    unlink($folder.$deleteimage);
-                    move_uploaded_file($file, $folder . $new_image_name); 
-                    mysqli_query($con,"UPDATE user SET license_front='$new_image_name' WHERE user_id='$userid'");
-                }
-
-                if($file1!= ""){
-                        $stmt1 = mysqli_query($con,"SELECT license_back FROM user WHERE user_id='$userid'");
-                        $row1 = mysqli_fetch_array($stmt1); 
-                        $deleteimage=$row1['license_back'];
-                        unlink($folder.$deleteimage);
-                        move_uploaded_file($file1, $folder . $new_image_name1); 
-                        mysqli_query($con,"UPDATE user SET license_back='$new_image_name1' WHERE user_id='$userid'");
-                    }
-            
-            
-                if(empty($error)){
-
-                    if (empty($error1)){
-                        header('Location:../product.php?item_id='.$item_id.'&success=Photo');
-                    } else {
-                        header('Location:../product.php?item_id='.$item_id.'&error=Back Photo not recognized. Please submit again.');
-                    }
-
-                } else {
-                    header('Location:../product.php?item_id='.$item_id.'&error=Front Photo not recognized. Please submit again.');
-                }
-    
-        } else {
-            header('Location:../product.php?item_id='.$item_id.'&error=Invalid file format. Please submit again.');
-
-        }
-
-    }
-?> -->
 
 <section id="product" class="py-3">
     <div class="container ">
@@ -385,10 +390,18 @@
 
             <div class="col-sm-4 pb-5 pt-4 px-3 border rounded-4 shadow">
                 <h2 class="font-baloo-bold"><?php echo $item['item_name'] ?? "Unknown"; ?></h2>
-                
+                <form  method="POST" >
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <?php echo $value['shopname']  ?? "Brand"; ?>
                 </button>
+                    <button type="submit" class="btn btn-primary chat_m" id="chat_m" name="chat_m">
+
+                        <i class=" fa-regular fa-message"></i>
+                    </button>
+
+                </form>
+                
 
                 <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $item_id;?>">
                     <!-- <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button> -->
@@ -474,6 +487,7 @@
                         <label for=>With driver?</label>
                         <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
                         <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
+                        <input hidden type="text" name="driver_status" id="driver_status" value="" /> 
                         <input hidden type="text" name="front_p" id="front_p" value="" /> 
                         <input hidden type="text" name="back_p" id="back_p" value="" /> 
                         <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >
@@ -484,6 +498,13 @@
                         <div class="d-none" id = "alerts">
                             <strong>Your account is not verified yet.  </strong>
                             <p>Please send a photo of a valid ID for the shop to verify your reservation. Thank you.</p>
+                            
+                        </div>
+                    </div>
+                    <div class="alert alert-warning d-none" id = "messages1" >
+                        <div class="d-none" id = "alerts1">
+                            <strong>Please send a photo of your Driver's ID. </strong>
+                            <p>This is for the shop to verify if you are legible. Thank you.</p>
                             
                         </div>
                     </div>
@@ -572,11 +593,9 @@
                                     <input type="hidden" name="item_id" value="<?php echo $item['item_id'] ?? '2'; ?>">
                                     <input type="hidden" name="user_id" value="<?php echo $userid ?? '2'; ?>">
                                     <?php
-                                    if (in_array($item['item_id'], $Cart->getCartId($product->getData('cart')) ?? [])){
-                                        echo '<button type="submit" disabled class="btn btn-success">Added to Wishlist</button>';
-                                    }else{
+                                    
                                         echo '<button type="submit" name="_products_submit" class="btn btn-warning ">Add to Wishlist</button>';
-                                    }
+                                    
                                     ?>
                                 </form>
                         </div> -->
@@ -907,6 +926,8 @@
         var verified = document.getElementById("verified").value;
         var yesRadioButton = document.getElementById("driver_stat_yes");
         var noRadioButton = document.getElementById("driver_stat_no");
+        var noStat = document.getElementById("driver_status");
+
         // Check the initial state when the page loads
         
         //Yes and No Radio Button;
@@ -917,6 +938,7 @@
                         document.getElementById("uploadText").innerHTML = `Upload your photo of Valid ID`;
                         verify();
                 } else {
+                    noStat.value = "Yes";
                     verify1();
                     uploadText.style.display = "none";
                 }
@@ -931,7 +953,10 @@
                         verify();
                         console.log("Code executed for 'No'");
                 } else {
-                    verify1();
+                    // verify1();
+                    // uploadText.style.display = "none";
+                    noStat.value = "No";
+                    verifyNo();
                     uploadText.style.display = "block";
                     document.getElementById("uploadText").innerHTML = `Upload your Driver's ID`;
                 }
@@ -955,6 +980,8 @@
        
         $('#uploadLicense1').click(function() {
             const message = document.getElementById('alerts');
+            const message1 = document.getElementById('alerts1');
+
             const error = document.getElementById('alertss');
 
 
@@ -979,6 +1006,9 @@
                         message.innerText =  JSON.parse(data);
                         error.value = JSON.parse(data);
                         PassValue();
+                        if (verified==1){
+                            message1.innerText =  JSON.parse(data);
+                        }
                     }
                     // else {
                     //     alert("File upload error"+ data);
@@ -987,6 +1017,14 @@
             })
         });
 
+        function verifyNo() {
+            
+            $('#alerts1').removeClass('d-none');
+            $('#alerts1').addClass('d-block');
+            $('#messages1').removeClass('d-none');
+            $('#messages1').addClass('d-block');
+            
+        }
         function verify() {
             
                 $('#alerts').removeClass('d-none');
@@ -995,6 +1033,7 @@
                 $('#messages').addClass('d-block');
                 
         }
+        
 
         function verify1(){
             $('#alerts').removeClass('d-block');

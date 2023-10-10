@@ -10,13 +10,13 @@ $con = new mysqli($servername, $user, $password, $database);
 
 include ('message-commands.php');   
 
-$com_id=$_SESSION["com_id"];
+$com_id = $_SESSION["com_id"];
 
-  function dd($data) {
-	echo "<pre>";
-	print_r(var_dump($data));
-	die;
-}
+//   function dd($data) {
+// 	echo "<pre>";
+// 	print_r(var_dump($data));
+// 	die;
+// }
 
 $result = mysqli_query($con, "SELECT * FROM seller WHERE seller_id = '$com_id'");
 if ($res = mysqli_fetch_array($result)) {
@@ -28,33 +28,35 @@ if ($res = mysqli_fetch_array($result)) {
 	$logo = $res['shop_logo']  ?? '';
 }
 
-$users = mysqli_query($con, "SELECT * FROM user");
+// $users = mysqli_query($con, "SELECT * FROM user");
 
-$convo_query = "SELECT * FROM messages 
-								JOIN seller ON seller.seller_id = messages.to_id
-								WHERE to_id='$com_id' 
+// echo print_r($b);
+
+// $convo_query = "SELECT * FROM messages 
+// 								JOIN seller ON seller.seller_id = messages.to_id
+// 								WHERE to_id='$com_id' 
 								 
-								ORDER BY to_id DESC";
-$convo_query = mysqli_query($con, $convo_query);
-$convos = array();
+// 								ORDER BY to_id DESC";
+// $convo_query = mysqli_query($con, $convo_query);
+// $convos = array();
 
-while ($convo_row = mysqli_fetch_assoc($convo_query)) {
-	$convo_id = $convo_row['convo_id'];
-	$sql = "SELECT *
-	        FROM messages
-					WHERE convo_id = '$convo_id'";
+// while ($convo_row = mysqli_fetch_assoc($convo_query)) {
+// 	$convo_id = $convo_row['convo_id'];
+// 	$sql = "SELECT *
+// 	        FROM messages
+// 					WHERE convo_id = '$convo_id'";
 
-	$message_query = mysqli_query($con, $sql);
+// 	$message_query = mysqli_query($con, $sql);
 
-	$messages = [];
+// 	$messages = [];
 
-	while ($message_row = mysqli_fetch_assoc($message_query)) {
-		array_push($messages, $message_row);
-	}
+// 	while ($message_row = mysqli_fetch_assoc($message_query)) {
+// 		array_push($messages, $message_row);
+// 	}
 
-	$convo_row['messages'] = $messages;
-	$convos[] = $convo_row;
-}
+// 	$convo_row['messages'] = $messages;
+// 	$convos[] = $convo_row;
+// }
   ?>
 
 <!DOCTYPE html>
@@ -113,6 +115,8 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
 
             <?php 
                 include ('../TemplateShop/_company-header.php');
+
+                
             ?>
             <!------top-navbar-end----------->
 
@@ -122,82 +126,85 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
             <div class="main-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- <div class="table-wrapper">
-
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                               
-                                    </div>
-                                    <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                        <a class="btn btn-success" data-toggle="modal" data-target="#messageModal">
-                                            <i class="material-icons">&#xE147;</i>
-                                            <span>New Message</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-
-                                        <th width="100">Recipient</th>
-                                        <th width="100">Subject</th>
-                                        <th width="100">Message</th>
-                                        <th width="100">Date</th>
-
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                  <?php foreach ($convos as $row) { ?>
-                    <tr>
-                    <?php if ($row['to_id'] == $com_id) { ?>
-
-                      <td>
-                      <div class="d-flex px-2 py-1">
-                          <div>
-                            
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['email'] ?></a> </h6>
-                          </div>
-                        </div>            
-                      </td>
-                      
-                      <?php } else { ?>
-
-                      <td>
-                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $email ?></a> </p>
-                      </td>
-
-                      <?php } ?>
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['subject'] ?></a>  </p>
-                      </td>
-
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['messages'][count($row['messages']) - 1]['message'] ?></a>  </p>
-                      </td>
-                    
-                      <td>
-                      <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?convo_id=<?= $row['convo_id'] ?>" style="color:#333;text-decoration: none;"><?= $row['convo_added'] ?></a>  </p>
-                      </td>
-                      
-                    <?php } ?>
-                    <?php if (!$convos) { ?>   
                         
-                    <?php } ?>
-                  </tbody>
-                           </table> -->
-                            <?php foreach ($users as $row) { ?>
-									
-										<!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
-                                        <p class="text-s font-weight-bold mb-0"> <a href="_company-message.php?user_id=<?= $row['user_id'] ?>&email=<?=$row['email']?>" style="color:#333;text-decoration: none;"><?= $row['user_name'] ?> </p>
+                            <?php 
+                            $users1 = mysqli_query($con, "SELECT  * FROM messages 
+                                                        WHERE messages.to_email='$email' OR messages.email='$email'
 
-								<?php } ?>
+                                                        ORDER BY messages.message_id DESC");
+
+
+                            if ($users1->num_rows === 0){
+                                    echo '<div class="no_message container-fluid side-nav">
+                                    <ul class = "d-flex flex-column"style="list-style: none;">
+                                        <li class="text-s font-weight-bold mb-1 rounded">
+                                            <small class="preview text-muted text-truncate">No Messages</small>
+                                        </li>
+                                    </ul>
+                                </div>'; 
+
+                            }else{
+
+                                while ($res1 = mysqli_fetch_array($users1)) {
+                                    $shop_id[] = $res1['email'] ?? $array;
+                                    $shop_arr[] = $res1['to_email'] ?? $array;
+                                }
+                            
+                                $i = 0;
+                                    
+                                $a = array_unique($shop_id)??$array;
+                            
+                                while ($i < count($a)) {
+                                    $b[$i] = array_values($a)[$i];
+                                    $i++;
+                                }
+                            
+                                if (($key = array_search($email, $b)) !== false) {
+                                    unset($b[$key]);
+                                }
+                                $m=0;
+                            
+                                while ($m < count($b)) {
+                                    $c[$m] = array_values($b)[$m];
+                                    $m++;
+                                }
+                            
+                            
+                            ?>                         
+                            <div class="container-fluid">
+                                <ul class = "d-flex flex-column"style="list-style: none;">
+                    
+                                    <?php
+                                    // foreach ($c as $row) {
+                                        $n=0;
+                                        // echo print_r($c);
+                                    while ($n < count($c)) {
+                                        $user1 = mysqli_query($con, "SELECT * FROM user WHERE email = '$c[$n]'");
+                                        // echo print_r($c);
+
+                                        foreach ($user1 as $rows1){
+                                            // echo print_r($rows1["user_name"]);
+                                            // echo print_r($c);
+                                    ?>
+                                            
+                                                <!-- <option value="<?= $row['seller_id'] ?>"> <?= $row['shopname'] ?></option> -->
+                                                <li class="text-s font-weight-bold mb-0"> 
+                                                    <a href="_company-message.php?user_id=<?= $rows1['user_id'] ?>&email=<?=$rows1['email']?>" style="color:#333;text-decoration: none;">
+                                                        <?php echo $rows1["user_name"] ?>
+
+                                                    </a>
+
+                                                </li>
+
+                                    <?php 
+                                        }
+                                        $n++;
+                                    } 
+                                    
+                                
+                                    
+                                }?>
+                                </ul>
                         </div>
                     </div>
                 </div>
@@ -291,5 +298,6 @@ while ($convo_row = mysqli_fetch_assoc($convo_query)) {
 	});
 </script>
 <?php 
+
 	include ('../TemplateShop/_company-footer.php');
 ?>

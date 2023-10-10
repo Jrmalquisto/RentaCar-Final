@@ -15,29 +15,12 @@ $response = array(
 $messages = $_POST['messages1'];
 $email = $_POST["email"];
 $to_email = $_POST["to_email"];
-// $attachment = $_POST["attachment"];
+$from_id = $_POST["seller_id"];
+$to_id = $_POST["cust_id"];
 
-
-// $attachment = $_FILES['attachment'];
-
-// //Validate file type
-// $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/mpeg', 'video/quicktime'];
-// $attachmentType = $attachment['type'];
-
-// $convo_query = "SELECT * FROM convo 
-//                               JOIN seller ON seller.seller_id = convo.recipient
-//                               WHERE convo_id='$convo_id'";
-// $convo_query = mysqli_query($con, $convo_query);
-// $convo = mysqli_fetch_assoc($convo_query);
-
-// $recipient = $convo['recipient'] == $com_id ? $convo['user_id'] : $convo['recipient'];
-
-// $addMessage = "INSERT INTO messages (message, from_id, to_id) VALUES ('$messages', '$id1', '$id2')";
-// $response[] = 'Message successfully sent!';
-// mysqli_query($con, $addMessage);
-$sqlQ = "INSERT INTO messages (message, email, to_email) VALUES (?,?,?)"; 
+$sqlQ = "INSERT INTO messages (message, email, to_email, from_id, to_id) VALUES ('$messages', '$email', '$to_email', '$from_id', '$to_id')"; 
 $stmt = $con->prepare($sqlQ); 
-$stmt->bind_param("sss", $messages, $email, $to_email); 
+
 $insert = $stmt->execute(); 
 if($insert){ 
     $response['status'] = 1; 

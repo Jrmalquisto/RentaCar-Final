@@ -12,11 +12,28 @@ $response = array(
     'message' => 'Form submission failed, please try again.' 
 ); 
 
-$messages = $_POST['messages'];
+$messages = trim($_POST['messages']);
 $email = $_POST["email"];
 $to_email = $_POST["to_email"];
-// $attachment = $_POST["attachment"];
+$from_id = $_POST["cust_id"];
+$to_id = $_POST["seller_id"];
+$attachment = $_POST["attachment"];
 
+if (!empty($messages)){
+    $sqlQ = "INSERT INTO messages (message, email, to_email, from_id, to_id) VALUES ('$messages', '$email', '$to_email', '$from_id', '$to_id')"; 
+    $stmt = $con->prepare($sqlQ); 
+    // $stmt->bind_param("sss", ); 
+    $insert = $stmt->execute(); 
+    if($insert){ 
+        $response['status'] = 1; 
+        $response['message'] = 'Form data submitted successfully!'; 
+    } 
+    echo json_encode("Totally SENT");
+    echo json_encode($response);
+} else {
+    echo json_encode("Message empty");
+    // echo json_encode($response);
+}
 
 // $attachment = $_FILES['attachment'];
 
@@ -35,16 +52,7 @@ $to_email = $_POST["to_email"];
 // $addMessage = "INSERT INTO messages (message, from_id, to_id) VALUES ('$messages', '$id1', '$id2')";
 // $response[] = 'Message successfully sent!';
 // mysqli_query($con, $addMessage);
-$sqlQ = "INSERT INTO messages (message, email, to_email) VALUES (?,?,?)"; 
-$stmt = $con->prepare($sqlQ); 
-$stmt->bind_param("sss", $messages, $email, $to_email); 
-$insert = $stmt->execute(); 
-if($insert){ 
-    $response['status'] = 1; 
-    $response['message'] = 'Form data submitted successfully!'; 
-} 
-echo json_encode("Totally SENT");
-echo json_encode($response);
+
 // if(isset($_POST['cust_id']) || isset($_POST['seller_id']) || isset($_FILES['attachment'])){ 
 //     if (!empty($attachment['tmp_name'])) {
 //         if (!in_array($attachmentType, $allowedTypes)) {
