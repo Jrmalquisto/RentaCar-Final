@@ -16,33 +16,47 @@
     // <?php foreach ($product_shop as $item){
 ?>
 
-<section id="top-products">
-<div class="container py-5">
-    <?php 
-            
-            // foreach ($product->getSeller('seller') as $item):
-            //     $cart = $product->getOnProduct($item['item_id']);
-            // if($statement->rowCount() > 0) {
-            //     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
-            // }
-                // while ($count <= $countedSeller){
-                //     $count++;
-                foreach ($countedSeller as $value):
-                    // $trimmedArray = array_map('trim', $value);
-                    // $emptyRemoved = array_filter($trimmedArray);
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-    ?>
-                   
-                        
-                   <div class="container py-4 mb-4">
-                   
-                        <h4 class="font-rubik font-size-25"><?php echo $value['shopname'] ?? "Unknown"; ?></h4>
-                        <hr>
-                        <div class="owl-carousel owl-theme shop-container">
-                           
-                        
-            
-    <?php 
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div class="container-fluid search-bar" style="width:100%;">
+    <div class="row">
+        <div class="col-md-4 row1">
+        </div>
+        <div class="col-md-4 row2 d-flex align-items-center justify-content-center">
+            <h4 class="font-rubik text-light mt-1"><b>Shops</b></h4>
+        </div>
+        <div class="col-md-4 row3 search">
+            <input type="search" name="search" id="searchInput" class="form-control search-field" placeholder="Search"
+                autocomplete="off" style="border: 2px solid #36454F"/>
+        </div>
+    </div>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+<section class="py-5" id="top-products">
+    <div class="container px-4 px-lg-5">
+        <div class="d-flex flex-wrap grid-container">
+
+            <?php 
+                $countedSeller = array_unique($countedSeller, SORT_REGULAR);
+                foreach ($countedSeller as $value):             
+            ?>
+
+
+            <div class="container py-4 mb-4">
+                <div class="borderss">
+                <div class="shop-name-banner border-hover d-flex justify-content-center align-items-center">
+                <h4 class="font-rubik text-white"><?php echo $value['shopname'] ?? "Unknown"; ?></h4>
+                </div>
+                </div>
+                <hr>
+                <div class="owl-carousel owl-theme shop-container">
+
+                    <?php 
                     foreach ($product->getSeller($value['seller_id']) as $item):
                              $in_display = $product->getProdCount($value['seller_id']);
                     ?>
