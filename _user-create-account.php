@@ -1,4 +1,3 @@
-
 <?php
     $error = null;
     session_start();
@@ -69,7 +68,6 @@
                     $verified = 0;
                     $errors = $_POST["alertss"];
 
-
                     //password encryption
                     $password = md5($password);
                     
@@ -90,17 +88,20 @@
                         if (in_array($img_ex_lc, $allowed_exs)) {
                             $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
                             // $new_img_name = "assets/SampleProd/".$img_name;
-                            $img_upload_path = 'assets/legal_id/'.$new_img_name;
+                            $img_upload_path = 'images/legal_id/'.$new_img_name;
                             move_uploaded_file($tmp_name, $img_upload_path);
 
                             // Insert into Database
                             
-                            $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
+                            $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,legal_id,address)
                             values ('$username','$fullname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
                             // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
                             // values (0,0)");
 
                             if ($insert){
+                                
+                                $notificationMessage = "New <b>customer</b> account created: " . $fullname;
+                                $insertNotification = $mysqli->query("INSERT INTO notifications (message, timestamp, status, account_type) VALUES ('$notificationMessage', NOW(), 'unread', 'customer')");
                                 
                                     header("Location: ../_user-login.php");
                                 
