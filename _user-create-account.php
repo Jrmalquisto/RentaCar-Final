@@ -109,28 +109,20 @@
                             echo "<script> alert('$error');window.location= _user-create-account.php</script>";
                             
                         }
-                        } else {
-                            
-                            $em = $validID;
-                            $errrr = $tmp_name;
-                            header("Location: ../_user-create-account.php?error=$em&aasd=$errrr");
-            
-                            echo "<script> alert('$error');window.location= _user-create-account.php</script>";
-                            
-                        }
+                       
                     }
                 }
-            }
-        
-            // Form Validation
-
-            //database connection
-            
         }
+    
+        // Form Validation
+
+        //database connection
+        
+    }
        
         
     
-    } 
+     
 ?>
 
 <!DOCTYPE html>

@@ -456,8 +456,8 @@ if(isset($_POST['removeRes'])){
 
     <!-------complete html----------->
     <?php 
-	include ('../TemplateShop/_company-footer.php');
-?>
+	    include ('../TemplateShop/_company-footer.php');
+    ?>
 
     <script>
     $(document).ready(function() {
@@ -553,6 +553,3 @@ if(isset($_POST['removeRes'])){
         $('#myTable').dataTable();
     });
     </script>
-<?php 
-	include ('../TemplateShop/_company-footer.php');
-?>

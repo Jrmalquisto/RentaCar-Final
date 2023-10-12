@@ -355,7 +355,7 @@ if(isset($_POST['removeRes'])){
                                     <div class="form-group mt-4">
                                         <label>Total Amount</label>
                                         <input type="text" class="form-control" autocomplete="off" name="price1"
-                                            id="price1" <?php echo $price; ?>" readonly>
+                                            id="price1" value="<?php echo $price; ?>" readonly>
                                     </div>
 
                             </div>
@@ -511,7 +511,3 @@ if(isset($_POST['removeRes'])){
     });
     </script>
 
-<?php 
-			}
-	include ('../TemplateShop/_company-footer.php');
-?>
