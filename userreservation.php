@@ -1,7 +1,7 @@
 <?php
-    include ('header.php');
+    include ('header2.php');
 
-    include ('Template/_user-reservations.php');
+    include ('Template/user-reservations2.php');
  
     include ('footer.php');
 ?>

@@ -262,9 +262,27 @@ $img = $res['admin_image'];
 						</div>
 					</div>
 
-
-					<div class="row mt-2 border-top">
 					<form action="" method="post" enctype="multipart/form-data">
+
+					<div class="image mt-2 border-top text-center ">
+					<?php if($img==NULL){
+							echo '<img src="images/default/default.png" style="width: 200px; height:auto;" class="rounded-circle mt-5">';
+						} else { 
+							echo '<img src="../images/admin/'.$img.'" style=" width: 200px; height:auto;" class="avatar img-circle img-thumbnail mb-2 mt-4">';
+						}
+                    ?>
+						<div class="div d-flex justify-content-center">
+						<label for="logo_SHOP" style="font-size:17px; font-weight:400;">Upload Admin Photo</label>
+
+						</div>
+						<div class="div d-flex justify-content-center">
+						<input class="form-control" type="file" name="pic_ADMIN" id="pic_ADMIN" style="width:300px;" >
+
+						</div>
+					</div>
+
+					<div class="row mt-2">
+					
 						<input type="hidden"  name="admind" value="<?php echo $id;?>">
 
 						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Admin Name</label>
@@ -274,25 +292,8 @@ $img = $res['admin_image'];
 						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Username</label>
 							<input type="text" class="form-control" autocomplete="off" name="username" id="username" value="<?php echo $username;?>">
 						</div>
-						
-						<!-- <div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Address</label>
-							<input type="text" class="form-control" autocomplete="off" name="address" id="address" value="<?php echo $address;?>">
-						</div>
-
-						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Email</label>
-							<input type="text" class="form-control" autocomplete="off" name="email" id="email" value="<?php echo $email;?>">
-						</div>
-
-						<div class="mt-3 col-md-6 mb-4"><label class="labels" style="font-size: 17px;">Contact Number</label>
-							<input type="text" class="form-control" autocomplete="off" name="contact_num" id="contact_num" value="<?php echo $contact;?>">
-						</div> -->
 
 						<div class="form-group col-6 mt-3">
-							<label for="pic_ADMIN" style="font-size:17px; font-weight:400;">Please upload Shop logo</label><br>
-							<input class="form-control" type="file" name="pic_ADMIN" id="pic_ADMIN" style="width:100%;" >
-							<br>
-							<label>File size: maximum 10 MB</label>
-							<label>File extension: .JPEG, .PNG, .JPG</label>
         				</div>
 						
 						

@@ -15,6 +15,7 @@ $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id
 
 if($res = mysqli_fetch_array($findresult)){
 $image = $res['shop_logo'];
+$verified = $res['verified'];
 }
 
 $name2 = "";
@@ -157,7 +158,9 @@ if(isset($_POST['update'])){
 
 	   <!--google material icon-->
       <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   <script src="/js/popper.min.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   
+	  <script src="/js/popper.min.js"></script>
+   	  <script src="/js/bootstrap.min.js"></script>	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>   <script src="/js/popper.min.js"></script>
    	  <script src="/js/bootstrap.min.js"></script>
   </head>
   <body>
@@ -184,8 +187,12 @@ if(isset($_POST['update'])){
 	     
 		  <!------top-navbar-start-----------> 
 		     
-		<?php 
+		  <?php 
 			include ('../TemplateShop/_company-header.php');
+			if($verified==0){
+				include ('../TemplateShop/_not-verified.php');
+
+			} else {
 		?>
 		  <!------top-navbar-end-----------> 
 
@@ -218,9 +225,6 @@ if(isset($_POST['update'])){
 					<table class="table table-striped table-hover" id="myTable">
 					    <thead>
 						    <tr>
-							<!--<th><span class="custom-checkbox">
-							<input type="checkbox" id="selectAll">
-							<label for="selectAll"></label></th>-->
 							<th scope="col">ID</th></th>
                             <th scope="col">Name</th>
                             <th scope="col">Age</th>
@@ -233,12 +237,7 @@ if(isset($_POST['update'])){
 						</thead>
 						  
 						  <tbody>
-						 
-							 <!--<th><span class="custom-checkbox">
-							 <input type="checkbox" id="checkbox1" name="option[]" value="1">
-							 <label for="checkbox1"></label></th>-->
-							 
-                             <?php
+                            <?php
                             $servername = "localhost";
                             $user = "root";
                             $password = "";
@@ -277,7 +276,7 @@ if(isset($_POST['update'])){
                                 <td><img height="150" width="220" <?php echo '<img src="/images/drivers/'.$profile.'" ' ?>></td>
                                 <td>
 
-								<div class="row">
+								<div class="row justify-content-center">
 								<form action="_manage-drivers2.php" class="d-inline" >
                                 	<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" >
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
@@ -565,6 +564,7 @@ if(isset($_POST['update'])){
         });
 </script>
 <?php 
+			}
 	include ('../TemplateShop/_company-footer.php');
 ?>
 

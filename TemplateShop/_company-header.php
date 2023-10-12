@@ -1,32 +1,20 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-	    --css3--
-        <link rel="stylesheet" href="/css/custom.css">
-		
-		
-		google fonts
-	    <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-	
-	
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+<?php
+$servername = "localhost";
+$user = "root";
+$password = "";
+$database = "rentacar";
 
+$con = new mysqli($servername, $user, $password, $database);
 
-	   google material icon
-      <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+include ('../connection.php');
 
-</head>
-<body> -->
-    
+$com_id=$_SESSION["com_id"];
+
+?>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <div class="wrapper">
      
      <div class="body-overlay"></div>
@@ -55,7 +43,6 @@
 					</div>
 				</div> -->
 				
-				
 				<div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
 					<div class="xp-profilebar text-right">
 					<nav class="navbar p-0">
@@ -63,13 +50,10 @@
 						<li class="dropdown nav-item">
 							<a class="nav-link" href="#" data-toggle="dropdown">
 							<span class="material-icons">notifications</span>
-							<span class="notification">4</span>
+							<span class="notification">0</span>
 							</a>
-							<ul class="dropdown-menu">
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
-								<li><a href="#">You Have 4 New Messages</a></li>
+							<ul class="dropdown-menu dropdown-notif">
+								
 							</ul>
 						</li>
 						
@@ -89,10 +73,6 @@
 								<li><a href="_company-profile.php">
 								<span class="material-icons">person_outline</span>
 								Profile
-								</a></li>
-								<li><a href="#">
-								<span class="material-icons">settings</span>
-								Settings
 								</a></li>
 								<li><a href="_company-login.php">
 								<span class="material-icons">logout</span>
@@ -121,3 +101,77 @@
 			
 		</div>
 	</div>
+
+	<script src="/js/jquery-3.3.1.slim.min.js"></script>
+   <script src="/js/popper.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script>
+   <script src="/js/jquery-3.3.1.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+// Function to fetch and display notifications
+function fetchNotifications() {
+    $.ajax({
+        url: 'fetch_notifications_shop.php', // Create a new PHP file to handle fetching notifications
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var notificationDropdown = $('.dropdown-notif'); // Replace with the appropriate selector for your dropdown
+
+            // Clear existing notifications
+            notificationDropdown.empty();
+
+            // Loop through the fetched notifications and add them to the dropdown
+			if (data.length === 0) {
+                var noNotificationsItem = '<li><a href="#">No notifications</a></li>';
+                notificationDropdown.append(noNotificationsItem);
+            } else {
+            $.each(data, function (index, notification) {
+                var notificationItem = '<li><a href="#" class="notification-link" data-notification-id="' + notification.notification_id + '">' + notification.message + '</a></li>';
+                notificationDropdown.append(notificationItem);
+            });
+		}
+
+		$('.notification').text(data.length);
+
+			$('.notification-link').click(function (event) {
+                    event.preventDefault();
+                    var notificationId = $(this).data('notification-id');
+
+                    // Determine the URL to redirect to based on the account type
+                    var redirectUrl = '_pending-reservations2.php';
+
+                    // Redirect to the appropriate page
+                    window.location.href = redirectUrl;
+
+                // Send an AJAX request to mark the notification as read
+                $.ajax({
+                        url: 'delete_notification_shop.php',
+                        type: 'POST',
+                        data: { notification_id: notificationId },
+                        success: function (response) {
+                            if (response === 'success') {
+                                console.log('Notification deleted successfully.');
+                            } else {
+                                console.error('Error deleting notification.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('AJAX request failed:', error);
+                        }
+                });
+            });
+        }
+    });
+}
+
+// Call the fetchNotifications function when the page loads
+$(document).ready(function () {
+    fetchNotifications();
+
+    // Set an interval to periodically fetch notifications (e.g., every 5 seconds)
+    setInterval(fetchNotifications, 5000);
+});
+</script>

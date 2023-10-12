@@ -14,11 +14,17 @@ include ('../connection.php');
 $findresult = mysqli_query($con, "SELECT * FROM seller WHERE seller_id= '$com_id'");
 
 if($res = mysqli_fetch_array($findresult)){
-$image = $res['shop_logo'];
-$verified = $res['verified'];
+	$image = $res['shop_logo'];
+	$verified = $res['verified'];
 
 }
 
+$sql1 = mysqli_query($con, "SELECT * FROM reservation WHERE seller_id = $com_id AND status = 'Pending'");
+
+if($res1 = mysqli_fetch_array($sql1)){
+	$userid = $res1["user_id"];
+	$vehicle = $res1["brand"];
+}
 
 if(isset($_POST['update_res'])){
 	$id = $_POST['id1'];
@@ -28,6 +34,8 @@ if(isset($_POST['update_res'])){
 	$query =  mysqli_query($con,"UPDATE product SET status=1 WHERE item_id='$item_id'");
 
 	if($result){
+		$notificationMessage = "Your reservation for " . "<b>" . $vehicle . "</b>" . " has been approved";
+		$insertNotification = mysqli_query($con, "INSERT INTO notifications (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$com_id', '$userid', 'customer')");
 		//$_SESSION['status'] = "Your profile has been updated";
 		header("location:/TemplateShop/_pending-reservations2.php");
 	} else {
@@ -41,6 +49,23 @@ if(isset($_POST['update_res'])){
 	}
 		
 
+}
+?>
+
+<?php
+	if(isset($_POST['removePending'])){
+    	$id = $_POST['id2'];
+
+    	$query = "DELETE FROM reservation WHERE id='$id' AND status='Pending' ";
+    	$query_run = mysqli_query($con, $query);
+
+    if($query_run){
+
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
+    else {
+        header("location: /TemplateShop/_pending-reservations2.php");
+    }
 }
 ?>
 
@@ -159,6 +184,8 @@ if(isset($_POST['update_res'])){
 							<label for="selectAll"></label></th>-->
 							<th scope="col" width="50">#</th>
 							<th scope="col">Item ID</th>
+							<th scope="col">Front Image of ID</th>
+							<th scope="col">Back Image of ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Contact Number</th>
                             <th scope="col">Vehicle</th>
@@ -210,12 +237,16 @@ if(isset($_POST['update_res'])){
                                 $price = $row["overall_price"];
 								$driver = $row["driver_stat"];
                                 $status = $row["status"];
+								$front = $row["front_id"];
+								$back = $row["back_id"];
                             ?>
 
                             <tr>
                                     
                                 <td><?php echo $id?></td>
 								<td><?php echo $item_id?></td>
+								<?php echo "<td><img height='75' width='auto' id='image1' src='/images/driver_license/{$row['front_id']}' onclick='imageClicked(\"/images/driver_license/{$row['front_id']}\")'></td>";?>
+								<?php echo "<td><img height='75' width='auto' id='image2' src='/images/driver_license/{$row['back_id']}' onclick='imageClicked(\"/images/driver_license/{$row['back_id']}\")'></td>";?>
                                 <td><?php echo $name?></td>
                                 <td><?php echo $number?></td>
                                 <td><?php echo $vehicle?></td>
@@ -277,7 +308,7 @@ if(isset($_POST['update_res'])){
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" name="update_res" id="update_res" class="btn btn-danger" >Reserve</button>
+					<button type="submit" name="update_res" id="update_res" class="btn btn-danger">Reserve</button>
 				</div>
 			</form>
 	</div>
@@ -319,6 +350,29 @@ if(isset($_POST['update_res'])){
 
 					   <!----edit-modal end--------->   
 
+					   <div id="myModal" class="modal">
+                        <div class="modal-content modals">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- <p id="modalContent"></p> -->
+                            <img id="modalImage" src="" alt="Image">
+                        </div>
+                    </div>
+
+					<div id="myModal1" class="modal">
+                        <div class="modal-content modals">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- <p id="modalContent"></p> -->
+                            <img id="modalImage1" src="" alt="Image">
+                        </div>
+                    </div>
+
+
+					
+					
+				 
+			     </div>
+			  </div>
+
 			     </div>
 			  </div>
 		  
@@ -341,6 +395,11 @@ if(isset($_POST['update_res'])){
 
 <!-------complete html----------->
   
+<?php 
+			}
+	include ('../TemplateShop/_company-footer.php');
+?>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
    <!-- <script src="/js/jquery-3.3.1.slim.min.js"></script>
@@ -354,20 +413,7 @@ if(isset($_POST['update_res'])){
 
   <script>
 		$(document).ready(function(){
-			// $('.conf_button').click(function(e){
-					
-	
-			// 			$tr=$(this).closest('tr');
-	
-			// 			var data = $tr.children("td").map(function(){
-			// 				return $(this).text();
-			// 			}).get();
-	
-			// 			console.log(data);
-	
-			// 			$('#id2').val(data[0]);
-					
-			// 	});
+
 			$('.del_button').click(function(e){
 					
 				$('#deleteReservationModal').modal('show');
@@ -436,7 +482,30 @@ if(isset($_POST['update_res'])){
         });
 </script>
 
-<?php 
-			}
-	include ('../TemplateShop/_company-footer.php');
-?>
+<script>
+    function imageClicked(imageUrl) {
+        var modal = document.getElementById("myModal");
+        var modalImage = document.getElementById("modalImage");
+
+        modalImage.src = imageUrl;
+     
+
+        modalImage.style.width = "auto";
+        modalImage.style.height = "auto";
+        // Display the modal
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        // Get a reference to the modal
+        var modal = document.getElementById("myModal");
+
+        // Close the modal by hiding it
+        modal.style.display = "none";
+
+        modalImage.src = "";
+        modalImage.style.width = "auto";
+        modalImage.style.height = "auto";
+    }
+    </script>
+

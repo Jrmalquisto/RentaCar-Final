@@ -1,3 +1,16 @@
+<?php
+// Define an array to map page filenames to their corresponding sidebar list item class
+$page_to_class = [
+    'dashboardCompany.php' => 'dash',
+    '_pending-reservations2.php' => 'approval',
+    '_manage-cars2.php' => 'car_management',
+    '_manage-reservations2.php' => 'reserve',
+    '_manage-to-be-returned2.php' => 'drivers',
+    '_manage-drivers2.php' => 'reserve',
+    '_manage-sales2.php' => 'reserve',
+    // Add more mappings as needed
+];
+?>
 <div id="content">
 	
     <div id="sidebar">
@@ -62,4 +75,16 @@
 		  
 	   });
   </script>
-  
+  <script>
+// JavaScript to mark the active page in the sidebar
+document.addEventListener("DOMContentLoaded", function () {
+    var currentUrl = window.location.href;
+    var sidebarLinks = document.querySelectorAll("#sidebar a");
+
+    sidebarLinks.forEach(function (link) {
+        if (currentUrl.includes(link.getAttribute("href"))) {
+            link.parentElement.classList.add("active");
+        }
+    });
+});
+</script>

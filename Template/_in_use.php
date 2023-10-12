@@ -67,7 +67,7 @@
     // $datet = str_replace(" ", "-", $datet);
     
 ?>
-<section class="in_use" class="py-3">
+<section class="reserve_sect" class="py-3">
 <div class="container">
     <div class="row">
         <div class="col">
@@ -243,16 +243,7 @@
                 <div class="container ">
                     <div class = "d-flex align-items-center justify-content-center">
                         
-                    <?php
-                        $sql1 = "SELECT driver_image from drivers where driver_id='$driverid'";
-                        $result1 = mysqli_query($con,$sql1);
-                        $row1 = mysqli_fetch_array($result1);
-
-                        $image = $row1['driver_image'];
-                        $image_src = "/images/drivers/".$image;
-                    ?>
-
-                        <img height="170" width="250" src='<?php echo $image_src;?>'>   
+                        <img height="250" width="250" src="../assets/driver_pic/<?php echo $driver['driver_image'];?>">
 
                     </div>
                     <hr>
@@ -274,10 +265,16 @@
                                 <td class="font-size-20 text-dark"><span><?php echo $driver['driver_contact'] ?? 0; ?></span></td>
                             </tr>
                             
+                            
+                            
                     </table>
+                    <br>
+                    <p>Note: Take a screenshot or download the driver details for verification.</p>
                     <div class="d-flex me-auto">
                         <div class="me-auto">
-                            <button type="button" class="btn btn-primary">Download</button>
+                                <a target="_blank" href="Template/sample_pdf.php?driver_id=<?=$driver['driver_id']?>" class="btn btn-danger"><i class="fa fa-download" style="font-size: 13px;">
+                                    Download
+                                </i></a>
                         </div>
                         
                     </div>

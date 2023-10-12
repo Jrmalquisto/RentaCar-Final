@@ -1,7 +1,7 @@
 <?php
    //  ob_start();
     //session_start();
-    include ('header.php');
+    include ('header2.php');
  //-------------------------------------------------------
     include ('Template/_home-page.php');
     include('Template/_advertisement.php');

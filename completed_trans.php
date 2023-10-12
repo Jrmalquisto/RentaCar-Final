@@ -1,10 +1,10 @@
 <?php
     ob_start();
     
-    include ('header.php');
+    include ('header2.php');
 
 
-    include ('Template/_completed-trans.php');
+    include ('Template/completed-transactions2.php');
 
 
     include ('footer.php');

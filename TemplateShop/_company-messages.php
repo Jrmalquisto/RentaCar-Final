@@ -298,6 +298,5 @@ if ($res = mysqli_fetch_array($result)) {
 	});
 </script>
 <?php 
-
 	include ('../TemplateShop/_company-footer.php');
 ?>

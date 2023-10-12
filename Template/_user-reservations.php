@@ -256,8 +256,8 @@
                         <h5 class="fw-bold ml-3"> Total: </h5>
 
                         <h5 class=" text-danger fw-bold inline"> ₱ <?php echo $value['overall_price'] ?? 0; ?>.00</h5>
-
-                        
+                         
+                       
                         <form action="#" method="POST" class="d-inline">
                         <input type="hidden" id="driver_stat" name="driver_stat" value="<?=$value['driver_stat'];?>">
                         <input type="hidden" id="driver_id" name="driver_id" value="<?=$value['driver_id'];?>">
@@ -268,7 +268,7 @@
                             <button type="submit" name="removeRes" class="btn btn-danger btn-sm mb-2"
                                 onclick='return checkReserve()' value="<?=$value['item_id'];?>">Cancel</button>
                         </form>
-                        <?php 
+                        <!-- <?php 
                             if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
                             echo '<button type="button" class="btn userinfo btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Driver details
@@ -276,7 +276,7 @@
 
                                 
                             } 
-                        ?>
+                        ?> -->
                     </div>
                     <!-- <?php echo $value['driver_id'];?> -->
 

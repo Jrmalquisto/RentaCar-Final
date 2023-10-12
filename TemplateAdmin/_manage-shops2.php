@@ -21,6 +21,20 @@ $pass = $res['admin_pass'];
 $img = $res['admin_image'];
 }
 
+$admin_id=$_SESSION["admin_id"];
+
+include ('../connection.php');
+
+$findresult = mysqli_query($con, "SELECT * FROM admin WHERE admin_id= '$admin_id'");
+
+if($res = mysqli_fetch_array($findresult)){
+$id1 = $res['admin_id'];
+$username = $res['user_name'];
+$adminname = $res['admin_name'];
+$pass = $res['admin_pass']; 
+$img = $res['admin_image'];
+}
+
 if(isset($_POST['update'])){
 	$id = $_POST['seller_id1'];
     $shopname=$_POST['shopname1'];
@@ -89,8 +103,9 @@ if(isset($_POST['update'])){
 		$result = mysqli_query($con,"UPDATE seller SET shopname='$shopname', username='$username', password='$password', address='$address', email='$email', contact_num='$contact', verified='$verified' WHERE seller_id='$id'");
 		
 		if($result){
-		//$_SESSION['status'] = "Your profile has been updated";
-			header("location:_manage-shops2.php?error");
+            $notificationMessage = "Your account has been verified";
+            $insertNotification =  mysqli_query($con,"INSERT INTO notifications (message, timestamp, status, seller_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$id', 'shop')");
+			header("location:_manage-shops2.php?");
 		} else {
 			$error[]='Something went wrong';
 		}
@@ -158,7 +173,7 @@ if(isset($_POST['removeShop'])){
         <div id="sidebar">
             <div class="sidebar-header">
                 <h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
-                        class="img-fluid"><span>Admin</span></h3>
+                        class="img-fluid"><span><?php echo $_SESSION['user_name']; ?></span></h3>
             </div>
             <ul class="list-unstyled component m-0">
                 <li class="dash">
@@ -380,14 +395,14 @@ if(isset($_POST['removeShop'])){
                                         <td>
 
                                             <div class="row">
-                                                <!-- <form action="_manage-shops2.php" class="d-inline">
+                                                <form action="_manage-shops2.php" class="d-inline">
                                                     <button type="button" name="conf_button" id="conf_button"
                                                         class="btn btn-success conf_button mr-2" data-bs-toggle="modal"
                                                         data-bs-target="#editEmployeeModal">
                                                         <i class="material-icons" data-toggle="tooltip"
                                                             title="Edit">&#xE254;</i>
                                                     </button>
-                                                </form> -->
+                                                </form>
 
                                                 <form action="_manage-shops2.php" class="d-inline">
                                                     <button type="button" name="del_button" id="del_button"
@@ -439,12 +454,12 @@ if(isset($_POST['removeShop'])){
                     <!----edit-modal start--------->
 
 
-                    <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+                    <div class="modal fade image-modal" tabindex="-1" id="editEmployeeModal" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Edit Driver Information</h5>
-                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <h5 class="modal-title">Update Shop</h5>
+                                    <button type="button" class="close mr-3 mt-2" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -490,10 +505,25 @@ if(isset($_POST['removeShop'])){
                                                 id="contact1" <?php echo $contact; ?>" readonly>
                                         </div>
 
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Verified</label>
                                             <input type="text" class="form-control" autocomplete="off" name="verified1"
                                                 id="verified1" <?php echo $verified; ?>" readonly>
+                                        </div> -->
+   
+                                        <div class="form-group">
+                                            <label for="verified1">Veirified</label>	
+                                            <br>
+                                            <select id="verified1" name="verified1">
+                                                <?php
+                                                // Generate the options dynamically
+                                                $options = [1 => 'YES', 0 => 'NO'];
+
+                                                foreach ($options as $value => $label) {
+                                                    echo "<option value='$value'>$label</option>";
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
@@ -550,7 +580,7 @@ if(isset($_POST['removeShop'])){
 
                                     <div class="modal-body">
 
-                                        <input type="text" id="seller_id2" name="seller_id2" />
+			<input type="hidden" id="driver_id2" name="driver_id2"/>
 
                                         <p>Are you sure you want to delete this Record</p>
                                         <p class="text-danger">
@@ -624,6 +654,7 @@ if(isset($_POST['removeShop'])){
 
 <script>
         $(document).ready(function(){
+            $.noConflict();
 			$('#myTable').dataTable();
         });
 </script>
@@ -634,7 +665,7 @@ if(isset($_POST['removeShop'])){
 
         $('.del_button').click(function(e) {
 
-            $('#deleteEmployeeModal').modal('show');
+            // $('#deleteEmployeeModal').modal('show');
 
             $tr = $(this).closest('tr');
 

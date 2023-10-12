@@ -21,84 +21,37 @@ $pass = $res['admin_pass'];
 $img = $res['admin_image'];
 }
 
-if(isset($_POST['update'])){
-	$id = $_POST['user_id1'];
-    $namef=$_POST['namef1'];
-	$namel=$_POST['namel1'];
-    $username=$_POST['username1'];
-	$passwords=$_POST['password1'];
-	$email=$_POST['email1'];
-    $contact=$_POST['contact1'];
-    $verified=$_POST['verified1'];
-	$regdate=$_POST['regdate1'];
+$admin_id=$_SESSION["admin_id"];
 
-	// $folder='images/drivers/';
-	// $file = $_FILES['pic_ID']['tmp_name'];
-    // $file_name = $_FILES['pic_ID']['name'];
-    // $file_name_array = explode(".", $file_name); 
-	// 	$extension = end($file_name_array);
+include ('../connection.php');
 
-	// 	$new_image_name ='license_'.rand() . '.' . $extension;
-	// 	if ($_FILES["pic_ID"]["size"] >10000000) {
-	// 	$error[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-	// 	}
+$findresult = mysqli_query($con, "SELECT * FROM admin WHERE admin_id= '$admin_id'");
 
-	// $file1 = $_FILES['pic_PROFILE']['tmp_name'];
-    // $file_name1 = $_FILES['pic_PROFILE']['name'];
-    // $file_name_array1 = explode(".", $file_name1); 
-	// 	$extension1 = end($file_name_array1);
-
-	// 	$new_image_name1 ='profile_'.rand() . '.' . $extension1;
-	// 	if ($_FILES["pic_PROFILE"]["size"] >10000000) {
-	// 	$error1[] = 'Sorry, your image is too large. Upload less than 10 MB in size .';
-	// 	}
-
-	// 	if($file != ""){
-	// 		if($extension!= "jpg" && $extension!= "png" && $extension!= "jpeg"
-	// 		&& $extension!= "gif" && $extension!= "PNG" && $extension!= "JPG" && $extension!= "GIF" && $extension!= "JPEG"){
-	// 			$error[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-	// 		}
-	// 	}
-
-	// 	if($file1 != ""){
-	// 		if($extension1!= "jpg" && $extension1!= "png" && $extension1!= "jpeg"
-	// 		&& $extension1!= "gif" && $extension1!= "PNG" && $extension1!= "JPG" && $extension1!= "GIF" && $extension1!= "JPEG"){
-	// 			$error1[] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';   
-	// 		}
-	// 	}
-
-	// 	if(!isset($error)){ 
-	// 		if($file!= ""){
-	// 		  	$stmt = mysqli_query($con,"SELECT driver_license FROM drivers WHERE driver_id='$id'");
-	// 		  	$row = mysqli_fetch_array($stmt); 
-	// 		  	$deleteimage=$row['driver_license'];
-	// 			unlink($folder.$deleteimage);
-	// 			move_uploaded_file($file, $folder . $new_image_name); 
-	// 			mysqli_query($con,"UPDATE drivers SET driver_license='$new_image_name' WHERE driver_id='$id'");
-	// 		}
-
-	// 	if($file1!= ""){
-	// 			$stmt1 = mysqli_query($con,"SELECT driver_image FROM drivers WHERE driver_id='$id'");
-	// 			$row1 = mysqli_fetch_array($stmt1); 
-	// 			$deleteimage=$row1['driver_image'];
-	// 		  	unlink($folder.$deleteimage);
-	// 		  	move_uploaded_file($file1, $folder . $new_image_name1); 
-	// 		  	mysqli_query($con,"UPDATE drivers SET driver_image='$new_image_name1' WHERE driver_id='$id'");
-	// 	  	}
-		  
-		$result = mysqli_query($con,"UPDATE user SET first_name='$namef', last_name='$namel', user_name='$username', pass_word='$passwords', email='$email', contact_num='$contact', verified='$verified' WHERE user_id='$id'");
-		
-		if($result){
-		//$_SESSION['status'] = "Your profile has been updated";
-			header("location:_manage-users2.php");
-		} else {
-			header("location:_manage-users2.php?error");
-		}
-  
-	  }
-
+if($res = mysqli_fetch_array($findresult)){
+$id = $res['admin_id'];
+$username = $res['user_name'];
+$adminname = $res['admin_name'];
+$pass = $res['admin_pass']; 
+$img = $res['admin_image'];
+}
 
 ?>
+
+<?php
+if(isset($_POST['removeUser'])){
+    $id = $_POST['user_id1'];
+
+    $query = "DELETE FROM user WHERE user_id='$id'";
+    $query = mysqli_query($con, $query);
+
+    if($query_run){
+        header("location: /TemplateAdmin/_manage-users2.php");
+    }
+    else {
+        header("location: /TemplateAdmin/_manage-users2.php");
+    }   
+}?>
+
 
 <?php
 if(isset($_POST['removeUser'])){
@@ -158,7 +111,7 @@ if(isset($_POST['removeUser'])){
 	 <div id="sidebar">
 	    <div class="sidebar-header">
 		<h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
-                        class="img-fluid"><span>Admin</span></h3>
+                        class="img-fluid"><span><?php echo $_SESSION['user_name']; ?></span></h3>
 		</div>
 		<ul class="list-unstyled component m-0">
 		  <li class="dash">
@@ -250,7 +203,7 @@ if(isset($_POST['removeUser'])){
 									 <span class="material-icons">person_outline</span>
 									 Profile
 									 </a></li>
-									 <li><a href="#">
+									  <li><a href="#">
 									 <span class="material-icons">settings</span>
 									 Settings
 									 </a></li>
@@ -271,7 +224,7 @@ if(isset($_POST['removeUser'])){
 				 </div>
 				 
 				 <div class="xp-breadcrumbbar text-center">
-				    <h4 class="page-title">Drivers</h4>
+				    <h4 class="page-title">Customers</h4>
 					<!--<ol class="breadcrumb">
 					  <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
 					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
@@ -393,76 +346,14 @@ if(isset($_POST['removeUser'])){
 					   </table> 
 					</div>
 				</div>
-									   
-				   <!----edit-modal start--------->
-
-
-<div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Driver Information</h5>
-        <button type="button" class="close mr-3 my-2" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-		<form method="POST" enctype="multipart/form-data">
-			<input type="hidden" id="user_id1" name="user_id1"  />
-
-			<div class="form-group">
-				<label>First Name</label>
-				<input type="text" class="form-control" autocomplete="off" name="fullname1" id="fullname1" <?php echo $fullname; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Username</label>
-				<input type="text" class="form-control" autocomplete="off" name="username1" id="username1" <?php echo $username; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Password</label>
-				<input type="text" class="form-control" autocomplete="off" name="password1" id="password1" <?php echo $passwords; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Email</label>
-				<input type="text" class="form-control" autocomplete="off" name="email1" id="email1" <?php echo $email; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Contact Number</label>
-				<input type="text" class="form-control" autocomplete="off" name="contact1" id="contact1" <?php echo $contact; ?>" readonly>
-			</div>
-
-			<div class="form-group">
-				<label>Register Date</label>
-				<input type="text" class="form-control" autocomplete="off" name="regdate1" id="regdate1" <?php echo $regdate; ?>" readonly>
-			</div>
-
-		
-		</div>
-		
-			<div class="modal-footer">
-				<button type="submit" name="update"  id="update" class="btn btn-success">Save</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" href="_manage-drivers2.php">Cancel</button>			
-			</div>
-	  	</form>
-    </div>
-  </div>
-</div>
-
-					   <!----edit-modal end--------->	   
-					   
+   
 					   
 					 <!----delete-modal start--------->
 <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete User</h5>
+        <h5 class="modal-title">Remove User</h5>
         <button type="button" class="close mr-3 mt-2" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -472,14 +363,14 @@ if(isset($_POST['removeUser'])){
 		
     	<div class="modal-body">
 
-			<input type="hidden" id="user_id2" name="user_id2"/>
+			<input type="hidden" id="driver_id2" name="driver_id2"/>
 
         	<p>Are you sure you want to delete this Record</p>
 			<p class="text-danger"><medium>this action Cannot be Undone</medium></p>
     	</div>
 
     	<div class="modal-footer">
-	  		<button type="submit" name="removeUser" id="removeUser" class="btn btn-success">Delete</button>
+	  		<button type="submit" name="removeDriver" class="btn btn-success">Delete</button>
         	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 		</div>
 
@@ -567,7 +458,7 @@ if(isset($_POST['removeUser'])){
 
 			$('.del_button').click(function(e){
 					
-				$('#deleteEmployeeModal').modal('show');
+				// $('#deleteEmployeeModal').modal('show');
 
 					$tr=$(this).closest('tr');
 
@@ -577,11 +468,20 @@ if(isset($_POST['removeUser'])){
 
 					console.log(data);
 
-					$('#user_id2').val(data[0]);
+					$('#driver_id2').val(data[0]);
 				
 			});
 		});
 </script>
+
+<script>
+	$(document).ready(function() {
+		$.noConflict();
+		$('#myTable').dataTable();
+	});
+</script>
+
+
   
   <script type="text/javascript">
         	$(document).ready(function(){
@@ -594,7 +494,7 @@ if(isset($_POST['removeUser'])){
 				$("#sidebar,.body-overlay").toggleClass('show-nav');
 			});
 
-			$('.del_button').click(function(e){
+			$('.conf_button').click(function(e){
 					// $('#editEmployeeModal').modal('show');
 
 					$tr=$(this).closest('tr');
@@ -606,12 +506,14 @@ if(isset($_POST['removeUser'])){
 					console.log(data);
 
 					$('#user_id1').val(data[0]);
-					$('#fullname1').val(data[1]);
-					$('#username1').val(data[2]);
-					$('#password1').val(data[3]);
-					$('#email1').val(data[4]);
-					$('#contact1').val(data[5]);
-					$('#regdate1').val(data[6]);
+					$('#namef1').val(data[1]);
+					$('#namel1').val(data[2]);
+					$('#username1').val(data[3]);
+					$('#password1').val(data[4]);
+					$('#email1').val(data[5]);
+					$('#contact1').val(data[6]);
+					$('#verified1').val(data[7]);
+					$('#regdate1').val(data[8]);
 				
 			});
 		});
@@ -623,11 +525,6 @@ if(isset($_POST['removeUser'])){
         }
 	</script>
 
-<script>
-	$(document).ready(function() {
-		$('#myTable').dataTable();
-	});
-</script>
 
 <script>
     function imageClicked(imageUrl) {
@@ -637,8 +534,8 @@ if(isset($_POST['removeUser'])){
         modalImage.src = imageUrl;
      
 
-        modalImage.style.width = "600px";
-        modalImage.style.height = "500px";
+        modalImage.style.width = "500px";
+        modalImage.style.height = "auto";
         // Display the modal
         modal.style.display = "block";
     }
@@ -658,7 +555,7 @@ if(isset($_POST['removeUser'])){
 
 
 <!-- Include jQuery library -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <script>
 // Function to fetch and display notifications

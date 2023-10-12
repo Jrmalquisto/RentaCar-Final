@@ -249,7 +249,7 @@ if(isset($_POST['update_car'])){
 						<td>
 							
 
-						<div class="row">
+						<div class="row justify-content-center">
 						<form action="_manage-cars2.php" class="d-inline" >
 							<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-toggle="modal" data-target="#editCarModal" >
 								<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
@@ -292,8 +292,8 @@ if(isset($_POST['update_car'])){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Employees</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title">Add Car</h5>
+        <button type="button" class="close mr-3 mt-2" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -371,7 +371,7 @@ if(isset($_POST['update_car'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Car Information</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close mr-3 mt-2" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -447,7 +447,7 @@ if(isset($_POST['update_car'])){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete Employees</h5>
+        <h5 class="modal-title">Remove Car</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -459,7 +459,7 @@ if(isset($_POST['update_car'])){
 
 			<input type="hidden" id="item_id2" name="item_id2"/>
 
-        	<p>Are you sure you want to delete this Record</p>
+        	<p>Are you sure you want to remove this car?</p>
 			<p class="text-warning"><medium>this action Cannot be Undone</medium></p>
     	</div>
 
@@ -504,10 +504,6 @@ if(isset($_POST['update_car'])){
 	include ('../TemplateShop/_company-footer.php');
 ?>
 
-
-
-  
-  
   <script>
 		$(document).ready(function(){
 
