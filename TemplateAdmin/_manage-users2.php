@@ -555,7 +555,7 @@ if(isset($_POST['removeUser'])){
 
 
 <!-- Include jQuery library -->
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 // Function to fetch and display notifications

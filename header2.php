@@ -122,7 +122,7 @@ $image= $res['pic_ID'];
                         </div>
 
                         <li class="nav-item d-flex justify-content-center align-items-center">
-                            <a class="nav-links" href="../messages.php">
+                            <a class="nav-links" href="../messages.php?seller_id=0&email=0">
                                 <i class="btn btn-dark border fa-regular fa-message"></i>
                             </a>
                         </li>

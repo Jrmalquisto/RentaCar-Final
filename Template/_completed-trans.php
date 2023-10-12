@@ -148,18 +148,19 @@
             <div class="col-sm-4 pb-5 pt-3 border border-end-0">
                 <h5 class="font-baloo-bold font-size-25"><?php echo $item['item_name'] ?? "Unknown"; ?></h5>
                 <!-- <a class="font-baloo font-size-20 " href="vehicles.php"> <?php echo $shop['shopname']  ?? "Shop"; ?></a> -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopModal">
                     <?php echo $shop['shopname']  ?? "Brand"; ?>
                 </button>
+                
                 <?php 
-                            if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
-                            echo '<button type="button" class="btn userinfo btn-secondary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Driver details
-                                </button>';
+                    if ($value['driver_stat'] == "Yes" && $value['driver_id'] != 0) {
+                    echo '<button type="button" class="btn userinfo btn-secondary" style="float: right;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Driver details
+                        </button>';
 
-                                
-                            } 
-                        ?>
+                        
+                    } 
+                ?>
 
                 <!-- <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $value['item_id'];?> &seller_id=<?php echo $item['seller_id'];?>">
                     <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button>

@@ -247,7 +247,7 @@
 
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            data-bs-target="#modalCompany">
                                             <?php echo $shop['shopname']  ?? "Brand"; ?>
                                         </button>
                                         <?php 
@@ -547,9 +547,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-
-    </script>
+    <script type="text/javascript"></script>
 
     <script>
     $(document).ready(function() {
@@ -571,20 +569,7 @@
         //         myModal.show()
         //     }
         // };
-        let modal = null;
-
-        function getModal() {
-            if (!modal) {
-                modal = new $bootstrap.Modal('#shopModal');
-            }
-            return modal
-        }
-
-        function toggleModal() {
-            // modal.toggle();
-            getModal().show()
-        }
-
+   
         $('.conf_button').click(function(e) {
             // $('#editEmployeeModal').modal('show');
 

@@ -359,7 +359,12 @@
                                 //     //     header("location: in_use.php");
                                 //     // }
                                 // } 
-
+                                if($query){
+                                    $notificationMessage = "New reservation for: " . "<b>" . $item_name . "</b>";
+                                    $insertNotification =  mysqli_query($con,"INSERT INTO notifications (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$seller_id', '$id1', 'shop')");
+                                    }else{
+                                        header('Location: ../product.php?error=You have already made a reservation.');
+                                    }
                             } else {
                                     // echo "<script>alert(\"You cannot reserve this Item\");";
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=You have already made a reservation.');
@@ -395,6 +400,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <?php echo $value['shopname']  ?? "Brand"; ?>
                 </button>
+                
                     <button type="submit" class="btn btn-primary chat_m" id="chat_m" name="chat_m">
 
                         <i class=" fa-regular fa-message"></i>

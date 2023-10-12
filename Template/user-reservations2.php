@@ -258,7 +258,7 @@
 
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-primary float-right" id="shop_btn"
-                                            name="shop_btn" data-bs-toggle="modal" data-bs-target="#shopModal">
+                                            name="shop_btn" data-bs-toggle="#shopModal" data-bs-target="#shopModal">
                                             <?php echo $shop['shopname']  ?? "Brand"; ?>
                                         </button>
                                         <br>
