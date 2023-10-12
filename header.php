@@ -28,7 +28,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>     -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
-
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> -->
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <!-- Owl-carousel CDN -->
     
@@ -41,14 +41,20 @@
     <!-- font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
         integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
-
-    <!-- CSS File -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Jquery -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-
-
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
+    
+    <!--Bootstrap CDN-->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script> -->
 
 
 
@@ -56,15 +62,16 @@
 
 <body>
     <?php $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1)?>
-    <nav class="navbar navbar-expand-md navbar-dark  sticky-top ps-5 pe-1  justify-content-between">
-       
+    <nav class="navbar navbar-expand-md navbar-dark  sticky-top ps-5 pe-1  justify-content-between"
+        >
+        <div class="justify-content-start">
             <a class="navbar-brand" href="index.php">RentaCar</a>
-            <button class="navbar-toggler ml-auto pr-4" type="button" data-toggle="collapse"
+            <button class="navbar-toggler me-auto" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon me-auto "></span>
             </button>
- 
+        </div>
         <div class="collapse navbar-collapse pe-1 justify-content-end" id="navbarSupportedContent">
 
             <ul class="navbar-nav justify-content-center col-sm-8">
@@ -113,22 +120,7 @@
                     <button type="button" class="btn btn-dark" style="color:#E0B25B;">
                         <i class="fas fa-search "></i>
                     </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                                <li><a class="dropdown-item" href="#">You Have 4 New Messages</a></li>
-                                            </ul>
-                                        </li>
-      
-
-                <li class="nav-item">
-                    <a class="nav-link" href="../messages.php">
-                        <i class="btn btn-dark border fa-regular fa-message"></i>
-                    </a>
                 </li>
-
-
                 
                 <li class="nav-item dropdown px-3 ps-4">
 
@@ -140,7 +132,7 @@
                             aria-expanded="false">
 
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
                             <!--<li><a class="dropdown-item" href="_user-login.php"><i class="fa fa-sign-in"></i> Sign In</a></li>-->
                             <li><a class="dropdown-item" href="profile.php"><i class="fa fa-user"></i> Profile</a></li>
                             <li><a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log out</a>
@@ -214,10 +206,6 @@
             </div>
             
         </div> -->
-        <script src="/js/jquery-3.3.1.slim.min.js"></script>
-   <script src="/js/popper.min.js"></script>
-   <script src="/js/bootstrap.min.js"></script>
-   <script src="/js/jquery-3.3.1.min.js"></script>
 <script src='index.js' defer></script>
 <script>
     // $(window).scroll(function() {

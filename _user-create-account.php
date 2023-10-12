@@ -1,3 +1,4 @@
+
 <?php
     $error = null;
     session_start();
@@ -16,7 +17,7 @@
         $email_user=$_POST['email'];
         $contact=$_POST['cont_num'];
         $address=$_POST['address'];
-        // // $validID=$_POST['pic_ID'];
+        // $validID=$_POST['pic_ID'];
         $dob=date('Y-m-d', strtotime($_POST['birthday']));
        
         $img_name = $_FILES['pic_ID']['name'];
@@ -48,7 +49,7 @@
                 //Check if email is valid
                 if ($password!=$password2){
                     //echo '<script> alert("Password not matched")</script>';
-                    header ("Location: ../_user-create-account.php?signup=pwerror&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address&contact=$contact&address=$address");
+                    header ("Location: ../_user-create-account.php?signup=pwerror&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
                     exit();
                 }  else {
                     $mysqli = new mysqli('localhost', 'root','','rentacar');
@@ -68,37 +69,50 @@
                     $verified = 0;
                     $errors = $_POST["alertss"];
 
-                    $errors = $_POST["alertss"];
 
                     //password encryption
                     $password = md5($password);
                     
-                    if (in_array($img_ex_lc, $allowed_exs)) {
-                        $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                        // $new_img_name = "assets/SampleProd/".$img_name;
-                        $img_upload_path = 'assets/legal_id/'.$new_img_name;
-                        move_uploaded_file($tmp_name, $img_upload_path);
+                    if ($error==4){
+                        header ("Location: ../_user-create-account.php?signup=noid&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "You are under the minimum age requirement."){
+                        header ("Location: ../_user-create-account.php?signup=inv_date&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "Email already used"){
+                        header ("Location: ../_user-create-account.php?signup=email_una&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "Username already used"){
+                        header ("Location: ../_user-create-account.php?signup=username_una&email=$email_user&firstname=$firstname&lastname=$lastname&contact=$contact&address=$address");
+                        exit();
+                    } else {
 
-                        // Insert into Database
-                        
-                        $insert = $mysqli->query("insert into user(user_name,first_name,last_name,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
-                        values ('$username','$firstname','$lastname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
-                        // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
-                        // values (0,0)");
+                        if (in_array($img_ex_lc, $allowed_exs)) {
+                            $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                            // $new_img_name = "assets/SampleProd/".$img_name;
+                            $img_upload_path = 'assets/legal_id/'.$new_img_name;
+                            move_uploaded_file($tmp_name, $img_upload_path);
 
-                        if ($insert){
+                            // Insert into Database
                             
-                                header("Location: ../_user-login.php");
-                            
-                            
-                        } else {
-                        
-                            $em = "Sorry, yours.";
-                            header("Location: ../_user-create-account.php?error=$em");
-            
-                            echo "<script> alert('$error');window.location=index.php</script>";
+                            $insert = $mysqli->query("insert into user(user_name,fullname,pass_word,email,contact_num,vkey,birthday,pic_ID,address)
+                            values ('$username','$fullname','$password','$email_user','$contact','$vkey','$dob','$new_img_name','$address')");
+                            // $insert1 = $mysqli->query("insert into cart (user_id,item_id)
+                            // values (0,0)");
+
+                            if ($insert){
                                 
-                        }
+                                    header("Location: ../_user-login.php");
+                                
+                                
+                            } else {
+                            
+                                $em = "Sorry, yours.";
+                                header("Location: ../_user-create-account.php?error=$em");
+                
+                                echo "<script> alert('$error');window.location=index.php</script>";
+                                    
+                            }
 
                         } else {
                             
@@ -109,20 +123,19 @@
                             echo "<script> alert('$error');window.location= _user-create-account.php</script>";
                             
                         }
-                       
                     }
                 }
-        }
-    
-        // Form Validation
-
-        //database connection
+            }
         
-    }
+            // Form Validation
+
+            //database connection
+            
+        }
        
         
     
-     
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -134,8 +147,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentaCar</title>
     
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 
@@ -166,10 +177,8 @@
 <body>
 
 <section class="container background-radial-gradient overflow-hidden " id = "background"> 
-<section class="container background-radial-gradient overflow-hidden " id = "background"> 
     
         <div class="forms-container">
-        <div class="signupform container p-4" style = "max-width: 600px;">
         <div class="signupform container p-4" style = "max-width: 600px;">
             <h2 id="createaccount-title" class="font-weight-bold" style="color: #444">Create User Account</h2>
             <p class="text-grey-20 font-weight-light text-left mb-4">Fill up the form with correct values</p>
@@ -242,15 +251,8 @@
 
                 
                 <div class="alert alert-danger d-none" id = "messages" >
-                                                <!-- <input type="text" style="border-radius:30px"class="form-control" name="username" id="username" placeholder="Opo" autocomplete="off"required/> -->
-
-                </div>
-
-                
-                <div class="alert alert-danger d-none" id = "messages" >
                         
                 </div>
-
 
                 <!-- Password -->           
                 <div class="input-field mb-3">
@@ -333,25 +335,6 @@
                 <div class="form-group mb-5 border-bottom-0">
                     <label for="pic_ID">Please upload Valid ID.</label>
                     <input type="file" class="form-control-file" id="pic_ID" name="pic_ID">
-
-                    <?php 
-                        if ($_GET['signup'] == 'noid') {
-                                
-                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Valid ID is required.</small></p>";
-                        }
-                        if ($_GET['signup'] == 'user_una') {
-                                
-                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Username is already used.</small></p>";
-                        }
-                        if ($_GET['signup'] == 'email_una') {
-                                
-                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Email is already used.</small></p>";
-                        }
-                        if ($_GET['signup'] == 'inv_date') {
-                                
-                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. You have entered an invalid date.</small></p>";
-                        }
-                    ?>
 
                     <?php 
                         if ($_GET['signup'] == 'noid') {

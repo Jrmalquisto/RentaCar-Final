@@ -5,7 +5,55 @@
 
     $dated = date("Y-m-d H:m");
     $con = mysqli_connect("localhost","root","","rentacar");
-   
+
+    $findresult1 = mysqli_query($con, "SELECT * FROM user WHERE user_id= '$userid'");
+
+    if($res = mysqli_fetch_array($findresult1)){
+        $id1 = $res['user_id'];
+        $fullname = $res['fullname'];
+        $email = $res['email'];
+        $verified = $res['verified'];
+        $l_front = $res['license_front'];
+        $l_back = $res['license_back'];
+
+    }
+    
+    $findresult2 = mysqli_query($con, "SELECT * FROM product WHERE item_id= '$item_id'");
+    
+    if($res = mysqli_fetch_array($findresult2)){
+        $id2 = $res['item_id'];
+        $seller_id = $res['seller_id'];
+        $item_name = $res['item_name'];
+        $item_image = $res['item_image'];   
+    }
+
+    
+    $get_rating = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id'");
+    $rating = mysqli_num_rows($get_rating);
+    
+    $rate5 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 5");
+    $r5 = mysqli_num_rows($rate5);
+    
+    $rate4 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 4");
+    $r4 = mysqli_num_rows($rate4);
+    
+    $rate3 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 3");
+    $r3 = mysqli_num_rows($rate3);
+    
+    $rate2 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 2");
+    $r2 = mysqli_num_rows($rate2);
+    
+    $rate1 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 1");
+    $r1 = mysqli_num_rows($rate1);
+    
+    if($rating!=0){
+        $total1=( $r5 + $r4 + $r3 + $r2 + $r1);
+        $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total1)); 
+    } else{
+        $ave = 0;
+    }
+    
+    
     if(!isset($_SESSION["dateFrom"],$_SESSION["dateTo"])){
         $date = date("Y-m-d H:m");
         $date= strtotime($date);
@@ -101,9 +149,15 @@
                 $datedDiff =  $dateFro - $dateT;
                 $days = floor($datedDiff/(60*60*24));
                 $_SESSION["days_rent"] = $days;
-                $total = ($price * $days)*-1;
 
+                if ($days == 0){
+                    $total = ($price * $days);
+
+                } else {
+                    $total = ($price * $days)*-1;
+                }
                 
+
                 
                 
                 $u_email = $value['email'];
@@ -174,21 +228,6 @@
                         $back1 = 'Back_' . $back1 ;
 
 
-                        $driver_status = $_POST["driver_status"];
-                        
-                        $front = $_POST["front_p"];
-                        $back = $_POST["back_p"];
-                        $errors = $_POST["alertss"];
-
-                        $front = str_replace( "\\", '/', $front );
-                        $front1 = basename( $front );
-                        $back = str_replace( "\\", '/', $back );
-                        $back1 = basename( $back );
-                        $front1 = 'Front_' . $front1 ;
-                        $back1 = 'Back_' . $back1 ;
-
-
-
                         // $event = $_SESSION["dateFrom"];
                         // $events = $_SESSION["dateTo"];
                         // $datedDiff =  $dateTo - $dateFrom ;
@@ -225,25 +264,101 @@
                                 } else if(empty($_POST["driver_stat"])){
                                     header('Location: ../product.php?item_id=' .$item_id. '&&error=Please pick your driver status.');
                                     exit();
-        
-                                } else {
-        
-                                    $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
-                                    // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
-                                    $query_run1 = mysqli_query($con, $queryupdate);
-        
-                                    $query_run = mysqli_query($con, $query);
-                                    header("location: userreservation.php");
-                                    $stateRefresh = 0;
-                                    $_SESSION['state'] = $stateRefresh;
-                                
-                                    // if($query){
-                                    //     header("location: in_use.php");
-                                    // }
-                                    // else {
-                                    //     header("location: in_use.php");
-                                    // }
                                 } 
+                                
+                                else if ($errors == "No file was uploaded."){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=No file was uploaded.');
+                                    exit();
+                                }
+                                 else if ($errors == "Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Back Photo - Sorry, only JPG, JPEG, and PNG files are allowed.');
+                                    exit();
+                                    
+                                } else if ($errors == "Front Photo - Sorry, only JPG, JPEG, and PNG files are allowed"){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Front Photo - Sorry, only JPG, JPEG, and PNG files are allowed.');
+                                    exit();
+                                
+                                } else if ($errors == "Sorry, your image is too large. Upload less than 10 MB in size ."){
+                                    header('Location: ../product.php?item_id=' .$item_id. '&&error=Sorry, your image is too large. Upload less than 10 MB in size.');
+                                    exit();
+                                
+                                } else {
+                                    if ($verified==0) {
+                                        if (empty($_POST["front_p"]) && empty($_POST["back_p"])){
+                                            header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                            exit();
+                                        } else {
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                        // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            $query_run = mysqli_query($con, $query);
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                            $_SESSION['state'] = $stateRefresh;
+                                        
+                                        }
+                                    
+                                    }
+                                    if ($verified==1){
+                                        if  ($driver_status=="No"){
+                                            if(empty($_POST["front_p"]) && empty($_POST["back_p"])){
+                                                header('Location: ../product.php?item_id=' .$item_id. '&&error=Please submit an ID.');
+                                                exit();
+                                            } else {
+                                                $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                            // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                                $query_run1 = mysqli_query($con, $queryupdate);
+                    
+                                                $query_run = mysqli_query($con, $query);
+                                                header("location: userreservation.php");
+                                                $stateRefresh = 0;
+                                                
+                                            
+                                            }
+                                        } else if ($driver_status=="Yes") {
+                                            $query2 = "INSERT INTO reservation (user_id,item_id,seller_id,user_name,number,brand,license_plate,pickupdate,returndate,driver_stat,front_id,back_id,overall_price,status) VALUES ('$user_id','$item_id','$seller','$user_n','$contact','$vehicle','$license','$event','$events','$driver_stat','$l_front','$l_back','$overall','Pending')";
+
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                            // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            // $query_run = mysqli_query($con, $query);
+                                            $query_run2 = mysqli_query($con, $query2);
+
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                                
+                                        }else {
+                                            $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                        // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                            $query_run1 = mysqli_query($con, $queryupdate);
+                
+                                            $query_run = mysqli_query($con, $query);
+                                            header("location: userreservation.php");
+                                            $stateRefresh = 0;
+                                        
+                                        }
+                                    }
+                                }
+                                //  else {
+        
+                                //     $queryupdate = "UPDATE product SET status = 0 WHERE item_id = $item_id";
+                                //     // $queryupdate = "UPDATE product SET status = 1 WHERE item_id = $item_id";
+                                //     $query_run1 = mysqli_query($con, $queryupdate);
+        
+                                //     $query_run = mysqli_query($con, $query);
+                                //     header("location: userreservation.php");
+                                //     $stateRefresh = 0;
+                                //     $_SESSION['state'] = $stateRefresh;
+                                
+                                //     // if($query){
+                                //     //     header("location: in_use.php");
+                                //     // }
+                                //     // else {
+                                //     //     header("location: in_use.php");
+                                //     // }
+                                // } 
 
                             } else {
                                     // echo "<script>alert(\"You cannot reserve this Item\");";
@@ -274,12 +389,26 @@
             </div>
 
             <div class="col-sm-4 pb-5 pt-4 px-3 border rounded-4 shadow">
-                <h2 class="font-baloo-bold  "><?php echo $item['item_name'] ?? "Unknown"; ?></h2>
-                <!-- <a class="font-baloo font-size-20 " href="vehicles.php"> <?php echo $value['shopname']  ?? "Brand"; ?></a> -->
+                <h2 class="font-baloo-bold"><?php echo $item['item_name'] ?? "Unknown"; ?></h2>
+                <form  method="POST" >
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <?php echo $value['shopname']  ?? "Brand"; ?>
                 </button>
+                    <button type="submit" class="btn btn-primary chat_m" id="chat_m" name="chat_m">
+
+                        <i class=" fa-regular fa-message"></i>
+                    </button>
+
+                </form>
                 
+
+                <a href="Template/_car-rating.php?user_id=<?php echo $userid;?> &item_id=<?php echo $item_id;?>">
+                    <!-- <button type="button" class="btn btn-danger" style="float:right;">Rate This Vehicle</button> -->
+                    <!-- <button type="button" name="add_review" id="add_reviews" class="btn btn-danger" style="float:right;">Rate</button> -->
+
+                </a>
+                <!-- <?php echo $item_id?> -->
                 
                 <hr class="m-0 my-2">
                 <p class="font-baloo font-size-20">Brand: <?php echo $item['item_brand'] ?? "Brand"; ?></p>
@@ -356,8 +485,14 @@
 
                     <div class="form-group mt-4 align-self-start">
                         <label for=>With driver?</label>
-                        <input type="radio" name="driver_stat" id="driver_stat" value="Yes" /> Yes
-                        <input type="radio" name="driver_stat" id="driver_stat" value="No" /> No
+                        <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
+                        <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
+                        <input hidden type="text" name="driver_status" id="driver_status" value="" /> 
+                        <input hidden type="text" name="front_p" id="front_p" value="" /> 
+                        <input hidden type="text" name="back_p" id="back_p" value="" /> 
+                        <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >
+                        <input  class="form-control" type="file" name="Back_Photo1" id="Back_Photo1" style="width:200%;" > -->
+
                     </div>
                     <div class="alert alert-warning d-none" id = "messages" >
                         <div class="d-none" id = "alerts">
