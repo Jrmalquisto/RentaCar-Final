@@ -14,7 +14,7 @@ include ('../connection.php');
 $findresult = mysqli_query($con, "SELECT * FROM admin WHERE admin_id= '$admin_id'");
 
 if($res = mysqli_fetch_array($findresult)){
-$id = $res['admin_id'];
+$id1 = $res['admin_id'];
 $username = $res['user_name'];
 $adminname = $res['admin_name'];
 $pass = $res['admin_pass']; 
@@ -89,7 +89,8 @@ if(isset($_POST['update'])){
 		$result = mysqli_query($con,"UPDATE seller SET shopname='$shopname', username='$username', password='$password', address='$address', email='$email', contact_num='$contact', verified='$verified' WHERE seller_id='$id'");
 		
 		if($result){
-		//$_SESSION['status'] = "Your profile has been updated";
+            $notificationMessage = "Your account has been verified";
+            $insertNotification =  mysqli_query($con,"INSERT INTO notifications (message, timestamp, status, seller_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$id', 'shop')");
 			header("location:_manage-shops2.php?");
 		} else {
 			$error[]='Something went wrong';
@@ -158,7 +159,7 @@ if(isset($_POST['removeShop'])){
         <div id="sidebar">
             <div class="sidebar-header">
                 <h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
-                        class="img-fluid"><span>Admin</span></h3>
+                        class="img-fluid"><span><?php echo $_SESSION['user_name']; ?></span></h3>
             </div>
             <ul class="list-unstyled component m-0">
                 <li class="dash">
@@ -439,7 +440,7 @@ if(isset($_POST['removeShop'])){
                     <!----edit-modal start--------->
 
 
-                    <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+                    <div class="modal fade image-modal" tabindex="-1" id="editEmployeeModal" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -519,8 +520,7 @@ if(isset($_POST['removeShop'])){
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="submit" name="update" id="update"
-                                        class="btn btn-success">Save</button>
+                                    <button type="submit" name="update" id="update" class="btn btn-success">Save</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                         href="_manage-drivers2.php">Cancel</button>
                                 </div>
@@ -547,10 +547,10 @@ if(isset($_POST['removeShop'])){
 
                                     <div class="modal-body">
 
-                                        <input type="text" id="seller_id2" name="seller_id2" />
+                                        <input type="hidden" id="seller_id2" name="seller_id2" />
 
                                         <p>Are you sure you want to delete this Record</p>
-                                        <p class="text-danger">
+                                        <p class="text-warning">
                                             <medium>this action Cannot be Undone</medium>
                                         </p>
                                     </div>
@@ -632,7 +632,7 @@ if(isset($_POST['removeShop'])){
 
         $('.del_button').click(function(e) {
 
-            $('#deleteEmployeeModal').modal('show');
+            // $('#deleteEmployeeModal').modal('show');
 
             $tr = $(this).closest('tr');
 
@@ -700,7 +700,7 @@ if(isset($_POST['removeShop'])){
 
 
         modalImage.style.width = "500px";
-        modalImage.style.height = "500px";
+        modalImage.style.height = "auto";
         // Display the modal
         modal.style.display = "block";
     }

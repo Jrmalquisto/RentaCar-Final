@@ -1,4 +1,3 @@
-
 <?php
     $error = null;
     session_start();
@@ -67,12 +66,22 @@
                     //generating vkey
                     $vkey = md5(time().$username);
                     $verified = 0;
+                    $errors = $_POST["alertss"];
 
                     //password encryption
                     $password = md5($password);
                     
                     if ($error==4){
                         header ("Location: ../_user-create-account.php?signup=noid&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "You are under the minimum age requirement."){
+                        header ("Location: ../_user-create-account.php?signup=inv_date&email=$email_user&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "Email already used"){
+                        header ("Location: ../_user-create-account.php?signup=email_una&firstname=$firstname&lastname=$lastname&username=$username&contact=$contact&address=$address");
+                        exit();
+                    } else if ($errors == "Username already used"){
+                        header ("Location: ../_user-create-account.php?signup=username_una&email=$email_user&firstname=$firstname&lastname=$lastname&contact=$contact&address=$address");
                         exit();
                     } else {
 
@@ -93,8 +102,8 @@
                                 
                                 $notificationMessage = "New <b>customer</b> account created: " . $fullname;
                                 $insertNotification = $mysqli->query("INSERT INTO notifications (message, timestamp, status, account_type) VALUES ('$notificationMessage', NOW(), 'unread', 'customer')");
-
-                                header("Location: ../_user-login.php");
+                                
+                                    header("Location: ../_user-login.php");
                                 
                                 
                             } else {
@@ -139,9 +148,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentaCar</title>
     
-    <!--Bootstrap CDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 
     <!-- Owl-carousel CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
@@ -157,14 +165,22 @@
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
 
+    <!--Jquery CDN-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!--Bootstrap CDN-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
 </head>
 
 <body>
 
-<section class="container-fluid background-radial-gradient overflow-hidden " id = "background"> 
+<section class="container background-radial-gradient overflow-hidden " id = "background"> 
     
         <div class="forms-container">
-        <div class="signupform container-sm p-4">
+        <div class="signupform container p-4" style = "max-width: 600px;">
             <h2 id="createaccount-title" class="font-weight-bold" style="color: #444">Create User Account</h2>
             <p class="text-grey-20 font-weight-light text-left mb-4">Fill up the form with correct values</p>
             
@@ -224,14 +240,21 @@
                         <?php
                             if (isset($_GET['username'])) {
                                 $username = $_GET['username'];
-                                echo '<input type="text" style="border-radius:30px"style="border-radius:30px" name="username" class="form-control" placeholder="Username" value="'.$username.'">';
+                                echo '<input type="text" style="border-radius:30px"style="border-radius:30px" name="username" id="username" class="form-control" placeholder="Username" value="'.$username.'">';
                             }
                             else {
-                                echo '<input type="text" style="border-radius:30px"class="form-control" name="username" placeholder="Username" autocomplete="off"required/>';
+                                echo '<input type="text" style="border-radius:30px"class="form-control" name="username" id="username" placeholder="Username" autocomplete="off"required/>';
                             }
                         ?>
+                        <!-- <input type="text" style="border-radius:30px"class="form-control" name="username" id="username" placeholder="Opo" autocomplete="off"required/> -->
 
                 </div>
+
+                
+                <div class="alert alert-danger d-none" id = "messages" >
+                        
+                </div>
+
                 <!-- Password -->           
                 <div class="input-field mb-3">
                     
@@ -257,7 +280,7 @@
                     <div class="input-field col-6 mb-3">
                         
                        
-                        <input type="date" name="birthday" style="border-radius:30px" class="form-control" placeholder="Birthday" onfocus="(this.type='date')" >
+                        <input type="date" name="birthday" id="birthday" style="border-radius:30px" class="form-control" placeholder="Birthday" >
                                 
                         
                     </div>
@@ -297,15 +320,19 @@
                     <?php
                             if (isset($_GET['email'])) {
                                 $email = $_GET['email'];
-                                echo '<input type="email" name="email" style="border-radius:30px" class="form-control" placeholder="Email" value="'.$email.'">';
+                                echo '<input type="email" name="email" id="email" style="border-radius:30px" class="form-control" placeholder="Email" value="'.$email.'">';
                                 
                             } else {
-                                echo '<input type="email" class="form-control" style="border-radius:30px" placeholder="Email" name="email" autocomplete="off" required/>';
+                                echo '<input type="email" class="form-control" style="border-radius:30px" placeholder="Email" name="email" id="email"  autocomplete="off" required/>';
                             }
                     ?>   
                 </div>
-                
-                
+
+                <div class="alert alert-danger d-none" id = "messages1" >
+                        
+                </div>
+                <input hidden type="text" name="alertss" id="alertss" value="" />
+
                 <div class="form-group mb-5 border-bottom-0">
                     <label for="pic_ID">Please upload Valid ID.</label>
                     <input type="file" class="form-control-file" id="pic_ID" name="pic_ID">
@@ -315,11 +342,20 @@
                                 
                             echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Valid ID is required.</small></p>";
                         }
+                        if ($_GET['signup'] == 'user_una') {
+                                
+                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Username is already used.</small></p>";
+                        }
+                        if ($_GET['signup'] == 'email_una') {
+                                
+                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. Email is already used.</small></p>";
+                        }
+                        if ($_GET['signup'] == 'inv_date') {
+                                
+                            echo "<p class='error mt-2 mb-1 ml-2 text-danger'> <small>Sorry. You have entered an invalid date.</small></p>";
+                        }
                     ?>
                 </div>
-                
-               
-                
                 
                 
                 <div class="d-grid col-md-12 text-center mt-4">
@@ -329,7 +365,176 @@
             </form>
         </div>
     </div>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var alert = document.getElementById("alertss");
+        var messages = document.getElementById("messages");
+        var messages1 = document.getElementById("messages1");
+
+        const error = document.getElementById('alertss');
+
+
+        var username = document.getElementById("username");
+        var email = document.getElementById("email");
+
+        // var try = document.getElementById("try");
+
+        // Check the initial state when the page loads
+        
+        //Yes and No Radio Button;
+        var birthday1 = document.getElementById("birthday");
+
+        birthday1.addEventListener('change',  function (e) {
+            
+            const enteredDate = new Date(document.getElementById("birthday").value);
+            const currentDate = new Date();
+            console.log(enteredDate);
+            // Calculate age
+            const age = currentDate.getFullYear() - enteredDate.getFullYear();
+            
+            // Check if the age is less than a minimum required age (e.g., 18)
+            const minimumAge = 18;
+            if (age < minimumAge) {
+                // console.log(enteredDate);
+                verify1();
+                messages1.innerText = "You are under the minimum age requirement.";
+                error.value = "You are under the minimum age requirement.";
+                // ageResult.style.color = 'red';
+            } else {
+                unverify1();
+            }
+        });
+
+        username.addEventListener('change', function (e) {
+            var username1 = document.getElementById("username").value;
+
+            $.ajax({
+                url: 'checkUser.php',
+                type: 'post',
+                data: {username: username1},
+                success:function(data){
+                        // alert.value =  JSON.parse(data);
+                        // messages.removeClass('d-none');
+                        // messages.addClass('d-block');
+                       
+                            if (data === "Username already used"){
+                                verify();
+                                messages.innerText = data;
+                                error.value = data;
+
+                            } else if (data === "Username available") {
+                                unverify();
+                                messages.innerText = data;
+                                error.value = data;
+
+                            }
+                            console.log(data);
+                        
+                        // messages.innerText = JSON.parse(data);
+                        // uploadText.style.display = "block";
+                        
+                }
+            })
+        
+        });
+
+        email.addEventListener('change', function (e) {
+            var email1 = document.getElementById("email").value;
+
+            $.ajax({
+                url: 'checkEmail.php',
+                type: 'post',
+                data: {email: email1},
+                success:function(data){
+                        // alert.value =  JSON.parse(data);
+                        // messages.removeClass('d-none');
+                        // messages.addClass('d-block');
+                       
+                            if (data === "Email already used"){
+                                verify1();
+                                messages1.innerText = data;
+                                error.value = data;
+
+                            } else if (data === "Email available") {
+                                unverify1();
+                                messages1.innerText = data;
+
+                            }
+                       
+                        
+                        // messages.innerText = JSON.parse(data);
+                        // uploadText.style.display = "block";
+                        
+                }
+            })
+        
+        });
+        
+
+    function verify() {
+            
+            // $('#alerts').removeClass('d-none');
+            // $('#alerts').addClass('d-block');
+            $('#messages').removeClass('d-none');
+            $('#messages').addClass('d-block');
+            
+    }
+    function unverify() {
+            
+            // $('#alerts').removeClass('d-none');
+            // $('#alerts').addClass('d-block');
+            $('#messages').removeClass('d-block');
+            $('#messages').addClass('d-none');
+            
+    }
+    function verify1() {
+            
+            // $('#alerts').removeClass('d-none');
+            // $('#alerts').addClass('d-block');
+            $('#messages1').removeClass('d-none');
+            $('#messages1').addClass('d-block');
+            
+    }
+    function unverify1() {
+            
+            // $('#alerts').removeClass('d-none');
+            // $('#alerts').addClass('d-block');
+            $('#messages1').removeClass('d-block');
+            $('#messages1').addClass('d-none');
+            
+    }
+
+    function checkAge(){
+        // var birthday = document.getElementById("birthday");
+ 
+    }
+        // try.addEventListener("click", checkUsn());
+
+        
+
+    // function checkUsn(){
+    //         var username1 = document.getElementById("username").value;
+
+    //         $.ajax({
+    //             url: 'checkUser.php',
+    //             type: 'post',
+    //             data: {username: username1},
+    //             success:function(data){
+    //                 if (data != 0){
+    //                     alert.innerText =  JSON.parse(data);
+    //                     messages.value = JSON.parse(data);
+    //                 }
+    //                 else {
+    //                     alert("File upload error"+ data);
+    //                 }
+    //             }
+    //         });
+    // }
+   
+});
+        </script>
 </section>
 </body>
 

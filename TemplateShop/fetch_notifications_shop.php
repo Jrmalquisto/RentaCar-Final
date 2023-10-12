@@ -10,7 +10,8 @@ if ($mysqli->connect_error) {
 $notifications = [];
 $com_id=$_SESSION["com_id"];
 // Fetch notifications from the database (including their status)
-$query = "SELECT * FROM reservation_notification WHERE status = 'unread' AND notif_for='shop' AND seller_id='$com_id'";
+$query = "SELECT * FROM notifications WHERE status = 'unread' AND notif_for='shop' AND seller_id='$com_id'";
+
 $result = $mysqli->query($query);
 
 if ($result) {

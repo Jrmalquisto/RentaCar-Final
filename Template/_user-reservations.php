@@ -255,7 +255,7 @@
                     <div class="total">
                         <h5 class="fw-bold ml-3"> Total: </h5>
 
-                        <h5 class=" text-danger fw-bold inline"> ₱ <?php echo $value['overall_price'] ?? 0; ?>.00</h5>
+                        <h5 class=" text-danger fw-bold inline"> ₱ <?php echo $value['overall_price'] ?? 0; ?></h5>
 
                         
                         <form action="#" method="POST" class="d-inline">

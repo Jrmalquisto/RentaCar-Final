@@ -35,7 +35,7 @@ if(isset($_POST['update_res'])){
 
 	if($result){
 		$notificationMessage = "Your reservation for " . "<b>" . $vehicle . "</b>" . " has been approved";
-		$insertNotification = mysqli_query($con, "INSERT INTO reservation_notification (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$com_id', '$userid', 'customer')");
+		$insertNotification = mysqli_query($con, "INSERT INTO notifications (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$com_id', '$userid', 'customer')");
 		//$_SESSION['status'] = "Your profile has been updated";
 		header("location:/TemplateShop/_pending-reservations2.php");
 	} else {
@@ -229,8 +229,8 @@ if(isset($_POST['update_res'])){
                                     
                                 <td><?php echo $id?></td>
 								<td><?php echo $item_id?></td>
-								<td><img height="75" width="105" <?php echo '<img src="/images/driver_license/'.$front.'" ' ?>> </td>
-								<td><img height="75" width="105" <?php echo '<img src="/images/driver_license/'.$back.'" ' ?>> </td>
+								<?php echo "<td><img height='75' width='auto' id='image1' src='/images/driver_license/{$row['front_id']}' onclick='imageClicked(\"/images/driver_license/{$row['front_id']}\")'></td>";?>
+								<?php echo "<td><img height='75' width='auto' id='image2' src='/images/driver_license/{$row['back_id']}' onclick='imageClicked(\"/images/driver_license/{$row['back_id']}\")'></td>";?>
                                 <td><?php echo $name?></td>
                                 <td><?php echo $number?></td>
                                 <td><?php echo $vehicle?></td>
@@ -333,6 +333,29 @@ if(isset($_POST['update_res'])){
 </div>
 
 					   <!----edit-modal end--------->   
+
+					   <div id="myModal" class="modal">
+                        <div class="modal-content modals">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- <p id="modalContent"></p> -->
+                            <img id="modalImage" src="" alt="Image">
+                        </div>
+                    </div>
+
+					<div id="myModal1" class="modal">
+                        <div class="modal-content modals">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- <p id="modalContent"></p> -->
+                            <img id="modalImage1" src="" alt="Image">
+                        </div>
+                    </div>
+
+
+					
+					
+				 
+			     </div>
+			  </div>
 
 			     </div>
 			  </div>
@@ -442,4 +465,31 @@ if(isset($_POST['update_res'])){
 			$('#myTable').dataTable();
         });
 </script>
+
+<script>
+    function imageClicked(imageUrl) {
+        var modal = document.getElementById("myModal");
+        var modalImage = document.getElementById("modalImage");
+
+        modalImage.src = imageUrl;
+     
+
+        modalImage.style.width = "auto";
+        modalImage.style.height = "auto";
+        // Display the modal
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        // Get a reference to the modal
+        var modal = document.getElementById("myModal");
+
+        // Close the modal by hiding it
+        modal.style.display = "none";
+
+        modalImage.src = "";
+        modalImage.style.width = "auto";
+        modalImage.style.height = "auto";
+    }
+    </script>
 

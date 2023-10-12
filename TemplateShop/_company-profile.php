@@ -157,10 +157,27 @@ $image = $res['shop_logo'];
 						</label>
 						</div>
 					</div>
-
-
-					<div class="row mt-2 border-top">
 					<form action="" method="post" enctype="multipart/form-data">
+
+					<div class="image mt-2 border-top text-center ">
+					<?php if($image==NULL){
+							echo '<img src="images/default/default.png" style="width: 200px; height:auto;" class="rounded-circle mt-5">';
+						} else { 
+							echo '<img src="../images/shop/'.$image.'" style=" width: 200px; height:auto;" class="avatar img-circle img-thumbnail mb-2 mt-4">';
+						}
+                    ?>
+						<div class="div d-flex justify-content-center">
+						<label for="logo_SHOP" style="font-size:17px; font-weight:400;">Please upload Shop logo</label>
+
+						</div>
+						<div class="div d-flex justify-content-center">
+						<input class="form-control" type="file" name="logo_SHOP" id="logo_SHOP" style="width:300px;" >
+
+						</div>
+					</div>
+
+					<div class="row mt-2">
+
 						<input type="hidden"  name="shops" value="<?php echo $com_id;?>">
 
 						<div class="mt-3 col-md-6"><label class="labels" style="font-size: 17px;">Shop Name</label>
@@ -181,17 +198,7 @@ $image = $res['shop_logo'];
 
 						<div class="mt-3 col-md-6 mb-4"><label class="labels" style="font-size: 17px;">Contact Number</label>
 							<input type="text" class="form-control" autocomplete="off" name="contact_num" id="contact_num" value="<?php echo $contact;?>">
-						</div>
-
-						<div class="form-group col-6 mt-3">
-							<label for="logo_SHOP" style="font-size:17px; font-weight:400;">Please upload Shop logo</label><br>
-							<input class="form-control" type="file" name="logo_SHOP" id="logo_SHOP" style="width:100%;" >
-							<br>
-							<label>File size: maximum 10 MB</label>
-							<label>File extension: .JPEG, .PNG, .JPG</label>
-        				</div>
-						
-						
+						</div>						
 					</div>
 					
 					<div class="border-top d-flex justify-content-start btn1" id="buttonUp">

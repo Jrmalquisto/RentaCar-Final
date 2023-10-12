@@ -224,9 +224,6 @@ if(isset($_POST['update'])){
 					<table class="table table-striped table-hover" id="myTable">
 					    <thead>
 						    <tr>
-							<!--<th><span class="custom-checkbox">
-							<input type="checkbox" id="selectAll">
-							<label for="selectAll"></label></th>-->
 							<th scope="col">ID</th></th>
                             <th scope="col">Name</th>
                             <th scope="col">Age</th>
@@ -239,12 +236,7 @@ if(isset($_POST['update'])){
 						</thead>
 						  
 						  <tbody>
-						 
-							 <!--<th><span class="custom-checkbox">
-							 <input type="checkbox" id="checkbox1" name="option[]" value="1">
-							 <label for="checkbox1"></label></th>-->
-							 
-                             <?php
+                            <?php
                             $servername = "localhost";
                             $user = "root";
                             $password = "";
@@ -283,7 +275,7 @@ if(isset($_POST['update'])){
                                 <td><img height="150" width="220" <?php echo '<img src="/images/drivers/'.$profile.'" ' ?>></td>
                                 <td>
 
-								<div class="row">
+								<div class="row justify-content-center">
 								<form action="_manage-drivers2.php" class="d-inline" >
                                 	<button type="button" name="conf_button" id="conf_button" class="btn btn-success conf_button mr-2" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" >
 										<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>

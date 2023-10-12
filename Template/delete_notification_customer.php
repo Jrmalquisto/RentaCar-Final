@@ -7,7 +7,7 @@ if (isset($_POST['notification_id'])) {
     $notificationId = $_POST['notification_id'];
     
     // Perform the deletion in your database (modify table and column names as needed)
-    $sql = "DELETE FROM reservation_notification WHERE user_id='$id' AND notification_id = ?";
+    $sql = "DELETE FROM notifications WHERE user_id='$id' AND notification_id = ?";
     $stmt = $mysqli->prepare($sql);
     
     if ($stmt) {

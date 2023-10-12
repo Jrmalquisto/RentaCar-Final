@@ -63,7 +63,7 @@ $img = $res['admin_image'];
 	 <div id="sidebar">
 	    <div class="sidebar-header">
 		<h3><img style="width:40px; height:auto;" src="../images/admin/<?php echo $res['admin_image']; ?>"
-                        class="img-fluid"><span>Admin</span></h3>
+                        class="img-fluid"><span><?php echo $_SESSION['user_name']; ?></span></h3>
 		
 		</div>
 		<ul class="list-unstyled component m-0">

@@ -207,6 +207,9 @@
                         $front1 = basename( $front );
                         $back = str_replace( "\\", '/', $back );
                         $back1 = basename( $back );
+                        $front1 = 'Front_' . $front1 ;
+                        $back1 = 'Back_' . $back1 ;
+
 
 
                         // $event = $_SESSION["dateFrom"];
@@ -312,7 +315,7 @@
                                 }
                                 if($query){
                                     $notificationMessage = "New reservation for: " . "<b>" . $item_name . "</b>";
-                                    $insertNotification =  mysqli_query($con,"INSERT INTO reservation_notification (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$seller_id', '$id1', 'shop')");
+                                    $insertNotification =  mysqli_query($con,"INSERT INTO notifications (message, timestamp, status, seller_id, user_id, notif_for) VALUES ('$notificationMessage', NOW(), 'unread', '$seller_id', '$id1', 'shop')");
                                     }else{
                                         header('Location: ../product.php?error=You have already made a reservation.');
                                     }
@@ -436,7 +439,7 @@
                         <label for=>With driver?</label>
                         <input type="radio" name="driver_stat" id="driver_stat_yes" value="Yes" /> Yes
                         <input type="radio" name="driver_stat" id="driver_stat_no" value="No" /> No
-                        <input type="text" name="driver_status" id="driver_status" value="" /> 
+                        <input type="hidden" name="driver_status" id="driver_status" value="" /> 
                         <input  type="hidden" name="front_p" id="front_p" value="" /> 
                         <input  type="hidden" name="back_p" id="back_p" value="" /> 
                         <!-- <input  class="form-control" type="file" name="Front_Photo1" id="Front_Photo1" style="width:200%;"  >

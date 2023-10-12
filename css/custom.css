@@ -416,7 +416,6 @@ max-width: 100%;
 	  color:#333;
 	  font-size:17px;
 	  margin:0px;
-	  text-transform:uppercase;
 	  transition:all 0.5s ease;
 	  font-weight:600;
   }
@@ -1069,7 +1068,7 @@ background-color:rgba(0,0,0,0.09);
 
 		.modal .modals{
 			background-color: #fff;
-			margin: 7% auto;
+			margin: 3% auto;
 			padding: 20px;
 			border: 1px solid #888;
 			width: 80%;
@@ -1168,6 +1167,11 @@ background-color:rgba(0,0,0,0.09);
 			   z-index:15;
 		   }
 		   
+		   .sidebar a.active {
+			background-color: #007bff; /* Set your desired background color */
+			color: #fff; /* Set your desired text color */
+			/* Add any other styling as needed */
+		}
 	   
 	   
 	  

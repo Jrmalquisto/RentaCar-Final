@@ -236,7 +236,7 @@ if(isset($_POST['update_res2'])){
                                 <td><?php echo $price?></td>
                                 <td><?php echo $status?></td>
                                 <td>
-									<div class="row">
+									<div class="row justify-content-center">
 
 									<form action="_manage-reservations2.php" class="d-inline" >
                                 	<button type="button" name="edit_button" id="edit_button" class="btn btn-success edit_button mr-2" data-toggle="modal" data-target="#editReservationModal" >

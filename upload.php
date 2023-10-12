@@ -1,5 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     if (isset($_FILES['file'])) {
         if (isset($_FILES['file1'])) {
             $file = $_FILES['file'];
@@ -7,14 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $file_name = $_FILES['file']['name'];
             $file_name_array = explode(".", $file_name); 
             $extension = end($file_name_array);
-            $new_image_name ='Front_'.rand() . '.' . $extension;
+            $new_image_name ='Front_'. $file_name;
 
             $file1 = $_FILES['file1'];
             $file_size1 = $_FILES['file1']['size'];
             $file_name1 = $_FILES['file1']['name'];
             $file_name_array1 = explode(".", $file_name1); 
             $extension1 = end($file_name_array1);
-            $new_image_name1 ='Back_'.rand() . '.' . $extension1;
+            $new_image_name1 ='Back_' .$file_name1;
 
             if (($file1['error'] === UPLOAD_ERR_OK) && ($file['error'] === UPLOAD_ERR_OK)) {
                 $uploadDir = 'images/driver_license/'; // Specify the directory where you want to save uploaded files

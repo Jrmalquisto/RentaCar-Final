@@ -272,7 +272,7 @@ $verified = $res['verified'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Delete Record</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close mr-3 mt-2" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -282,7 +282,7 @@ $verified = $res['verified'];
 
 			<input type="hidden" id="id2" name="id2"/>
 			<p>Are you sure you want to delete this Record</p>
-			<p class="text-warning"><small>this action Cannot be Undone,</small></p>
+			<p class="text-warning"><medium>this action Cannot be Undone</medium></p>
 		</div>
 
       <div class="modal-footer">
