@@ -39,11 +39,8 @@
     <!-- </section> -->
 	
 <!-- </footer> --> 
-<div class="container-fluid ">
-    <div class="mt-3">
 
-    </div>
-  <footer class="row align-items-center row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 mt-5 border-top  ">
+  <footer class="row align-items-center row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 border-top  ">
     <div class="col mb-3 ">
       <!-- <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
@@ -89,7 +86,7 @@
       </ul>
     </div>
   </footer>
-</div>
+
 <!-- <div class="copyright text-center bg-dark text-white py-1">
     <p class="font-rale font-size-14">&copy;Copyrights 2022, RentaCar</p>
 </div> -->
@@ -100,9 +97,8 @@
 <!-----------------------------------------------JAVASCRIPT--------------------------------------------------------->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script> -->
 
@@ -124,7 +120,29 @@
 <script src="index.js" defer></script>
 <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
 
+<!-- <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "PAGE-ID");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
 
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'API-VERSION'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script> -->
 
 </body>
 

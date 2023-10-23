@@ -533,7 +533,7 @@
                                 <h5 class="font-baloo font-size-25" name="total_num" id="total_num"
                                     style="display: inline;"><?php echo $total?? 0; ?>.00</h5>
                                 
-                                <input type="hidden" name="overall" id="overall" value="0" />
+                                <input type="hidden" name="overall" id="overall" value="<?php echo $total?? 0; ?>" />
                                 <!-- <h5 class="font-baloo font-size-25" style="display: inline;">.00</h5> -->
                                 <img src="images/loader.gif" id="loading" style="display: none;">
                                 <!-- <div class="container ps-2 " style="display: inline;">
@@ -945,7 +945,7 @@
                         verify();
                 } else {
                     noStat.value = "Yes";
-                    verify1();
+                    verifyYes();
                     uploadText.style.display = "none";
                 }
                 // console.log("Code executed for 'Yes'");
@@ -1029,6 +1029,14 @@
             $('#alerts1').addClass('d-block');
             $('#messages1').removeClass('d-none');
             $('#messages1').addClass('d-block');
+            
+        }
+        function verifyYes() {
+            
+            $('#alerts1').removeClass('d-block');
+            $('#alerts1').addClass('d-none');
+            $('#messages1').removeClass('d-block');
+            $('#messages1').addClass('d-none');
             
         }
         function verify() {

@@ -2,10 +2,19 @@
     ob_start();
     session_start();
 
-    
+
 include ('connection.php');
 
-$id=$_SESSION["user_id"];
+$id=$_SESSION["user_id"]??0;
+$s_email=$_SESSION["login_email"]??0;
+
+
+$findID = mysqli_query($con, "SELECT * FROM user WHERE email= '$s_email'");
+if($res1 = mysqli_fetch_array($findID)) {
+    $id = $res1['user_id'];
+    $_SESSION['user_id']=$id;
+
+}
 
 $findresult = mysqli_query($con, "SELECT * FROM user WHERE user_id= '$id'");
 if($res = mysqli_fetch_array($findresult)) {
@@ -52,9 +61,11 @@ $image= $res['pic_ID'];
         integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <!-- Jquery -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="style.css" />
 
     <title>RentaCar</title>
@@ -62,8 +73,8 @@ $image= $res['pic_ID'];
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" >
+        <div class="container p-0" >
             <!--logo-->
             <a class="navbar-brand fs-4" href="#">RentaCar</a>
             <!--toggle button-->
@@ -97,14 +108,22 @@ $image= $res['pic_ID'];
 						?>
                         </li>
                         
-                        <li class="nav-item mx-2">
-                            <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Reservations
+                        <li class="nav-item mx-3">
+                            <a class="nav-link <?= $page == '../index.php'?'active':'' ?>" href="../index.php">Home
                                 <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item mx-2">
+                         
+                        <li class="vert-ruler">
+                                <span class="vr align-middle" style="color:white;height: 20px;"></span>
+                        </li>
+
+                        <li class="nav-item mx-3">
                             <a class="nav-link <?= $page == '../specialoffers.php'?'active':'' ?>" href="../specialoffers.php">Special Offers</a>
                         </li>
-                        <li class="nav-item mx-2">
+                        <li class="vert-ruler">
+                                <span class="vr align-middle" style="color:white; height: 20px;"></span>
+                        </li>
+                        <li class="nav-item mx-3">
                             <a class="nav-link <?= $page == '../vehicles.php'?'active':'' ?>" href="../vehicles.php">Shops</a>
                         </li>
                     </ul>
@@ -218,6 +237,14 @@ $(document).ready(function () {
 
     // Set an interval to periodically fetch notifications (e.g., every 5 seconds)
     setInterval(fetchNotifications, 5000);
+
+
+    // const navOptions = {};
+    // const navObs = new IntersectionObserver(navCallback, navOptions);
+    // navObs.observe(document.querySelector('header'));
+    // function navCallback(entries){
+    //     console.log(entries[0].isIntersecting);
+    // }
 });
 </script>
 

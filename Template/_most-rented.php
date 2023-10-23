@@ -11,6 +11,31 @@
     }
     
     $countedSeller = $product->getAllSellers();
+      
+    // $get_rating = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id'");
+    // $rating = mysqli_num_rows($get_rating);
+    
+    // $rate5 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 5");
+    // $r5 = mysqli_num_rows($rate5);
+    
+    // $rate4 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 4");
+    // $r4 = mysqli_num_rows($rate4);
+    
+    // $rate3 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 3");
+    // $r3 = mysqli_num_rows($rate3);
+    
+    // $rate2 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 2");
+    // $r2 = mysqli_num_rows($rate2);
+    
+    // $rate1 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= '$item_id' AND user_rating = 1");
+    // $r1 = mysqli_num_rows($rate1);
+    
+    // if($rating!=0){
+    //     $total1=( $r5 + $r4 + $r3 + $r2 + $r1);
+    //     $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total1)); 
+    // } else{
+    //     $ave = 0;
+    // }
     
     $count = 0;
     // <?php foreach ($product_shop as $item){
@@ -23,14 +48,18 @@
 
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="container-fluid search-bar" style="width:100%;">
-    <div class="row">
-        <div class="col-md-4 row1">
+    <div class="row head-row">
+        <div class="col-md-4 row1 ">
+
         </div>
+        
         <div class="col-md-4 row2 d-flex align-items-center justify-content-center">
-            <h4 class="font-rubik text-light mt-1"><b>Shops</b></h4>
         </div>
-        <div class="col-md-4 row3 search">
-            <input type="search" name="search" id="searchInput" class="form-control search-field" placeholder="Search"
+
+        <div class="col-md-4 row3 d-flex align-items-center justify-content-center search">
+            <h5 class="font-rubik text-light "><b>Shops</b></h5>
+
+            <input type="search" name="search" id="searchInput" class="form-control search-field ms-4" placeholder="Search"
                 autocomplete="off" style="border: 2px solid #36454F"/>
         </div>
     </div>
@@ -59,10 +88,41 @@
                     <?php 
                     foreach ($product->getSeller($value['seller_id']) as $item):
                              $in_display = $product->getProdCount($value['seller_id']);
+                            
+
                     ?>
 
                     <?php array_map(function ($item) use($in_display){
-                        $itemid = $item['item_id'];
+                        // $get_rating = $in_display->getRating($item['item_id']);
+
+                        // $itemid = $item['item_id'];
+                        // $con = mysqli_connect("localhost","root","","rentacar");
+
+                        // $get_rating = mysqli_query($con,"SELECT * FROM rating WHERE item_id = ".$item["item_id"]."");
+                        // $rating = mysqli_num_rows($get_rating);
+                        
+                        // $rate5 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= ".$item["item_id"]." AND user_rating = 5");
+                        // $r5 = mysqli_num_rows($rate5);
+                        
+                        // $rate4 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= ".$item["item_id"]." AND user_rating = 4");
+                        // $r4 = mysqli_num_rows($rate4);
+                        
+                        // $rate3 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= ".$item["item_id"]." AND user_rating = 3");
+                        // $r3 = mysqli_num_rows($rate3);
+                        
+                        // $rate2 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= ".$item["item_id"]." AND user_rating = 2");
+                        // $r2 = mysqli_num_rows($rate2);
+                        
+                        // $rate1 = mysqli_query($con, "SELECT * FROM rating WHERE item_id= ".$item["item_id"]." AND user_rating = 1");
+                        // $r1 = mysqli_num_rows($rate1);
+                        
+                        // if($rating!=0){
+                        //     $total1=( $r5 + $r4 + $r3 + $r2 + $r1);
+                        //     $ave = round((5* $r5 + 4*$r4 + 3*$r3 + 2*$r2 + 1*$r1) / ($total1)); 
+                        // } else{
+                        //     $ave = 0;
+                        // }
+                        
                         ?>
 
                     <div class="grid-item <?php echo $item['item_brand'] ?? "Brand"; ?> border mb-4">
@@ -76,7 +136,11 @@
                                         class="img-fluid padding mx-auto d-block"></a>
                                 <div class="margin-left-10 price py-2 d-flex justify-content-between margin-right-10">
                                     <span
-                                        class="center-text item-text">₱<?php echo $item['item_price'] ?? 0?>/day</span>
+                                        class="center-text item-text">₱<?php echo $item['item_price'] ?? 0?>/day
+                                    </span>
+                                    <!-- <span
+                                        class="center-text item-text"><?php echo $get_rating?>
+                                    </span> -->
                                 </div>
                             </div>
                         </div>

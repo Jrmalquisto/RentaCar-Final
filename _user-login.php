@@ -1,14 +1,95 @@
 <?php
     // ob_start();
     session_start();
-    $error = null;
 
+    require_once('auth.php');
+
+    require_once('vendor/autoload.php');
+    $con = new mysqli('localhost', 'root','','rentacar');
+
+    $error = null;
+    
     $servername = "localhost";
     $dbname = "rentacar";
     $user_name = "root";
     $pass_word = "";
 
+    // $user11 = $_SESSION['ucode']??0;
+    $clientID = "452882927978-javaoiqef3natfq7505crgh8e166967r.apps.googleusercontent.com";
+    $secret = "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";
+    
+    // Google API Client
+    $gclient = new Google_Client();
+    
+    $gclient->setClientId($clientID);
+    $gclient->setClientSecret($secret);
+    $gclient->setRedirectUri('http://localhost:3000/_user-login.php');
+    
+    
+    $gclient->addScope('email');
+    $gclient->addScope('profile');
+    
+    if(isset($_GET['code'])){
+        // Get Token
+        $token = $gclient->fetchAccessTokenWithAuthCode($_GET['code']);
+    
+        // Check if fetching token did not return any errors
+        if(!isset($token['error'])){
+            // Setting Access token
+            $gclient->setAccessToken($token['access_token']);
+    
+            // store access token
+            $_SESSION['access_token'] = $token['access_token'];
+    
+            // Get Account Profile using Google Service
+            $gservice = new Google_Service_Oauth2($gclient);
+    
+            // Get User Data
+            $udata = $gservice->userinfo->get();
+            foreach($udata as $k => $v){
+                $_SESSION['login_'.$k] = $v;
+            }
+            // $verified = $row['verified'];
+            // $user_id= $row['user_id'];
+            // $user_name= $row['user_name'];
+            // $email = $row['email'];
+            // $date = $row['register_date'];
+            // $contact = $row['contact_num'];
+           
+            $s_username = $_SESSION['login_givenName'];
+            $s_fullname = $_SESSION['login_name'];
+            $s_email = $_SESSION['login_email'];
+            $_SESSION['email'] = $_SESSION['login_email'];
 
+            $s_verified = $_SESSION['login_verifiedEmail'];
+
+            $_SESSION['whole'] = $udata;
+            $_SESSION['ucode'] = $_GET['code'];
+            // $_SESSION['user_id'] = $_GET['code'];
+
+            $checkQuery = "SELECT * FROM user WHERE email = '". $s_email ."'"; 
+            $checkResult = mysqli_query($con,$checkQuery); 
+             
+            // Add modified time to the data array 
+             
+            if($checkResult->num_rows > 0){ 
+                // Prepare column and value format 
+                header('Location:index.php');
+                exit;
+
+
+            } else { 
+                $insert = mysqli_query($con,"insert into user(user_name,fullname,email,verified)
+                values ('$s_username','$s_fullname','$s_email','$s_verified')");
+                if ($insert){
+                    header('Location:index.php');
+                    exit;
+
+                }
+            }
+        }
+    }
+    
     
     if(isset($_POST['submit'])){
         function validate($data){
@@ -86,7 +167,60 @@
                 //     header('Location:index.php');
                 // }
 
-            
+                function checkUser($data = array()){ 
+                    if(!empty($data)){ 
+                        // Check whether the user already exists in the database 
+                        $checkQuery = "SELECT * FROM ".$dbname." WHERE user_id = '".$data['oauth_uid']."'"; 
+                        $checkResult = $this->db->query($checkQuery); 
+                         
+                        // Add modified time to the data array 
+                        if(!array_key_exists('modified',$data)){ 
+                            $data['modified'] = date("Y-m-d H:i:s"); 
+                        } 
+                         
+                        if($checkResult->num_rows > 0){ 
+                            // Prepare column and value format 
+                            $colvalSet = ''; 
+                            $i = 0; 
+                            foreach($data as $key=>$val){ 
+                                $pre = ($i > 0)?', ':''; 
+                                $colvalSet .= $pre.$key."='".$this->db->real_escape_string($val)."'"; 
+                                $i++; 
+                            } 
+                            $whereSql = " WHERE  user_id = '".$data['oauth_uid']."'"; 
+                             
+                            // Update user data in the database 
+                            $query = "UPDATE ".$dbname." SET ".$colvalSet.$whereSql; 
+                            $update = $this->db->query($query); 
+                        }else{ 
+                            // Add created time to the data array 
+                            if(!array_key_exists('created',$data)){ 
+                                $data['created'] = date("Y-m-d H:i:s"); 
+                            } 
+                             
+                            // Prepare column and value format 
+                            $columns = $values = ''; 
+                            $i = 0; 
+                            foreach($data as $key=>$val){ 
+                                $pre = ($i > 0)?', ':''; 
+                                $columns .= $pre.$key; 
+                                $values  .= $pre."'".$this->db->real_escape_string($val)."'"; 
+                                $i++; 
+                            } 
+                             
+                            // Insert user data in the database 
+                            $query = "INSERT INTO ".$dbname." (".$columns.") VALUES (".$values.")"; 
+                            $insert = $this->db->query($query); 
+                        } 
+                         
+                        // Get user data from the database 
+                        $result = $this->db->query($checkQuery); 
+                        $userData = $result->fetch_assoc(); 
+                    } 
+                     
+                    // Return user data 
+                    return !empty($userData)?$userData:false; 
+                } 
         } catch(PDOException $e){
             echo "Connection failed: " . $e->getMessage();
         }
@@ -96,32 +230,7 @@
 
 ?>
 
-<?php
-    $error = null;
 
-    if(isset($_POST['seller-submit'])){
-
-         //database connection
-         $mysqli = new mysqli('localhost', 'root','','rentacar');
-
-         //getting form data
-         $username1 = $mysqli ->real_escape_string($_POST['username1']);
-         $password1 = $mysqli ->real_escape_string($_POST['password1']);
-         $password = md5($password);
-
-         //query
-         $resultSet = $mysqli->query("select * from seller where username = '$username1' and password = '$password1' limit 1");
-
-         if($resultSet->num_rows !=0){
-            //Process Login
-            $row = $resultSet->fetch_assoc();
-
-
-            exit(header('Location:sellerdetails.php'));
-
-         }
-        }
-?>
 
 
 <!DOCTYPE html>
@@ -165,6 +274,7 @@
 
                         
                         <h2 class="title mb-3">User Login</h2>
+                      
                         <p class="text-grey-20 text-center mb-4">Please enter your username and password</p>
 
                         <div class="input-field">
@@ -191,7 +301,7 @@
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                             
-                            <a href="#" class="social-icon">
+                            <a href="<?= $gclient->createAuthUrl() ?>" class="social-icon">
                                 <i class="fab fa-google"></i>
                             </a>
                             
@@ -224,7 +334,7 @@
                             <a href="#" class="social-icon">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="social-icon">
+                            <!-- <a href="<?= $gclient->createAuthUrl() ?>" class="social-icon"> -->
                                 <i class="fab fa-google"></i>
                             </a>
                             <a href="#" class="social-icon">

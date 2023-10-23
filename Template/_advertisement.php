@@ -1,7 +1,7 @@
 <section id="banner_ad">
     <div class="container-fluid pt-5 pb-5 text-center justify-content-center align-items-center" id="backyy" >
         <div class="container" >
-            <p class="pt-1 pb-1" style="color:white; font-size: 50px;">Welcome Traveller!</p>
+            <p class="pt-1 pb-1" style="color:white; font-size: 40px;">Welcome Traveller</p>
             
         </div>
     </div>
@@ -12,7 +12,7 @@
         </div>
         <div class="here row justify-content-center align-items-center text-center ">
             <h5 class="pt-5 " style="color:black; font-size: 40px; font-weight:600;">Here in RentaCar</h5>
-            <p class="pb-5" style="color:grey; font-size: 25px;">We offer the best car rental deals in Leyte and Samar.</p>
+            <p class="pb-5" style="color:grey; font-size: 25px;">We Offer the Best Car Rental Deals in Leyte and Samar.</p>
                 <div class="col-lg-2">
                     <i class="fa-solid fa-medal fa-2xl pb-4"></i>
                     <h5 class="pt-1 pb-1" style="color:black; font-size: 20px;">First Class Services</h5>

@@ -166,6 +166,32 @@ public function getAllSellers($table = 'seller'){
     // return $resultArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
     
 }
+
+public function getRating($item = null){
+
+    
+    
+    // $result = $this->db->con->query("SELECT * FROM {$table} LEFT JOIN product ON seller.seller_id=product.seller_id WHERE product.status = 0");
+    // // WHERE user_id={$userid}
+    // $resultArray = array();
+    $result = $this->db->con->query("SELECT * FROM rating WHERE item_id = $item");
+    // WHERE user_id={$userid}
+    $resultArray = array();
+
+    //fetch product data one by one
+    while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+        $resultArray[] = $item;
+    }
+    array_filter($resultArray);
+    array_unique($resultArray, SORT_REGULAR);
+    return $resultArray;
+
+
+// $result = mysqli_query($this->db->con,"SELECT * FROM product WHERE status = '0' ");
+
+// return $resultArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+}
 public function getSellerCount($table = 'seller'){
 
     

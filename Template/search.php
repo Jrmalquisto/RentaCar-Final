@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
         echo '</div>';
     }
 } else {
-    echo "No results found.";
+    echo "<p>No results found.</p>";
 }
 
 // Close the database connection

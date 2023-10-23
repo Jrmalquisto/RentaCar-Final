@@ -428,7 +428,7 @@ $image= $res['pic_ID'];
                 <script src="/js/popper.min.js"></script>
                 <script src="/js/bootstrap.min.js"></script>
                 <script src="/js/jquery-3.3.1.min.js"></script>
-                <!-- <script src="../index.js"></script> -->
+                <script src="../index.js"></script>
 
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -495,16 +495,16 @@ $image= $res['pic_ID'];
                 setInterval(fetchMessages, 500);
                 fetchMessages();
                 
-                // setInterval(function(){
-                //         $("#color_left").load(" #color_left > *");
-                // }, 3000);
+                setInterval(function(){
+                        $("#color_left").load(" #color_left > *");
+                }, 3000);
 
                 var input = document.getElementById("mytext");
 
                 input.addEventListener("keypress", function(event) {
                     // $("#form12").on("submit",(function(e) {   
-                        if (event.key === "Enter") {
-                            event.preventDefault();
+                    if (event.key === "Enter") {
+                        event.preventDefault();
                         
                     var messages = document.getElementById("mytext");
                     // var message = messages.value;        

@@ -267,7 +267,7 @@ $(document).ready(function(){
                 items:1
             },
             600:{
-                items:3
+                items:4
             },
             1000:{
                 items:5
@@ -461,22 +461,22 @@ $(document).ready(function(){
 //         });
 // })
 
-const navOptions={
-    threshold: .25,
-};
+// const navOptions={
+//     threshold: .25,
+// };
 
-const nav = document.querySelector('nav');
-const cards = document.querySelectorAll("#backg");
-const fade = document.querySelector(".fade-up");
-const navbar = document.querySelector("#backyy");
-const products=  document.querySelectorAll("#special-offers");
+// const nav = document.querySelector('nav');
+// const cards = document.querySelectorAll("#backg");
+// const fade = document.querySelector(".fade-up");
+// const navbar = document.querySelector("#backyy");
+// const products=  document.querySelectorAll("#special-offers");
 
-const observer = new IntersectionObserver(entries =>{
-    console.log(entries[0].isIntersecting)
-    nav.classList.toggle('active', !entries[0].isIntersecting)
-    navbar.classList.toggle('active', !entries[0].isIntersecting)
-    fade.classList.toggle('faded', !entries[0].isIntersecting)
-}, navOptions);
+// const observer = new IntersectionObserver(entries =>{
+//     console.log(entries[0].isIntersecting)
+//     nav.classList.toggle('active', !entries[0].isIntersecting)
+//     navbar.classList.toggle('active', !entries[0].isIntersecting)
+//     fade.classList.toggle('faded', !entries[0].isIntersecting)
+// }, navOptions);
 
 // observer.observe(cards[0]);
 // cards[0]);

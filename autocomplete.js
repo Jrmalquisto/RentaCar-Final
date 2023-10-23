@@ -53,13 +53,15 @@ const inputBox=document.getElementById("location");
 inputBox.onkeyup = function(){
     let result = [];
     let input = inputBox.value;
-    resultsBox.hidden=false;
+    // resultsBox.hidden=false;
     if(input.length){
         result = availableKeywords.filter((keyword)=>{
             return keyword.toLowerCase().includes(input.toLowerCase());
         });
         console.log(result);
+        display(result);
     }
+
     if(input==""){
         resultsBox.hidden=true;
     }else if(result.length === 0){
